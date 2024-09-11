@@ -55,17 +55,17 @@ public class ChessPiece {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         throw new RuntimeException("Not implemented");
     }
-}
 
-@Override
-public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ChessPiece that = (ChessPiece) o;
-    return pieceType == that.pieceType && teamColor == that.teamColor;
-}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessPiece that = (ChessPiece) o;
+        return pieceType == that.pieceType && teamColor == that.teamColor;
+    }
 
-@Override
-public int hashCode() {
-    return Objects.hash(pieceType, teamColor);
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceType, teamColor);
+    }
 }

@@ -134,17 +134,19 @@ public class ChessBoard {
 
         return string;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessBoard that = (ChessBoard) o;
+        return Objects.deepEquals(squares, that.squares);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(squares);
+    }
 }
 
-@Override
-public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ChessBoard that = (ChessBoard) o;
-    return Objects.deepEquals(squares, that.squares);
-}
 
-@Override
-public int hashCode() {
-    return Arrays.deepHashCode(squares);
-}
