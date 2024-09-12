@@ -1,15 +1,25 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class PieceMovesCalculator {
 
-    private ChessGame.TeamColor teamColor;
-    private ChessPiece.PieceType pieceType;
+    protected ChessBoard chessBoard;
+    protected ChessPosition chessPosition;
+    protected ChessPiece chessPiece;
+    protected ChessGame.TeamColor pieceColor;
 
-    public PieceMovesCalculator(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
-        this.teamColor = pieceColor;
-        this.pieceType = type;
+    public PieceMovesCalculator(ChessBoard board, ChessPosition position) {
+        this.chessBoard = board;
+        this.chessPosition = position;
+        this.chessPiece = board.getPiece(position);
+        this.pieceColor = chessPiece.getTeamColor();
     };
 
-
+    public Collection<ChessMove> CalculateMoves() {
+        return new ArrayList<>();
+    }
 
 }
+
