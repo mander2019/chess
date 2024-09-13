@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -53,23 +54,41 @@ public class ChessGame {
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = chessBoard.getPiece(startPosition);
         ChessPiece.PieceType type = piece.getPieceType();
-//        if (type == ChessPiece.PieceType.PAWN) {
-//
-//        }
-//
+
         Collection<ChessMove> moves = new ArrayList<>();
 
-        return moves;
+        return piece.pieceMoves(chessBoard, startPosition);
     }
 
     /**
      * Makes a move in a chess game
      *
-     * @param move chess move to preform
+     * @param move chess move to perform
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+        ChessPosition start = move.getStartPosition();
+        ChessPosition end = move.getEndPosition();
+        ChessPiece piece = chessBoard.getPiece(start);
+
+        // Marks a piece as moved if this is its first move
+        if (!piece.HasMoved) {
+            piece.HasMoved = true;
+        }
+
+        // Move into an empty space
+        if (chessBoard.getPiece(end) == null) {
+
+        }
+
+        // Capture a piece
+//        if (chessBoard.getPiece(end) == null) {
+//
+//        }
+
+
+        // Pawn is promoted
+
     }
 
     /**
@@ -119,5 +138,18 @@ public class ChessGame {
      */
     public ChessBoard getBoard() {
         return chessBoard;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessGame chessGame = (ChessGame) o;
+        return teamColor == chessGame.teamColor && teamTurn == chessGame.teamTurn && Objects.equals(chessBoard, chessGame.chessBoard);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(teamColor, teamTurn, chessBoard);
     }
 }

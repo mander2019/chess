@@ -44,6 +44,12 @@ public class ChessMove {
         return promotionType;
     }
 
+    public String toString() {
+        String string = startPosition + " -> " + endPosition;
+
+        return string;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

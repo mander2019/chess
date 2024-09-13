@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -13,10 +14,12 @@ public class ChessPiece {
 
     private PieceType pieceType;
     private ChessGame.TeamColor teamColor;
+    protected boolean HasMoved;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceType = type;
         this.teamColor = pieceColor;
+        this.HasMoved = false;
     }
 
     /**
@@ -53,7 +56,28 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+        if (pieceType == PieceType.PAWN) {
+            return new PawnMovesCalculator(board, myPosition).CalculateMoves();
+        } else if (pieceType == PieceType.KNIGHT) {
+            return new KnightMovesCalculator(board, myPosition).CalculateMoves();
+        } else if (pieceType == PieceType.KING) {
+            return new KingMovesCalculator(board, myPosition).CalculateMoves();
+        } else if (pieceType == PieceType.BISHOP) {
+            return new BishopMovesCalculator(board, myPosition).CalculateMoves();
+        } else if (pieceType == PieceType.ROOK) {
+            return new RookMovesCalculator(board, myPosition).CalculateMoves();
+        } else if (pieceType == PieceType.QUEEN) {
+            Collection<ChessMove> moves = new RookMovesCalculator(board, myPosition).CalculateMoves();
+            Collection<ChessMove> moves2 = new BishopMovesCalculator(board, myPosition).CalculateMoves();
+
+            for (ChessMove move : moves2) {
+                moves.add(move);
+            }
+
+            return moves;
+        }
+
+        return new ArrayList<>();
     }
 
     @Override
