@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ea32f97-b4f3-4727-8b80-41c7cd7e5a71" name="Changes" comment="Started move calculator">
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/chess/BishopMovesCalculator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/chess/KingMovesCalculator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/chess/KnightMovesCalculator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/chess/RookMovesCalculator.java" afterDir="false" />
+    <list default="true" id="0ea32f97-b4f3-4727-8b80-41c7cd7e5a71" name="Changes" comment="Added new functions to simplify code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPiece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPosition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/PawnMovesCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/PawnMovesCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/PieceMovesCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/PieceMovesCalculator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +190,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726183497659</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Finished all move calculators">
+      <option name="closed" value="true" />
+      <created>1726271543945</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1726271543945</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,7 +220,9 @@
     <MESSAGE value="Finished reset board and toString functions for ChessBoard&#10;Added hash and equals functions to position, piece, and board" />
     <MESSAGE value="Fixed equals and hashCode placement" />
     <MESSAGE value="Started move calculator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started move calculator" />
+    <MESSAGE value="Finished all move calculators" />
+    <MESSAGE value="Added new functions to simplify code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added new functions to simplify code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
