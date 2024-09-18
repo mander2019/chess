@@ -24,9 +24,9 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
             for (int i : rowDistance) {
                 for (int j : colDistance) {
                     possiblePosition = new ChessPosition(row + i, col + j);
-                    if (WithinChessboard(possiblePosition) && (Math.abs(i) + Math.abs(j)) == 3
-                        && (IsEmpty(possiblePosition) || IsEnemyPiece(possiblePosition))) {
-                        moves.add(NewMove(possiblePosition));
+                    if (withinChessboard(possiblePosition) && (Math.abs(i) + Math.abs(j)) == 3
+                        && (isEmpty(possiblePosition) || isEnemyPiece(possiblePosition))) {
+                        moves.add(newMove(possiblePosition));
                     }
                 }
             }

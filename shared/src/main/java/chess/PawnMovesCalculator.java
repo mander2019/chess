@@ -46,7 +46,7 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
                 possiblePosition.getRow() == 8 && pieceColor == ChessGame.TeamColor.WHITE) {
                 AddPromotionMoves(moves, chessPosition, possiblePosition);
             } else { // No promotion
-                moves.add(NewMove(possiblePosition));
+                moves.add(newMove(possiblePosition));
             }
         }
 
@@ -55,7 +55,7 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
             ChessPiece adjacentPiece = chessBoard.getPiece(new ChessPosition(chessPosition.getRow() + moveForward, chessPosition.getColumn()));
             pieceInTheWay = chessBoard.getPiece(possiblePosition);
             if (pieceInTheWay == null && adjacentPiece == null) { // Add move to list of possibilities
-                moves.add(NewMove(possiblePosition));
+                moves.add(newMove(possiblePosition));
             }
         }
 
@@ -89,16 +89,16 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
 
         if (chessPosition.getColumn() != edgeColumn) {
             possiblePosition = new ChessPosition(chessPosition.getRow() + moveForward, chessPosition.getColumn() + attackSide);
-            if (!WithinChessboard(possiblePosition)) {
+            if (!withinChessboard(possiblePosition)) {
                 return;
             }
             pieceInTheWay = chessBoard.getPiece(possiblePosition);
-            if (pieceInTheWay != null && pieceInTheWay.getTeamColor() != pieceColor) {
+            if (!isEmpty(possiblePosition) && isEnemyPiece(possiblePosition)) {
                 if (possiblePosition.getRow() == 1 && pieceColor == ChessGame.TeamColor.BLACK || // Promotion
                         possiblePosition.getRow() == 8 && pieceColor == ChessGame.TeamColor.WHITE) {
                     AddPromotionMoves(moves, chessPosition, possiblePosition);
                 } else { // No promotion
-                    moves.add(NewMove(possiblePosition));
+                    moves.add(newMove(possiblePosition));
                 }
             }
         }

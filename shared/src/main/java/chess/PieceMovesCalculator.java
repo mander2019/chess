@@ -21,15 +21,15 @@ public class PieceMovesCalculator {
         return new ArrayList<>();
     }
 
-    public Boolean IsEnemyPiece(ChessPosition position) { return chessBoard.getPiece(position).getTeamColor() != pieceColor; }
+    public Boolean isEnemyPiece(ChessPosition position) { return chessBoard.getPiece(position).getTeamColor() != pieceColor; }
 
-    public Boolean IsFriendlyPiece(ChessPosition position) { return chessBoard.getPiece(position).getTeamColor() == pieceColor; }
+    public Boolean isFriendlyPiece(ChessPosition position) { return chessBoard.getPiece(position).getTeamColor() == pieceColor; }
 
-    public Boolean IsEmpty(ChessPosition position) { return chessBoard.getPiece(position) == null; }
+    public Boolean isEmpty(ChessPosition position) { return chessBoard.getPiece(position) == null; }
 
-    public ChessMove NewMove(ChessPosition end) { return new ChessMove(chessPosition, end, null); }
+    public ChessMove newMove(ChessPosition end) { return new ChessMove(chessPosition, end, null); }
 
-    public Boolean WithinChessboard(ChessPosition position) {
+    public Boolean withinChessboard(ChessPosition position) {
         int row = position.getRow();
         int col = position.getColumn();
 

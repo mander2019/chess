@@ -37,16 +37,16 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
             tempCol = col + i * colDirection;
 
             possiblePosition = new ChessPosition(tempRow, tempCol);
-            if (!WithinChessboard(possiblePosition)) {
+            if (!withinChessboard(possiblePosition)) {
                 break;
             }
 
-            if (!IsEmpty(possiblePosition) && IsFriendlyPiece(possiblePosition)) {
+            if (!isEmpty(possiblePosition) && isFriendlyPiece(possiblePosition)) {
                 break;
             }
-            if (IsEmpty(possiblePosition) || IsEnemyPiece(possiblePosition)) {
-                moves.add(NewMove(possiblePosition));
-                if (!IsEmpty(possiblePosition)) {
+            if (isEmpty(possiblePosition) || isEnemyPiece(possiblePosition)) {
+                moves.add(newMove(possiblePosition));
+                if (!isEmpty(possiblePosition)) {
                     break;
                 }
             }

@@ -24,9 +24,9 @@ public class KingMovesCalculator extends PieceMovesCalculator {
         for (int i : rowDistance) {
             for (int j : colDistance) {
                 possiblePosition = new ChessPosition(row + i, col + j);
-                if (WithinChessboard(possiblePosition)
-                    && (IsEmpty(possiblePosition) || IsEnemyPiece(possiblePosition))) {
-                    moves.add(NewMove(possiblePosition));
+                if (withinChessboard(possiblePosition)
+                    && (isEmpty(possiblePosition) || isEnemyPiece(possiblePosition))) {
+                    moves.add(newMove(possiblePosition));
                 }
             }
         }
