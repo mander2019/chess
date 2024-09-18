@@ -80,39 +80,35 @@ public class ChessBoard {
             for (int j = 0; j < 8; j++) {
                 ChessPiece piece = squares[i][j];
                 if (piece != null) {
-                    if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                        if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
-                            string = string + "R";
-                        } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
-                            string = string + "N";
-                        } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
-                            string = string + "B";
-                        } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
-                            string = string + "Q";
-                        } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
-                            string = string + "K";
-                        } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
-                            string = string + "P";
-                        } else {
-                            string = string + " ";
-                        }
+                    if (piece.getPieceType() == ChessPiece.PieceType.ROOK && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                        string = string + "R";
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                        string = string + "N";
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                        string = string + "B";
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                        string = string + "Q";
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.KING && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                        string = string + "K";
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                        string = string + "P";
+                    } else {
+                        string = string + " ";
                     }
-                    else if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
-                        if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
-                            string = string + "r";
-                        } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
-                            string = string + "n";
-                        } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
-                            string = string + "b";
-                        } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
-                            string = string + "q";
-                        } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
-                            string = string + "k";
-                        } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
-                            string = string + "p";
-                        } else {
-                            string = string + " ";
-                        }
+                    if (piece.getPieceType() == ChessPiece.PieceType.ROOK && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+                        string = string + "r";
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+                        string = string + "n";
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+                        string = string + "b";
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+                        string = string + "q";
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.KING && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+                        string = string + "k";
+                    } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+                        string = string + "p";
+                    } else {
+                        string = string + " ";
                     }
                 }
 

@@ -38,7 +38,6 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
 
         // Move forward 1 space
         possiblePosition = new ChessPosition(chessPosition.getRow() + moveForward, chessPosition.getColumn());
-        pieceInTheWay = chessBoard.getPiece(possiblePosition);
 
         if (isEmpty(possiblePosition)) { // Add move to list of possibilities
                      // Promotion
@@ -74,7 +73,6 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
     }
 
     private void pawnAttackHelper(Collection<ChessMove> moves, int attackSide) {
-        ChessPiece pieceInTheWay;
         ChessPosition possiblePosition;
 
         int edgeColumn;
@@ -92,7 +90,6 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
             if (!withinChessboard(possiblePosition)) {
                 return;
             }
-            pieceInTheWay = chessBoard.getPiece(possiblePosition);
             if (!isEmpty(possiblePosition) && isEnemyPiece(possiblePosition)) {
                 if (possiblePosition.getRow() == 1 && pieceColor == ChessGame.TeamColor.BLACK || // Promotion
                         possiblePosition.getRow() == 8 && pieceColor == ChessGame.TeamColor.WHITE) {

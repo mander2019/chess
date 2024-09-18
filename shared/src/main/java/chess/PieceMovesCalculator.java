@@ -15,7 +15,7 @@ public class PieceMovesCalculator {
         this.chessPosition = position;
         this.chessPiece = board.getPiece(position);
         this.pieceColor = chessPiece.getTeamColor();
-    };
+    }
 
     public Collection<ChessMove> calculateMoves() {
         return new ArrayList<>();
@@ -33,10 +33,6 @@ public class PieceMovesCalculator {
         int row = position.getRow();
         int col = position.getColumn();
 
-        if (row > 8 || col > 8 || row < 1 || col < 1) {
-            return false;
-        } else {
-            return true;
-        }
+        return row <= 8 && col <= 8 && row >= 1 && col >= 1;
     }
 }
