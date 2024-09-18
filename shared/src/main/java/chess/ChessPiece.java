@@ -89,11 +89,11 @@ public class ChessPiece {
             return false;
         }
         ChessPiece that = (ChessPiece) o;
-        return pieceType == that.pieceType && teamColor == that.teamColor;
+        return hasMoved == that.hasMoved && pieceType == that.pieceType && teamColor == that.teamColor;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pieceType, teamColor);
+        return Objects.hash(pieceType, teamColor, hasMoved);
     }
 }
