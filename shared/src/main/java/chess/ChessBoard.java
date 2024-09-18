@@ -79,7 +79,46 @@ public class ChessBoard {
         for (int i = 7; i > -1; i--) {
             for (int j = 0; j < 8; j++) {
                 ChessPiece piece = squares[i][j];
-                string = toStringHelper(string, piece);
+                if (piece != null) {
+                    if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                        if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
+                            string = string + "R";
+                        } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
+                            string = string + "N";
+                        } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
+                            string = string + "B";
+                        } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
+                            string = string + "Q";
+                        } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
+                            string = string + "K";
+                        } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+                            string = string + "P";
+                        } else {
+                            string = string + " ";
+                        }
+                    }
+                    else if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+                        if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
+                            string = string + "r";
+                        } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
+                            string = string + "n";
+                        } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
+                            string = string + "b";
+                        } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
+                            string = string + "q";
+                        } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
+                            string = string + "k";
+                        } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+                            string = string + "p";
+                        } else {
+                            string = string + " ";
+                        }
+                    }
+                }
+
+                else {
+                    string = string + " ";
+                }
 
                 string = string + "|";
 
@@ -90,51 +129,6 @@ public class ChessBoard {
                     }
                 }
             }
-        }
-
-        return string;
-    }
-
-    private String toStringHelper(String string, ChessPiece piece) {
-        if (piece != null) {
-            if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
-                    string = string + "R";
-                } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
-                    string = string + "N";
-                } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
-                    string = string + "B";
-                } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
-                    string = string + "Q";
-                } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
-                    string = string + "K";
-                } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
-                    string = string + "P";
-                } else {
-                    string = string + " ";
-                }
-            }
-            else if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
-                if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
-                    string = string + "r";
-                } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
-                    string = string + "n";
-                } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
-                    string = string + "b";
-                } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
-                    string = string + "q";
-                } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
-                    string = string + "k";
-                } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
-                    string = string + "p";
-                } else {
-                    string = string + " ";
-                }
-            }
-        }
-
-        else {
-            string = string + " ";
         }
 
         return string;
