@@ -40,11 +40,11 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
         possiblePosition = new ChessPosition(chessPosition.getRow() + moveForward, chessPosition.getColumn());
         pieceInTheWay = chessBoard.getPiece(possiblePosition);
 
-        if (pieceInTheWay == null) { // Add move to list of possibilities
+        if (isEmpty(possiblePosition)) { // Add move to list of possibilities
                      // Promotion
             if (possiblePosition.getRow() == 1 && pieceColor == ChessGame.TeamColor.BLACK ||
                 possiblePosition.getRow() == 8 && pieceColor == ChessGame.TeamColor.WHITE) {
-                AddPromotionMoves(moves, chessPosition, possiblePosition);
+                addPromotionMoves(moves, chessPosition, possiblePosition);
             } else { // No promotion
                 moves.add(newMove(possiblePosition));
             }
@@ -60,20 +60,20 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
         }
 
         // Capture pieces
-        PawnAttackHelper(moves, 1);
-        PawnAttackHelper(moves, -1);
+        pawnAttackHelper(moves, 1);
+        pawnAttackHelper(moves, -1);
 
         return moves;
     }
 
-    private void AddPromotionMoves(Collection<ChessMove> moves, ChessPosition start, ChessPosition end) {
+    private void addPromotionMoves(Collection<ChessMove> moves, ChessPosition start, ChessPosition end) {
         moves.add(new ChessMove(start, end, ChessPiece.PieceType.QUEEN));
         moves.add(new ChessMove(start, end, ChessPiece.PieceType.ROOK));
         moves.add(new ChessMove(start, end, ChessPiece.PieceType.BISHOP));
         moves.add(new ChessMove(start, end, ChessPiece.PieceType.KNIGHT));
     }
 
-    private void PawnAttackHelper(Collection<ChessMove> moves, int attackSide) {
+    private void pawnAttackHelper(Collection<ChessMove> moves, int attackSide) {
         ChessPiece pieceInTheWay;
         ChessPosition possiblePosition;
 
@@ -96,7 +96,7 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
             if (!isEmpty(possiblePosition) && isEnemyPiece(possiblePosition)) {
                 if (possiblePosition.getRow() == 1 && pieceColor == ChessGame.TeamColor.BLACK || // Promotion
                         possiblePosition.getRow() == 8 && pieceColor == ChessGame.TeamColor.WHITE) {
-                    AddPromotionMoves(moves, chessPosition, possiblePosition);
+                    addPromotionMoves(moves, chessPosition, possiblePosition);
                 } else { // No promotion
                     moves.add(newMove(possiblePosition));
                 }

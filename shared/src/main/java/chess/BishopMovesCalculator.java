@@ -15,15 +15,15 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
         Collection<ChessMove> moves = new ArrayList<>();
 
         // Positive and negative numbers indicate the direction of the bishop's movement
-        BishopMovesHelper(moves, 1, 1);
-        BishopMovesHelper(moves, 1, -1);
-        BishopMovesHelper(moves, -1, 1);
-        BishopMovesHelper(moves, -1, -1);
+        bishopMovesHelper(moves, 1, 1);
+        bishopMovesHelper(moves, 1, -1);
+        bishopMovesHelper(moves, -1, 1);
+        bishopMovesHelper(moves, -1, -1);
 
         return moves;
     }
 
-    private void BishopMovesHelper(Collection<ChessMove> moves, int rowDirection, int colDirection) {
+    private void bishopMovesHelper(Collection<ChessMove> moves, int rowDirection, int colDirection) {
         ChessPosition possiblePosition;
 
         int row = chessPosition.getRow();

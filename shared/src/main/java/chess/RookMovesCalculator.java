@@ -14,15 +14,15 @@ public class RookMovesCalculator extends PieceMovesCalculator {
         Collection<ChessMove> moves = new ArrayList<>();
 
         // Positive and negative numbers indicate the direction of the rook's movement
-        RookMovesHelper(moves, 1, 0);
-        RookMovesHelper(moves, -1, 0);
-        RookMovesHelper(moves, 0, 1);
-        RookMovesHelper(moves, 0, -1);
+        rookMovesHelper(moves, 1, 0);
+        rookMovesHelper(moves, -1, 0);
+        rookMovesHelper(moves, 0, 1);
+        rookMovesHelper(moves, 0, -1);
 
         return moves;
     }
 
-    private void RookMovesHelper(Collection<ChessMove> moves, int rowDirection, int colDirection) {
+    private void rookMovesHelper(Collection<ChessMove> moves, int rowDirection, int colDirection) {
         ChessPosition possiblePosition;
 
         int row = chessPosition.getRow();
