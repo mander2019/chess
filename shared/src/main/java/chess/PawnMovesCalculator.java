@@ -41,8 +41,8 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
 
         if (isEmpty(possiblePosition)) { // Add move to list of possibilities
                      // Promotion
-            if (possiblePosition.getRow() == 1 && pieceColor == ChessGame.TeamColor.BLACK ||
-                possiblePosition.getRow() == 8 && pieceColor == ChessGame.TeamColor.WHITE) {
+            if (possiblePosition.getRow() == 8 && pieceColor == ChessGame.TeamColor.WHITE ||
+                possiblePosition.getRow() == 1 && pieceColor == ChessGame.TeamColor.BLACK) {
                 addPromotionMoves(moves, chessPosition, possiblePosition);
             } else { // No promotion
                 moves.add(newMove(possiblePosition));
@@ -92,7 +92,7 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
             }
             if (!isEmpty(possiblePosition) && isEnemyPiece(possiblePosition)) {
                 if (possiblePosition.getRow() == 1 && pieceColor == ChessGame.TeamColor.BLACK || // Promotion
-                        possiblePosition.getRow() == 8 && pieceColor == ChessGame.TeamColor.WHITE) {
+                    possiblePosition.getRow() == 8 && pieceColor == ChessGame.TeamColor.WHITE) {
                     addPromotionMoves(moves, chessPosition, possiblePosition);
                 } else { // No promotion
                     moves.add(newMove(possiblePosition));

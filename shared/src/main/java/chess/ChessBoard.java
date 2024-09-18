@@ -110,9 +110,7 @@ public class ChessBoard {
                     } else {
                         string = string + " ";
                     }
-                }
-
-                else {
+                } else {
                     string = string + " ";
                 }
 
