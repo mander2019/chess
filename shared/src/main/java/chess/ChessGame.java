@@ -53,9 +53,10 @@ public class ChessGame {
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = chessBoard.getPiece(startPosition);
-        ChessPiece.PieceType type = piece.getPieceType();
 
-        Collection<ChessMove> moves = new ArrayList<>();
+        if (piece == null) {
+            return null;
+        }
 
         return piece.pieceMoves(chessBoard, startPosition);
     }
@@ -72,8 +73,8 @@ public class ChessGame {
         ChessPiece piece = chessBoard.getPiece(start);
 
         // Marks a piece as moved if this is its first move
-        if (!piece.HasMoved) {
-            piece.HasMoved = true;
+        if (!piece.hasMoved) {
+            piece.hasMoved = true;
         }
 
         // Move into an empty space
@@ -82,9 +83,6 @@ public class ChessGame {
         }
 
         // Capture a piece
-//        if (chessBoard.getPiece(end) == null) {
-//
-//        }
 
 
         // Pawn is promoted
@@ -142,8 +140,12 @@ public class ChessGame {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ChessGame chessGame = (ChessGame) o;
         return teamColor == chessGame.teamColor && teamTurn == chessGame.teamTurn && Objects.equals(chessBoard, chessGame.chessBoard);
     }

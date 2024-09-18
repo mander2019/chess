@@ -1,5 +1,6 @@
 package chess;
 
+import java.lang.foreign.ValueLayout;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -10,95 +11,46 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
     }
 
     @Override
-    public Collection<ChessMove> CalculateMoves() {
+    public Collection<ChessMove> calculateMoves() {
         Collection<ChessMove> moves = new ArrayList<>();
 
-        ChessPiece pieceInTheWay;
+        // Positive and negative numbers indicate the direction of the bishop's movement
+        BishopMovesHelper(moves, 1, 1);
+        BishopMovesHelper(moves, 1, -1);
+        BishopMovesHelper(moves, -1, 1);
+        BishopMovesHelper(moves, -1, -1);
+
+        return moves;
+    }
+
+    private void BishopMovesHelper(Collection<ChessMove> moves, int rowDirection, int colDirection) {
         ChessPosition possiblePosition;
 
         int row = chessPosition.getRow();
         int col = chessPosition.getColumn();
 
-        int tempRow = row;
-        int tempCol = col;
+        int tempRow;
+        int tempCol;
 
-        for (int i = 1; i < 9; i++) { // Top right movement
-            tempRow = row + i;
-            tempCol = col + i;
-            if (tempRow > 8 || tempCol > 8 || tempRow < 1 || tempCol < 1) {
-                break;
-            }
+        for (int i = 1; i < 9; i++) {
+            tempRow = row + i * rowDirection;
+            tempCol = col + i * colDirection;
+
             possiblePosition = new ChessPosition(tempRow, tempCol);
-            pieceInTheWay = chessBoard.getPiece(possiblePosition);
-            if (pieceInTheWay != null && pieceInTheWay.getTeamColor() == pieceColor) {
+            if (!WithinChessboard(possiblePosition)) {
                 break;
             }
-            if (pieceInTheWay == null || pieceInTheWay.getTeamColor() != pieceColor) {
-                moves.add(new ChessMove(chessPosition, possiblePosition, null));
-                if (pieceInTheWay != null) {
+
+            if (!IsEmpty(possiblePosition) && IsFriendlyPiece(possiblePosition)) {
+                break;
+            }
+            if (IsEmpty(possiblePosition) || IsEnemyPiece(possiblePosition)) {
+                moves.add(NewMove(possiblePosition));
+                if (!IsEmpty(possiblePosition)) {
                     break;
                 }
             }
         }
-
-        for (int i = 1; i < 9; i++) { // Top left movement
-            tempRow = row + i;
-            tempCol = col - i;
-            if (tempRow > 8 || tempCol > 8 || tempRow < 1 || tempCol < 1) {
-                break;
-            }
-            possiblePosition = new ChessPosition(tempRow, tempCol);
-            pieceInTheWay = chessBoard.getPiece(possiblePosition);
-            if (pieceInTheWay != null && pieceInTheWay.getTeamColor() == pieceColor) {
-                break;
-            }
-            if (pieceInTheWay == null || pieceInTheWay.getTeamColor() != pieceColor) {
-                moves.add(new ChessMove(chessPosition, possiblePosition, null));
-                if (pieceInTheWay != null) {
-                    break;
-                }
-            }
-        }
-
-        for (int i = 1; i < 9; i++) { // Bottom right movement
-            tempRow = row - i;
-            tempCol = col + i;
-            if (tempRow > 8 || tempCol > 8 || tempRow < 1 || tempCol < 1) {
-                break;
-            }
-            possiblePosition = new ChessPosition(tempRow, tempCol);
-            pieceInTheWay = chessBoard.getPiece(possiblePosition);
-            if (pieceInTheWay != null && pieceInTheWay.getTeamColor() == pieceColor) {
-                break;
-            }
-            if (pieceInTheWay == null || pieceInTheWay.getTeamColor() != pieceColor) {
-                moves.add(new ChessMove(chessPosition, possiblePosition, null));
-                if (pieceInTheWay != null) {
-                    break;
-                }
-            }
-        }
-
-        for (int i = 1; i < 9; i++) { // Bottom left movement
-            tempRow = row - i;
-            tempCol = col - i;
-            if (tempRow > 8 || tempCol > 8 || tempRow < 1 || tempCol < 1) {
-                break;
-            }
-            possiblePosition = new ChessPosition(tempRow, tempCol);
-            pieceInTheWay = chessBoard.getPiece(possiblePosition);
-            if (pieceInTheWay != null && pieceInTheWay.getTeamColor() == pieceColor) {
-                break;
-            }
-            if (pieceInTheWay == null || pieceInTheWay.getTeamColor() != pieceColor) {
-                moves.add(new ChessMove(chessPosition, possiblePosition, null));
-                if (pieceInTheWay != null) {
-                    break;
-                }
-            }
-        }
-
-
-        return moves;
     }
+
 }

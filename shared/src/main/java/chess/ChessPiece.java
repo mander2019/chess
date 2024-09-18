@@ -14,12 +14,12 @@ public class ChessPiece {
 
     private PieceType pieceType;
     private ChessGame.TeamColor teamColor;
-    protected boolean HasMoved;
+    protected boolean hasMoved;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceType = type;
         this.teamColor = pieceColor;
-        this.HasMoved = false;
+        this.hasMoved = false;
     }
 
     /**
@@ -57,18 +57,18 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         if (pieceType == PieceType.PAWN) {
-            return new PawnMovesCalculator(board, myPosition).CalculateMoves();
+            return new PawnMovesCalculator(board, myPosition).calculateMoves();
         } else if (pieceType == PieceType.KNIGHT) {
-            return new KnightMovesCalculator(board, myPosition).CalculateMoves();
+            return new KnightMovesCalculator(board, myPosition).calculateMoves();
         } else if (pieceType == PieceType.KING) {
-            return new KingMovesCalculator(board, myPosition).CalculateMoves();
+            return new KingMovesCalculator(board, myPosition).calculateMoves();
         } else if (pieceType == PieceType.BISHOP) {
-            return new BishopMovesCalculator(board, myPosition).CalculateMoves();
+            return new BishopMovesCalculator(board, myPosition).calculateMoves();
         } else if (pieceType == PieceType.ROOK) {
-            return new RookMovesCalculator(board, myPosition).CalculateMoves();
+            return new RookMovesCalculator(board, myPosition).calculateMoves();
         } else if (pieceType == PieceType.QUEEN) {
-            Collection<ChessMove> moves = new RookMovesCalculator(board, myPosition).CalculateMoves();
-            Collection<ChessMove> moves2 = new BishopMovesCalculator(board, myPosition).CalculateMoves();
+            Collection<ChessMove> moves = new RookMovesCalculator(board, myPosition).calculateMoves();
+            Collection<ChessMove> moves2 = new BishopMovesCalculator(board, myPosition).calculateMoves();
 
             for (ChessMove move : moves2) {
                 moves.add(move);
@@ -82,8 +82,12 @@ public class ChessPiece {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ChessPiece that = (ChessPiece) o;
         return pieceType == that.pieceType && teamColor == that.teamColor;
     }

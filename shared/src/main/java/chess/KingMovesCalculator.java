@@ -10,7 +10,7 @@ public class KingMovesCalculator extends PieceMovesCalculator {
     }
 
     @Override
-    public Collection<ChessMove> CalculateMoves() {
+    public Collection<ChessMove> calculateMoves() {
         Collection<ChessMove> moves = new ArrayList<>();
 
         ChessPosition possiblePosition;
@@ -24,9 +24,9 @@ public class KingMovesCalculator extends PieceMovesCalculator {
         for (int i : rowDistance) {
             for (int j : colDistance) {
                 possiblePosition = new ChessPosition(row + i, col + j);
-                if ((row + i) > 0 && (row + i) < 9 && (col + j) > 0 && (col + j) < 9
-                        && (chessBoard.getPiece(possiblePosition) == null || chessBoard.getPiece(possiblePosition).getTeamColor() != pieceColor)) {
-                    moves.add(new ChessMove(chessPosition, possiblePosition, null));
+                if (WithinChessboard(possiblePosition)
+                    && (IsEmpty(possiblePosition) || IsEnemyPiece(possiblePosition))) {
+                    moves.add(NewMove(possiblePosition));
                 }
             }
         }
