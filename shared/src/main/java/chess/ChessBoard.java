@@ -45,32 +45,44 @@ public class ChessBoard {
     public void resetBoard() {
         squares = new ChessPiece[8][8];
 
-//        Add black pieces
-        addPiece(new ChessPosition(8,1), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK));
-        addPiece(new ChessPosition(8,2), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT));
-        addPiece(new ChessPosition(8,3), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP));
-        addPiece(new ChessPosition(8,4), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.QUEEN));
-        addPiece(new ChessPosition(8,5), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING));
-        addPiece(new ChessPosition(8,6), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP));
-        addPiece(new ChessPosition(8,7), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT));
-        addPiece(new ChessPosition(8,8), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK));
+        // Variables to simplify chessboard setup
+        ChessGame.TeamColor black = ChessGame.TeamColor.BLACK;
+        ChessGame.TeamColor white = ChessGame.TeamColor.WHITE;
+
+        ChessPiece.PieceType pawn = ChessPiece.PieceType.PAWN;
+        ChessPiece.PieceType rook = ChessPiece.PieceType.ROOK;
+        ChessPiece.PieceType knight = ChessPiece.PieceType.KNIGHT;
+        ChessPiece.PieceType bishop = ChessPiece.PieceType.BISHOP;
+        ChessPiece.PieceType queen = ChessPiece.PieceType.QUEEN;
+        ChessPiece.PieceType king = ChessPiece.PieceType.KING;
+
+
+        // Add black pieces
+        addPiece(new ChessPosition(8,1), new ChessPiece(black, rook));
+        addPiece(new ChessPosition(8,2), new ChessPiece(black, knight));
+        addPiece(new ChessPosition(8,3), new ChessPiece(black, bishop));
+        addPiece(new ChessPosition(8,4), new ChessPiece(black, queen));
+        addPiece(new ChessPosition(8,5), new ChessPiece(black, king));
+        addPiece(new ChessPosition(8,6), new ChessPiece(black, bishop));
+        addPiece(new ChessPosition(8,7), new ChessPiece(black, knight));
+        addPiece(new ChessPosition(8,8), new ChessPiece(black, rook));
 
         for (int i = 1; i < 9; i++) {
-            addPiece(new ChessPosition(7,i), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN));
+            addPiece(new ChessPosition(7,i), new ChessPiece(black, pawn));
         }
 
-//          Add white pieces
-        addPiece(new ChessPosition(1,1), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK));
-        addPiece(new ChessPosition(1,2), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT));
-        addPiece(new ChessPosition(1,3), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP));
-        addPiece(new ChessPosition(1,4), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.QUEEN));
-        addPiece(new ChessPosition(1,5), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KING));
-        addPiece(new ChessPosition(1,6), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP));
-        addPiece(new ChessPosition(1,7), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT));
-        addPiece(new ChessPosition(1,8), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK));
+        // Add white pieces
+        addPiece(new ChessPosition(1,1), new ChessPiece(white, rook));
+        addPiece(new ChessPosition(1,2), new ChessPiece(white, knight));
+        addPiece(new ChessPosition(1,3), new ChessPiece(white, bishop));
+        addPiece(new ChessPosition(1,4), new ChessPiece(white, queen));
+        addPiece(new ChessPosition(1,5), new ChessPiece(white, king));
+        addPiece(new ChessPosition(1,6), new ChessPiece(white, bishop));
+        addPiece(new ChessPosition(1,7), new ChessPiece(white, knight));
+        addPiece(new ChessPosition(1,8), new ChessPiece(white, rook));
 
         for (int i = 1; i < 9; i++) {
-            addPiece(new ChessPosition(2,i), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN));
+            addPiece(new ChessPosition(2,i), new ChessPiece(white, pawn));
         }
     }
 

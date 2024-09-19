@@ -13,11 +13,11 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
 
         // Assign directionality of pawn
         if (pieceColor == ChessGame.TeamColor.WHITE) {
-            moveForward = 1;
-            moveForward2 = 2;
+            this.moveForward = 1;
+            this.moveForward2 = 2;
         } else {
-            moveForward = -1;
-            moveForward2 = -2;
+            this.moveForward = -1;
+            this.moveForward2 = -2;
         }
     }
 
@@ -74,7 +74,6 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
 
     private void pawnAttackHelper(Collection<ChessMove> moves, int attackSide) {
         ChessPosition possiblePosition;
-
         int edgeColumn;
 
         if (attackSide == 1) { // Right side attack

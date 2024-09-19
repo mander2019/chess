@@ -15,14 +15,13 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
 
             ChessPosition possiblePosition;
 
-            int[] rowDistance = {2, 2, 1, 1, -1, -1, -2, -2};
-            int[] colDistance = {2, 2, 1, 1, -1, -1, -2, -2};
+            int[] possibleDistances = {2, 1, -1, -2};
 
             int row = chessPosition.getRow();
             int col = chessPosition.getColumn();
 
-            for (int i : rowDistance) {
-                for (int j : colDistance) {
+            for (int i : possibleDistances) {
+                for (int j : possibleDistances) {
                     possiblePosition = new ChessPosition(row + i, col + j);
                     if (withinChessboard(possiblePosition) && (Math.abs(i) + Math.abs(j)) == 3
                         && (isEmpty(possiblePosition) || isEnemyPiece(possiblePosition))) {

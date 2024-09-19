@@ -15,17 +15,15 @@ public class KingMovesCalculator extends PieceMovesCalculator {
 
         ChessPosition possiblePosition;
 
-        int[] rowDistance = {1, 0, -1};
-        int[] colDistance = {1, 0, -1};
+        int[] possibleDistance = {1, 0, -1};
 
         int row = chessPosition.getRow();
         int col = chessPosition.getColumn();
 
-        for (int i : rowDistance) {
-            for (int j : colDistance) {
+        for (int i : possibleDistance) {
+            for (int j : possibleDistance) {
                 possiblePosition = new ChessPosition(row + i, col + j);
-                if (withinChessboard(possiblePosition)
-                    && (isEmpty(possiblePosition) || isEnemyPiece(possiblePosition))) {
+                if (withinChessboard(possiblePosition) && (isEmpty(possiblePosition) || isEnemyPiece(possiblePosition))) {
                     moves.add(newMove(possiblePosition));
                 }
             }
@@ -33,4 +31,5 @@ public class KingMovesCalculator extends PieceMovesCalculator {
 
         return moves;
     }
+
 }

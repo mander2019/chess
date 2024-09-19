@@ -29,24 +29,21 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
         int row = chessPosition.getRow();
         int col = chessPosition.getColumn();
 
-        int tempRow;
-        int tempCol;
-
         for (int i = 1; i < 9; i++) {
-            tempRow = row + i * rowDirection;
-            tempCol = col + i * colDirection;
+            int tempRow = row + i * rowDirection;
+            int tempCol = col + i * colDirection;
 
             possiblePosition = new ChessPosition(tempRow, tempCol);
-            if (!withinChessboard(possiblePosition)) {
+            if (!withinChessboard(possiblePosition)) { // Is position within the board?
                 break;
             }
 
-            if (!isEmpty(possiblePosition) && isFriendlyPiece(possiblePosition)) {
+            if (!isEmpty(possiblePosition) && isFriendlyPiece(possiblePosition)) { // Is it an ally?
                 break;
             }
-            if (isEmpty(possiblePosition) || isEnemyPiece(possiblePosition)) {
+            if (isEmpty(possiblePosition) || isEnemyPiece(possiblePosition)) { // Is it empty or an enemy?
                 moves.add(newMove(possiblePosition));
-                if (!isEmpty(possiblePosition)) {
+                if (!isEmpty(possiblePosition)) { // Is there a piece there?
                     break;
                 }
             }

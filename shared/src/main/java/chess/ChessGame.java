@@ -56,9 +56,9 @@ public class ChessGame {
 
         if (piece == null) {
             return null;
+        } else {
+            return piece.pieceMoves(chessBoard, startPosition);
         }
-
-        return piece.pieceMoves(chessBoard, startPosition);
     }
 
     /**
@@ -77,15 +77,24 @@ public class ChessGame {
             piece.hasMoved = true;
         }
 
+        // Pawn is promoted
+        if (move.getPromotionPiece() != null) {
+            if (chessBoard.getPiece(end).getTeamColor() != piece.getTeamColor()) { // Promoted through diagonal attack
+
+            } else { // Promoted in empty space
+
+            }
+        }
+
         // Move into an empty space
         if (chessBoard.getPiece(end) == null) {
 
         }
 
         // Capture a piece
+        if (chessBoard.getPiece(end).getTeamColor() != piece.getTeamColor()) {
 
-
-        // Pawn is promoted
+        }
 
     }
 
