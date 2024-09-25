@@ -28,13 +28,7 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
         ChessPiece pieceInTheWay;
         ChessPosition possiblePosition;
 
-        // Mark whether the pawn is in its start position
-        if (pieceColor == ChessGame.TeamColor.WHITE && chessPosition.getRow() == 2
-        || pieceColor == ChessGame.TeamColor.BLACK && chessPosition.getRow() == 7) {
-            chessPiece.hasMoved = false;
-        } else {
-            chessPiece.hasMoved = true;
-        }
+        chessPiece.hasPawnMoved(chessPosition);
 
         // Move forward 1 space
         possiblePosition = new ChessPosition(chessPosition.getRow() + moveForward, chessPosition.getColumn());

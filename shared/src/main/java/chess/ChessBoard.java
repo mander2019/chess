@@ -9,7 +9,7 @@ import java.util.Objects;
  * Note: You can add to this class, but you may not alter
  * signature of the existing methods.
  */
-public class ChessBoard {
+public class ChessBoard implements Cloneable {
 
     private ChessPiece[][] squares = new ChessPiece[8][8];
 
@@ -36,6 +36,19 @@ public class ChessBoard {
      */
     public ChessPiece getPiece(ChessPosition position) {
         return squares[position.getRow() - 1][position.getColumn() - 1];
+    }
+
+    public void movePiece(ChessMove move) {
+        ChessPosition start = move.getStartPosition();
+        ChessPosition end = move.getEndPosition();
+        ChessPiece.PieceType promotionType = move.getPromotionPiece();
+
+        if (promotionType != null) {
+            squares[end.getRow() - 1][end.getColumn() - 1] = new ChessPiece(getPiece(start).getTeamColor(), promotionType);
+        } else {
+            squares[end.getRow() - 1][end.getColumn() - 1] = getPiece(start);
+        }
+        squares[start.getRow() - 1][start.getColumn() - 1] = null;
     }
 
     /**
@@ -104,8 +117,6 @@ public class ChessBoard {
                         string = string + "K";
                     } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
                         string = string + "P";
-                    } else {
-                        string = string + " ";
                     }
                     if (piece.getPieceType() == ChessPiece.PieceType.ROOK && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
                         string = string + "r";
@@ -119,8 +130,6 @@ public class ChessBoard {
                         string = string + "k";
                     } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
                         string = string + "p";
-                    } else {
-                        string = string + " ";
                     }
                 } else {
                     string = string + " ";
@@ -138,6 +147,42 @@ public class ChessBoard {
         }
 
         return string;
+    }
+
+    public boolean kingExists() {
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < 9; j++) {
+                ChessPiece piece = this.getPiece(new ChessPosition(i,j));
+                if (piece == null) {
+                    continue;
+                }
+                if (piece.getPieceType() == ChessPiece.PieceType.KING) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public ChessBoard clone() {
+        try {
+            ChessBoard cloned = (ChessBoard) super.clone();
+            cloned.squares = new ChessPiece[8][8];
+
+            for (int i = 1; i < 9; i ++) {
+                for (int j = 1; j < 9; j++) {
+                    ChessPiece piece = this.squares[i-1][j-1];
+                    if (piece != null) {
+                        cloned.squares[i - 1][j - 1] = piece.clone();
+                    }
+                }
+            }
+
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("CHESSBOARD: Clone not supported", e);
+        }
     }
 
     @Override

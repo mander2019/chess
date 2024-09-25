@@ -1,5 +1,6 @@
 package chess;
 
+import javax.swing.text.Position;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -10,7 +11,7 @@ import java.util.Objects;
  * Note: You can add to this class, but you may not alter
  * signature of the existing methods.
  */
-public class ChessPiece {
+public class ChessPiece implements Cloneable {
 
     private PieceType pieceType;
     private ChessGame.TeamColor teamColor;
@@ -56,28 +57,60 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        if (pieceType == PieceType.PAWN) {
-            return new PawnMovesCalculator(board, myPosition).calculateMoves();
-        } else if (pieceType == PieceType.KNIGHT) {
-            return new KnightMovesCalculator(board, myPosition).calculateMoves();
-        } else if (pieceType == PieceType.KING) {
-            return new KingMovesCalculator(board, myPosition).calculateMoves();
-        } else if (pieceType == PieceType.BISHOP) {
-            return new BishopMovesCalculator(board, myPosition).calculateMoves();
-        } else if (pieceType == PieceType.ROOK) {
-            return new RookMovesCalculator(board, myPosition).calculateMoves();
-        } else if (pieceType == PieceType.QUEEN) {
-            Collection<ChessMove> moves = new RookMovesCalculator(board, myPosition).calculateMoves();
-            Collection<ChessMove> moves2 = new BishopMovesCalculator(board, myPosition).calculateMoves();
+        Collection<ChessMove> moves = new ArrayList<>();
 
-            for (ChessMove move : moves2) {
+        if (pieceType == PieceType.PAWN) {
+            moves =  new PawnMovesCalculator(board, myPosition).calculateMoves();
+        } else if (pieceType == PieceType.KNIGHT) {
+            moves = new KnightMovesCalculator(board, myPosition).calculateMoves();
+        } else if (pieceType == PieceType.KING) {
+            moves = new KingMovesCalculator(board, myPosition).calculateMoves();
+        } else if (pieceType == PieceType.BISHOP) {
+            moves =  new BishopMovesCalculator(board, myPosition).calculateMoves();
+        } else if (pieceType == PieceType.ROOK) {
+            moves =  new RookMovesCalculator(board, myPosition).calculateMoves();
+        } else if (pieceType == PieceType.QUEEN) {
+            Collection<ChessMove> rookMoves = new RookMovesCalculator(board, myPosition).calculateMoves();
+            Collection<ChessMove> bishopMoves = new BishopMovesCalculator(board, myPosition).calculateMoves();
+
+            for (ChessMove move : rookMoves) {
+                moves.add(move);
+            } for (ChessMove move : bishopMoves) {
                 moves.add(move);
             }
-
-            return moves;
         }
 
-        return new ArrayList<>();
+        return moves;
+    }
+
+    public void hasPawnMoved(ChessPosition chessPosition) {
+        // Mark whether the pawn is in its start position
+        if (teamColor == ChessGame.TeamColor.WHITE && chessPosition.getRow() == 2
+                || teamColor == ChessGame.TeamColor.BLACK && chessPosition.getRow() == 7) {
+            this.hasMoved = false;
+        } else {
+            this.hasMoved = true;
+        }
+    }
+
+    @Override
+    public ChessPiece clone() {
+        try {
+            ChessPiece cloned = (ChessPiece) super.clone();
+
+            cloned.pieceType = this.pieceType;
+            cloned.teamColor = this.teamColor;
+            cloned.hasMoved = this.hasMoved;
+
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("CHESSPIECE: Clone not supported", e);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return teamColor + " " + pieceType;
     }
 
     @Override
