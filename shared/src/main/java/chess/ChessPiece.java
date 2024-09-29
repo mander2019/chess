@@ -128,7 +128,7 @@ public class ChessPiece implements Cloneable {
             return false;
         }
         ChessPiece that = (ChessPiece) o;
-        return hasMoved == that.hasMoved && pieceType == that.pieceType && teamColor == that.teamColor;
+        return pieceType == that.pieceType && teamColor == that.teamColor;
     }
 
     @Override
