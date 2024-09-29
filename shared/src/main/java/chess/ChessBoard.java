@@ -185,6 +185,19 @@ public class ChessBoard implements Cloneable {
         }
     }
 
+    public ChessBoard(ChessBoard otherBoard) {
+        this.squares = new ChessPiece[8][8];
+
+        for (int i = 1; i < 9; i ++) {
+            for (int j = 1; j < 9; j++) {
+                ChessPiece piece = otherBoard.squares[i-1][j-1];
+                if (piece != null) {
+                    this.squares[i - 1][j - 1] = new ChessPiece(piece);
+                }
+            }
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

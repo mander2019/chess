@@ -108,6 +108,12 @@ public class ChessPiece implements Cloneable {
         }
     }
 
+    public ChessPiece(ChessPiece otherPiece) {
+        this.pieceType = otherPiece.pieceType;
+        this.teamColor = otherPiece.teamColor;
+        this.hasMoved = otherPiece.hasMoved;
+    }
+
     @Override
     public String toString() {
         return teamColor + " " + pieceType;

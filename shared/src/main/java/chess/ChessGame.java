@@ -65,7 +65,7 @@ public class ChessGame {
         Collection<ChessMove> approvedMoves = new ArrayList<>();
 
         for (ChessMove move : moves) { // Only allows legitimate moves
-            dreamBoard = chessBoard.clone();
+            dreamBoard = new ChessBoard(chessBoard);
             System.out.println("Before: \n" + dreamBoard);
             dreamBoard.movePiece(move);
             System.out.println("After: \n" + dreamBoard);
@@ -97,7 +97,7 @@ public class ChessGame {
 
         piece.hasPawnMoved(start);
 
-        ChessBoard dreamBoard = chessBoard.clone();
+        ChessBoard dreamBoard = new ChessBoard(chessBoard);
 
         if (!piece.pieceMoves(dreamBoard, start).contains(move)) {
             throw new InvalidMoveException("ERROR: Invalid move");
@@ -142,7 +142,7 @@ public class ChessGame {
     }
 
     private boolean isInCheckHelper(TeamColor teamColor, ChessBoard board) {
-        ChessPosition kingPosition = getKingPosition(teamColor);
+        ChessPosition kingPosition = getKingPosition(teamColor, board);
 
         Collection<Collection<ChessMove>> enemyMoves = new ArrayList<>();
         ChessPosition p;
@@ -160,6 +160,10 @@ public class ChessGame {
             }
         }
 
+
+//        System.out.println(board);
+
+
         for (Collection<ChessMove> moves : enemyMoves) {
             for (ChessMove move : moves) {
                 if (move.getEndPosition().equals(kingPosition)) {
@@ -172,13 +176,17 @@ public class ChessGame {
     }
 
     private ChessPosition getKingPosition(TeamColor color) {
+        return getKingPosition(color, chessBoard);
+    }
+
+    private ChessPosition getKingPosition(TeamColor color, ChessBoard board) {
         ChessPosition p;
         ChessPiece piece;
         for (int i = 1; i < 9; i++) {
             for (int j = 1; j < 9; j++) {
                 p = new ChessPosition(i, j);
-                if (chessBoard.getPiece(p) != null) {
-                    piece = chessBoard.getPiece(p);
+                if (board.getPiece(p) != null) {
+                    piece = board.getPiece(p);
                     if (piece.getPieceType() == ChessPiece.PieceType.KING & piece.getTeamColor() == color) {
                         return p;
                     }
@@ -196,7 +204,30 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < 9; j++) {
+                ChessPosition p = new ChessPosition(i,j);
+                ChessPiece piece = chessBoard.getPiece(p);
+                if (piece != null && piece.getTeamColor() == teamColor) {
+                    Collection<ChessMove> pieceMoves = piece.pieceMoves(chessBoard, p);
+                    for (ChessMove move : pieceMoves) {
+                        ChessBoard dreamBoard = new ChessBoard(chessBoard);
+                        dreamBoard.movePiece(move);
+
+                        if (!isInCheckHelper(teamColor, dreamBoard)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (isInCheck(teamColor)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -207,18 +238,33 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        ChessPosition kingPos = getKingPosition(teamColor);
-        ChessPiece king = chessBoard.getPiece(kingPos);
-        Collection<ChessMove> kingMoves = king.pieceMoves(chessBoard, kingPos);
-
-        System.out.println(kingMoves);
-
-        if (kingMoves.isEmpty()) {
-            return true;
-        } else {
+        if (isInCheckmate(teamColor)) {
             return false;
         }
-    }
+
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < 9; j++) {
+                ChessPosition p = new ChessPosition(i,j);
+                ChessPiece piece = chessBoard.getPiece(p);
+                if (piece != null && piece.getTeamColor() == teamColor) {
+                    Collection<ChessMove> pieceMoves = piece.pieceMoves(chessBoard, p);
+                    for (ChessMove move : pieceMoves) {
+                        ChessBoard dreamBoard = new ChessBoard(chessBoard);
+
+                        System.out.println("Before: \n" + dreamBoard);
+
+                        dreamBoard.movePiece(move);
+
+                        if (!isInCheckHelper(teamColor, dreamBoard)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+}
 
     /**
      * Sets this game's chessboard with a given board
