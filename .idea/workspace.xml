@@ -4,87 +4,42 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ea32f97-b4f3-4727-8b80-41c7cd7e5a71" name="Changes" comment="Completed valid moves">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Figured out config for phase 3" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="HARD" />
-    <option name="UPDATE_TYPE" value="REBASE" />
-  </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;mander2019&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/mander2019/chess.git&quot;,
-    &quot;accountId&quot;: &quot;a6816b01-b68b-4037-8e22-e4439e9ce3ea&quot;
-  }
-}</component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
   <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
 }</component>
-  <component name="ProjectId" id="2lf26bh0oofdTtVvciOQtUzOS3d" />
+  <component name="ProjectId" id="2nS1uvA0IWcZx2M9XOdSnzB3Ztp" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main (1).executor": "Run",
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.All in server.executor": "Run",
     "JUnit.All in shared.executor": "Run",
-    "JUnit.BishopMoveTests.bishopCaptureEnemy.executor": "Run",
-    "JUnit.BishopMoveTests.bishopMoveUntilEdge (1).executor": "Run",
-    "JUnit.BishopMoveTests.bishopMoveUntilEdge.executor": "Debug",
-    "JUnit.BishopMoveTests.executor": "Run",
-    "JUnit.ChessBoardTests.defaultGameBoard.executor": "Debug",
-    "JUnit.ChessBoardTests.executor": "Run",
-    "JUnit.ChessPositionTests.executor": "Run",
-    "JUnit.MakeMoveTests.makeValidPawnMove.executor": "Run",
-    "JUnit.passoff.chess in shared.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/matthewanderson/CS 240/chess",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.All in server">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="client" />
+      <module name="server" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -105,236 +60,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BishopMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shared" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="passoff.chess.piece.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess.piece" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.BishopMoveTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MakeMoveTests.makeValidPawnMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shared" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="passoff.chess.game.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess.game" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.game.MakeMoveTests" />
-      <option name="METHOD_NAME" value="makeValidPawnMove" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.All in shared" />
-        <item itemvalue="JUnit.MakeMoveTests.makeValidPawnMove" />
-        <item itemvalue="JUnit.BishopMoveTests" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0ea32f97-b4f3-4727-8b80-41c7cd7e5a71" name="Changes" comment="" />
-      <created>1725556636535</created>
+      <changelist id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="" />
+      <created>1728951889235</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1725556636535</updated>
-      <workItem from="1725556637611" duration="1129000" />
-      <workItem from="1725557775385" duration="1720000" />
-      <workItem from="1725564320113" duration="550000" />
-      <workItem from="1725564927039" duration="97000" />
-      <workItem from="1725565114995" duration="568000" />
-      <workItem from="1725565711429" duration="12000" />
+      <updated>1728951889235</updated>
     </task>
-    <task id="LOCAL-00001" summary="Started PieceMovesCalculator&#10;Added functionality for several functions">
-      <option name="closed" value="true" />
-      <created>1726029861498</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1726029861498</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Finished reset board and toString functions for ChessBoard&#10;Added hash and equals functions to position, piece, and board">
-      <option name="closed" value="true" />
-      <created>1726032514556</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1726032514556</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Fixed equals and hashCode placement">
-      <option name="closed" value="true" />
-      <created>1726091440637</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1726091440637</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Started move calculator">
-      <option name="closed" value="true" />
-      <created>1726183497659</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1726183497659</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Finished all move calculators">
-      <option name="closed" value="true" />
-      <created>1726271543945</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1726271543945</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Added new functions to simplify code">
-      <option name="closed" value="true" />
-      <created>1726614563838</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1726614563838</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Fixed if statements in ChessBoard">
-      <option name="closed" value="true" />
-      <created>1726624748429</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1726624748429</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Fixed problematic import in BishopMovesCalculator">
-      <option name="closed" value="true" />
-      <created>1726624870445</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1726624870445</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Updating and standardizing syntax">
-      <option name="closed" value="true" />
-      <created>1726625201529</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1726625201529</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Updating and standardizing syntax 2">
-      <option name="closed" value="true" />
-      <created>1726625328831</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1726625328831</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Updating and standardizing syntax 3">
-      <option name="closed" value="true" />
-      <created>1726625828919</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1726625828919</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Updating and standardizing syntax 4">
-      <option name="closed" value="true" />
-      <created>1726626033638</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1726626033638</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Updating and standardizing syntax 5">
-      <option name="closed" value="true" />
-      <created>1726780401776</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1726780401776</updated>
-    </task>
-    <task id="LOCAL-00014" summary="Began phase 1">
-      <option name="closed" value="true" />
-      <created>1727296490200</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1727296490200</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Completed check, stalemate, and checkmate">
-      <option name="closed" value="true" />
-      <created>1727570558477</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1727570558477</updated>
-    </task>
-    <task id="LOCAL-00016" summary="Completed valid moves">
-      <option name="closed" value="true" />
-      <created>1727571682832</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1727571682832</updated>
-    </task>
-    <option name="localTasksCounter" value="17" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Started PieceMovesCalculator&#10;Added functionality for several functions" />
-    <MESSAGE value="Finished reset board and toString functions for ChessBoard&#10;Added hash and equals functions to position, piece, and board" />
-    <MESSAGE value="Fixed equals and hashCode placement" />
-    <MESSAGE value="Started move calculator" />
-    <MESSAGE value="Finished all move calculators" />
-    <MESSAGE value="Added new functions to simplify code" />
-    <MESSAGE value="Fixed if statements in ChessBoard" />
-    <MESSAGE value="Fixed problematic import in BishopMovesCalculator" />
-    <MESSAGE value="Updating and standardizing syntax" />
-    <MESSAGE value="Updating and standardizing syntax 2" />
-    <MESSAGE value="Updating and standardizing syntax 3" />
-    <MESSAGE value="Updating and standardizing syntax 4" />
-    <MESSAGE value="Updating and standardizing syntax 5" />
-    <MESSAGE value="Began phase 1" />
-    <MESSAGE value="Completed check, stalemate, and checkmate" />
-    <MESSAGE value="Completed valid moves" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed valid moves" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/shared/src/main/java/chess/ChessBoard.java</url>
-          <line>209</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
