@@ -4,11 +4,49 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Figured out config for phase 3" />
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Figured out config for phase 3">
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/DAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryUserDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/UserDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/service/RequestAndResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/model/AuthData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/model/GameData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/model/UserData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Record" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "mander2019"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/mander2019/chess.git",
+    "accountId": "a6816b01-b68b-4037-8e22-e4439e9ce3ea"
+  }
+}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -29,11 +67,13 @@
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/matthewanderson/CS 240/chess",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RunManager" selected="Application.Main">
@@ -77,6 +117,27 @@
       <option name="presentableId" value="Default" />
       <updated>1728951889235</updated>
     </task>
+    <task id="LOCAL-00001" summary="Figured out config for phase 3">
+      <option name="closed" value="true" />
+      <created>1728954481400</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1728954481401</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Figured out config for phase 3">
+      <option name="closed" value="true" />
+      <created>1728954499007</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1728954499007</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Figured out config for phase 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Figured out config for phase 3" />
   </component>
 </project>
