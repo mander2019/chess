@@ -13,6 +13,9 @@ public class Server {
 
 
         Spark.post("/user", (req, res) -> { // Register
+
+
+
             System.out.println("Registration endpoint");
             return "Registration endpoint";
         });
