@@ -1,61 +1,30 @@
 package server;
 
+import com.google.gson.Gson;
+import dataaccess.ErrorMessage;
+import dataaccess.MemoryUserDAO;
+import dataaccess.ServerErrorException;
+import service.*;
 import spark.*;
 
 public class Server {
+    private Services service = new Services(new MemoryUserDAO());
 
-    public int run(int desiredPort) {
-        Spark.port(desiredPort);
+    public int run(int port) {
+        Spark.port(port);
 
         Spark.staticFiles.location("web");
 
+
         // Register your endpoints and handle exceptions here.
 
-
-        Spark.post("/user", (req, res) -> { // Register
-
-
-
-            System.out.println("Registration endpoint");
-            return "Registration endpoint";
-        });
-
-        Spark.post("/session", (req, res) -> { // Login
-            System.out.println(req);
-            System.out.println("Login endpoint");
-            return "Login endpoint";
-        });
-
-        Spark.delete("/session", (req, res) -> { // Logout
-            System.out.println(req);
-            System.out.println("Logout endpoint");
-            return "Logout endpoint";
-        });
-
-        Spark.get("/game", (req, res) -> { // Get games
-            System.out.println(req);
-            System.out.println("Get games endpoint");
-            return "Get games endpoint";
-        });
-
-        Spark.post("/game", (req, res) -> { // Create a game
-            System.out.println(req);
-            System.out.println("Create game endpoint");
-            return "Create game endpoint";
-        });
-
-        Spark.put("/game", (req, res) -> { // Join a game
-            System.out.println(req);
-            System.out.println("Join game endpoint");
-            return "Join game endpoint";
-        });
-
-        Spark.delete("/db", (req, res) -> { // Clear data
-            System.out.println(req);
-            System.out.println("Clear data endpoint");
-            return "Clear data endpoint";
-        });
-
+        Spark.post("/user", this::registerUser);
+        Spark.post("/session", this::loginUser);
+        Spark.delete("/session", this::logoutUser);
+        Spark.get("/game", this::getGames);
+        Spark.post("/game", this::createGame);
+        Spark.put("/game", this::joinGame);
+        Spark.delete("/db", this::clearData);
 
         //This line initializes the server and can be removed once you have a functioning endpoint
         Spark.init();
@@ -68,4 +37,62 @@ public class Server {
         Spark.stop();
         Spark.awaitStop();
     }
+
+    private Object registerUser(Request req, Response res) throws Exception {
+        try{
+            RegisterRequest registerRequest = new Gson().fromJson(req.body(), RegisterRequest.class);
+            RegisterHandler registerHandler = new RegisterHandler(registerRequest, service);
+            RegisterResponse registerResponse = registerHandler.register();
+
+            return new Gson().toJson(registerResponse);
+        } catch (ServerErrorException e) {
+            return errorMessageHelper(res, e);
+        }
+    }
+
+    private Object loginUser(Request req, Response res) {
+        System.out.println(req.body());
+
+        return new Gson().toJson(req.body());
+    }
+
+    private Object logoutUser(Request req, Response res) {
+        System.out.println(req.body());
+
+        return new Gson().toJson(req.body());
+    }
+
+    private Object getGames(Request req, Response res) {
+        System.out.println(req.body());
+
+        return new Gson().toJson(req.body());
+    }
+
+    private Object createGame(Request req, Response res) {
+        System.out.println(req.body());
+
+        return new Gson().toJson(req.body());
+    }
+
+    private Object joinGame(Request req, Response res) {
+        System.out.println(req.body());
+
+        return new Gson().toJson(req.body());
+    }
+
+    private Object clearData(Request req, Response res) {
+//        System.out.println("Clearing data...");
+
+        ClearHandler clearHandler = new ClearHandler(service);
+        ClearResponse clearResponse = clearHandler.clear();
+
+        return new Gson().toJson(clearResponse);
+    }
+
+    private Object errorMessageHelper(Response res, ServerErrorException e) {
+        res.status(e.StatusCode());
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
+        return new Gson().toJson(errorMessage);
+    }
+
 }

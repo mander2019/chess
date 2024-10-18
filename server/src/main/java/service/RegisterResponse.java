@@ -1,4 +1,4 @@
 package service;
 
-public record RegisterResponse(String authToken) {
+public record RegisterResponse(String username, String authToken) {
 }

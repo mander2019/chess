@@ -1,12 +1,9 @@
 package service;
 
 public class Handler {
-//    private T request;
-//
-//    public Handler(T request) {
-//        this.request = request;
-//    }
+    protected Services services;
 
-    // Todo - Figure out generic request
-
+    public Handler(Services services) {
+        this.services = services;
+    }
 }
