@@ -7,7 +7,7 @@ public class ClearHandler extends Handler {
         super(services);
     }
 
-    public ClearResponse clear() throws ServerErrorException {
+    public ClearResponse clear() throws Exception {
         return services.clear();
     }
 }

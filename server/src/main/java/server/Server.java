@@ -39,7 +39,7 @@ public class Server {
     }
 
     private Object registerUser(Request req, Response res) throws Exception {
-        try{
+        try {
             RegisterRequest registerRequest = new Gson().fromJson(req.body(), RegisterRequest.class);
             RegisterHandler registerHandler = new RegisterHandler(registerRequest, service);
             RegisterResponse registerResponse = registerHandler.register();
@@ -51,15 +51,29 @@ public class Server {
     }
 
     private Object loginUser(Request req, Response res) {
-        System.out.println(req.body());
+//        System.out.println(req.body());
 
-        return new Gson().toJson(req.body());
+        try {
+            LoginRequest loginRequest = new Gson().fromJson(req.body(), LoginRequest.class);
+            LoginHandler loginHandler = new LoginHandler(loginRequest, service);
+            LoginResponse loginResponse = loginHandler.login();
+
+            return new Gson().toJson(loginResponse);
+        } catch (Exception e) {
+            return errorMessageHelper(res, e);
+        }
     }
 
     private Object logoutUser(Request req, Response res) {
-        System.out.println(req.body());
+        try {
+            LogoutRequest logoutRequest = new LogoutRequest(req.headers("Authorization"));
+            LogoutHandler logoutHandler = new LogoutHandler(logoutRequest, service);
+            LogoutResponse logoutResponse = logoutHandler.logout();
 
-        return new Gson().toJson(req.body());
+            return new Gson().toJson(logoutResponse);
+        } catch (Exception e) {
+            return errorMessageHelper(res, e);
+        }
     }
 
     private Object getGames(Request req, Response res) {
@@ -80,7 +94,7 @@ public class Server {
         return new Gson().toJson(req.body());
     }
 
-    private Object clearData(Request req, Response res) {
+    private Object clearData(Request req, Response res) throws Exception {
 //        System.out.println("Clearing data...");
 
         ClearHandler clearHandler = new ClearHandler(service);
@@ -89,8 +103,13 @@ public class Server {
         return new Gson().toJson(clearResponse);
     }
 
-    private Object errorMessageHelper(Response res, ServerErrorException e) {
-        res.status(e.StatusCode());
+    private Object errorMessageHelper(Response res, Exception e) {
+        if (e instanceof ServerErrorException) {
+            res.status(((ServerErrorException) e).StatusCode());
+        } else {
+            res.status(500);
+        }
+
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
         return new Gson().toJson(errorMessage);
     }

@@ -1,22 +1,19 @@
 package dataaccess;
 
-import service.ClearResponse;
-import service.RegisterRequest;
-import service.RegisterResponse;
+import model.AuthData;
+import model.UserData;
+import service.*;
 
 public interface DAO {
-    RegisterResponse registerUser(RegisterRequest registerData) throws Exception;
-//    LoginResponse loginUser(LoginRequest loginData);
-//    LogoutResponse logoutUser(LogoutRequest logoutData);
-    ClearResponse clear();
-
-
-
-
-    String getUser(String authToken);
+    void addUser(UserData user);
+    String getUser(String authToken) throws DataAccessException;
+    String getUserPassword(String username);
+    boolean userExists(String username);
     void deleteUser(String userName);
     String createAuthToken(String username);
-    String getAuthData(String username);
+    void addAuthData(AuthData auth);
+    String getAuthData(String username) throws DataAccessException;
     void deleteAuthData(String username);
+    void clear();
 
 }

@@ -4,22 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Added more classes">
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/ErrorMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/ServerErrorException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/service/ClearHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/service/ClearResponse.java" afterDir="false" />
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Completed register and clear functionality">
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/service/LoginHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/service/LoginRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/service/LoginResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/service/LogoutHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/service/LogoutRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/service/LogoutResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/test/java/service/MyTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/DAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryUserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryUserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/UserDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/ServerErrorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/ServerErrorException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/Handler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/RegisterHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/RegisterHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/RegisterResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/RegisterResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/RegisterService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/Requests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/Responses.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/ClearHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/ClearHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/service/Services.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/Services.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +51,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -72,6 +70,7 @@
     "JUnit.All in shared.executor": "Run",
     "JUnit.StandardAPITests.executor": "Run",
     "JUnit.StandardAPITests.failRegister.executor": "Run",
+    "JUnit.StandardAPITests.successLogout.executor": "Run",
     "JUnit.StandardAPITests.successRegister.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -91,14 +90,6 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="server" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -135,6 +126,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="StandardAPITests.successLogout" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.StandardAPITests" />
+      <option name="METHOD_NAME" value="successLogout" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="StandardAPITests.successRegister" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -154,10 +161,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.StandardAPITests" />
+        <item itemvalue="JUnit.StandardAPITests.successLogout" />
         <item itemvalue="JUnit.StandardAPITests.failRegister" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.StandardAPITests.successRegister" />
-        <item itemvalue="JUnit.All in server" />
       </list>
     </recent_temporary>
   </component>
@@ -202,7 +209,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729043398482</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Completed register and clear functionality">
+      <option name="closed" value="true" />
+      <created>1729278651798</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1729278651798</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -220,7 +235,8 @@
     <MESSAGE value="Figured out config for phase 3" />
     <MESSAGE value="Added several classes to manage data and functionality to receive HTTP inputs" />
     <MESSAGE value="Added more classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added more classes" />
+    <MESSAGE value="Completed register and clear functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed register and clear functionality" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

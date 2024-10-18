@@ -1,6 +1,10 @@
 package service;
 
 import dataaccess.DAO;
+import dataaccess.DataAccessException;
+import dataaccess.ServerErrorException;
+import model.AuthData;
+import model.UserData;
 
 
 public class Services {
@@ -10,23 +14,119 @@ public class Services {
         this.dao = dao;
     }
 
-    public RegisterResponse registerUser(RegisterRequest registerData) throws Exception {
-        return dao.registerUser(registerData);
+    public RegisterResponse registerUser(RegisterRequest registerData) throws ServerErrorException {
+        String username = registerData.username();
+        String password = registerData.password();
+        String email = registerData.email();
+        String authToken = createAuthToken(username);
+
+        try {
+            if (userExists(username)) { // Check if user already exists
+                throw new ServerErrorException(403, "Error: already taken");
+            }
+
+            // Check for null or empty fields
+            if (username == null || password == null || email == null ||
+                username.isEmpty() || password.isEmpty() || email.isEmpty()) {
+                throw new ServerErrorException(400, "Error: bad request");
+            }
+
+            UserData newUser = new UserData(username, password, email);
+            addUser(newUser);
+
+            AuthData newAuth = new AuthData(authToken, username);
+            addAuthData(newAuth);
+
+            return new RegisterResponse(username, authToken);
+        } catch (ServerErrorException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ServerErrorException(500, "Internal server error");
+        }
+    }
+
+    public LoginResponse loginUser(LoginRequest loginData) throws ServerErrorException {
+        String username = loginData.username();
+        String password = loginData.password();
+
+        try {
+            if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
+                throw new ServerErrorException(400, "Error: bad request");
+            } else if (!userExists(username)) {
+                throw new ServerErrorException(401, "Error: user not found");
+            } else if (!password.equals(getUserPassword(username))) {
+                throw new ServerErrorException(401, "Error: unauthorized");
+            } else if (password.equals(getUserPassword(username))) {
+                String authToken = createAuthToken(username);
+                AuthData newAuth = new AuthData(authToken, username);
+                addAuthData(newAuth);
+                return new LoginResponse(username, authToken);
+            }
+        } catch (ServerErrorException e) {
+            throw e;
+        } catch (DataAccessException e) {
+            throw new ServerErrorException(401, "Error: not found");
+        } catch (Exception e) {
+            throw new ServerErrorException(500, "Internal server error");
+        }
+
+        return null;
+    }
+
+    public LogoutResponse logout(LogoutRequest logoutData) throws ServerErrorException {
+        try {
+            String authToken = logoutData.authToken();
+
+            System.out.println("Logging out user: " + authToken);
+
+            String username = getUserFromAuthToken(authToken);
+
+            System.out.println("Logging out user: " + username);
+
+            if (username == null) {
+                throw new ServerErrorException(401, "Error: user does not exist");
+            }
+
+            deleteAuthData(username);
+
+            return new LogoutResponse();
+        } catch (ServerErrorException e) {
+            throw e;
+        } catch (DataAccessException e) {
+            throw new ServerErrorException(500, "Internal server error");
+        }
     }
 
     public ClearResponse clear() {
-        return dao.clear();
+        clearData();
+        return new ClearResponse();
     }
 
-    private String getUser(String authToken) {
+    private void addUser(UserData user) {
+        dao.addUser(user);
+    }
+
+    private String getUserFromAuthToken(String authToken) throws DataAccessException {
         return dao.getUser(authToken);
+    }
+
+    private String getUserPassword(String username) throws DataAccessException {
+        return dao.getUserPassword(username);
+    }
+
+    private boolean userExists(String username) {
+        return dao.userExists(username);
+    }
+
+    private void addAuthData(AuthData auth) {
+        dao.addAuthData(auth);
     }
 
     private String createAuthToken(String username) {
         return dao.createAuthToken(username);
     }
 
-    private String getAuthData(String username) {
+    private String getAuthData(String username) throws DataAccessException {
         return dao.getAuthData(username);
     }
 
@@ -34,4 +134,7 @@ public class Services {
         dao.deleteAuthData(username);
     }
 
+    public void clearData() {
+        dao.clear();
+    }
 }
