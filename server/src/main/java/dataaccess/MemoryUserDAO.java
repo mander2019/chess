@@ -7,7 +7,6 @@ import java.util.UUID;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
-import service.*;
 
 public class MemoryUserDAO implements DAO {
     private final Collection<UserData> users = new ArrayList<>();
@@ -95,6 +94,34 @@ public class MemoryUserDAO implements DAO {
                 break;
             }
         }
+    }
+
+    public boolean authExists(String authToken) {
+        for (AuthData auth : auths) {
+            if (auth.authToken().equals(authToken)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void addGame(GameData game) {
+        games.add(game);
+    }
+
+    @Override
+    public GameData getGame(int gameID) {
+        for (GameData game : games) {
+            if (game.gameID() == gameID) {
+                return game;
+            }
+        }
+        return null;
+    }
+
+    public Collection<GameData> getGames() {
+        return games;
     }
 
     @Override

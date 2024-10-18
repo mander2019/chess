@@ -83,9 +83,15 @@ public class Server {
     }
 
     private Object createGame(Request req, Response res) {
-        System.out.println(req.body());
+        try {
+            CreateGameRequest createGameRequest = new CreateGameRequest(req.headers("Authorization"), req.body());
+            CreateGameHandler createGameHandler = new CreateGameHandler(createGameRequest, service);
+            CreateGameResponse createGameResponse = createGameHandler.createGame();
 
-        return new Gson().toJson(req.body());
+            return new Gson().toJson(createGameResponse);
+        } catch (Exception e) {
+            return errorMessageHelper(res, e);
+        }
     }
 
     private Object joinGame(Request req, Response res) {
@@ -95,8 +101,6 @@ public class Server {
     }
 
     private Object clearData(Request req, Response res) throws Exception {
-//        System.out.println("Clearing data...");
-
         ClearHandler clearHandler = new ClearHandler(service);
         ClearResponse clearResponse = clearHandler.clear();
 

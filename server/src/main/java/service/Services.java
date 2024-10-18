@@ -1,10 +1,14 @@
 package service;
 
+import chess.ChessGame;
 import dataaccess.DAO;
 import dataaccess.DataAccessException;
 import dataaccess.ServerErrorException;
 import model.AuthData;
+import model.GameData;
 import model.UserData;
+
+import java.util.Collection;
 
 
 public class Services {
@@ -97,6 +101,29 @@ public class Services {
         }
     }
 
+    public CreateGameResponse createGame(CreateGameRequest createGameData) throws ServerErrorException{
+        String authToken = createGameData.authToken();
+
+        try {
+            if (!validAuthToken(authToken)) {
+                throw new ServerErrorException(401, "Error: unauthorized");
+            }
+
+            Collection<GameData> games = getGames();
+            int gameID = games.size() + 1;
+
+            GameData newGame = new GameData(gameID, null, null, createGameData.gameName(), new ChessGame());
+
+            addGame(newGame);
+
+            return new CreateGameResponse(gameID);
+        } catch (ServerErrorException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ServerErrorException(500, "Internal server error");
+        }
+    }
+
     public ClearResponse clear() {
         clearData();
         return new ClearResponse();
@@ -132,6 +159,18 @@ public class Services {
 
     private void deleteAuthData(String username) {
         dao.deleteAuthData(username);
+    }
+
+    private boolean validAuthToken(String authToken) {
+        return dao.authExists(authToken);
+    }
+
+    private void addGame(GameData game) {
+        dao.addGame(game);
+    }
+
+    private Collection<GameData> getGames() {
+        return dao.getGames();
     }
 
     public void clearData() {
