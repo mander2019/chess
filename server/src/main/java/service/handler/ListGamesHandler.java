@@ -1,4 +1,8 @@
-package service;
+package service.handler;
+
+import service.request.ListGamesRequest;
+import service.response.ListGamesResponse;
+import service.Services;
 
 public class ListGamesHandler extends Handler {
     private ListGamesRequest request;

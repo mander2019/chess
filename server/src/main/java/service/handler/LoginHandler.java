@@ -1,4 +1,8 @@
-package service;
+package service.handler;
+
+import service.request.LoginRequest;
+import service.response.LoginResponse;
+import service.Services;
 
 public class LoginHandler extends Handler {
     private LoginRequest request;

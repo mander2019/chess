@@ -50,17 +50,7 @@ public class MemoryUserDAO implements DAO {
         return false;
     }
 
-    @Override
-    public void deleteUser(String username) {
-        for (UserData user : users) {
-            if (user.username().equals(username)) {
-                users.remove(user);
-                break;
-            }
-        }
 
-        deleteAuthData(username);
-    }
 
     @Override
     public void addAuthData(AuthData auth) {

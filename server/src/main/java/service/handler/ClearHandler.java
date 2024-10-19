@@ -1,6 +1,7 @@
-package service;
+package service.handler;
 
-import dataaccess.ServerErrorException;
+import service.response.ClearResponse;
+import service.Services;
 
 public class ClearHandler extends Handler {
     public ClearHandler(Services services) {

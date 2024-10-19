@@ -6,6 +6,9 @@ import dataaccess.ErrorMessage;
 import dataaccess.MemoryUserDAO;
 import dataaccess.ServerErrorException;
 import service.*;
+import service.handler.*;
+import service.request.*;
+import service.response.*;
 import spark.*;
 
 public class Server {
@@ -140,7 +143,7 @@ public class Server {
 
     private Object errorMessageHelper(Response res, Exception e) {
         if (e instanceof ServerErrorException) {
-            res.status(((ServerErrorException) e).StatusCode());
+            res.status(((ServerErrorException) e).statusCode());
         } else {
             res.status(500);
         }

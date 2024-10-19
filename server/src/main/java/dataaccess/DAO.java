@@ -12,7 +12,6 @@ public interface DAO {
     String getUser(String authToken) throws DataAccessException;
     String getUserPassword(String username);
     boolean userExists(String username);
-    void deleteUser(String userName);
     String createAuthToken(String username);
     void addAuthData(AuthData auth);
     String getAuthData(String username) throws DataAccessException;
@@ -23,9 +22,6 @@ public interface DAO {
     Collection<GameData> getGames();
     void addBlackPlayerToGame(GameData game, String username);
     void addWhitePlayerToGame(GameData game, String username);
-
     void removeGame(int gameID);
-
     void clear();
-
 }

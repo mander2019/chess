@@ -1,4 +1,6 @@
-package service;
+package service.handler;
+
+import service.Services;
 
 public class Handler {
     protected Services services;

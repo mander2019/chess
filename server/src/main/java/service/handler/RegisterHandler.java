@@ -1,5 +1,9 @@
-package service;
+package service.handler;
 
+
+import service.request.RegisterRequest;
+import service.response.RegisterResponse;
+import service.Services;
 
 public class RegisterHandler extends Handler {
     private RegisterRequest request;

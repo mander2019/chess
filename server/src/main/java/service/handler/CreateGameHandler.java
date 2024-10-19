@@ -1,4 +1,8 @@
-package service;
+package service.handler;
+
+import service.request.CreateGameRequest;
+import service.response.CreateGameResponse;
+import service.Services;
 
 public class CreateGameHandler extends Handler {
     CreateGameRequest request;

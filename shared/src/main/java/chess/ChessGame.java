@@ -211,14 +211,7 @@ public class ChessGame {
                 ChessPiece piece = chessBoard.getPiece(p);
                 if (piece != null && piece.getTeamColor() == teamColor) {
                     Collection<ChessMove> pieceMoves = piece.pieceMoves(chessBoard, p);
-                    for (ChessMove move : pieceMoves) {
-                        ChessBoard dreamBoard = new ChessBoard(chessBoard);
-                        dreamBoard.movePiece(move);
-
-                        if (!isInCheckHelper(teamColor, dreamBoard)) {
-                            return false;
-                        }
-                    }
+                    if (isInCheckmateHelper(teamColor, pieceMoves)) return false;
                 }
             }
         }
@@ -227,6 +220,18 @@ public class ChessGame {
             return true;
         }
 
+        return false;
+    }
+
+    private boolean isInCheckmateHelper(TeamColor teamColor, Collection<ChessMove> pieceMoves) {
+        for (ChessMove move : pieceMoves) {
+            ChessBoard dreamBoard = new ChessBoard(chessBoard);
+            dreamBoard.movePiece(move);
+
+            if (!isInCheckHelper(teamColor, dreamBoard)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -248,23 +253,28 @@ public class ChessGame {
                 ChessPiece piece = chessBoard.getPiece(p);
                 if (piece != null && piece.getTeamColor() == teamColor) {
                     Collection<ChessMove> pieceMoves = piece.pieceMoves(chessBoard, p);
-                    for (ChessMove move : pieceMoves) {
-                        ChessBoard dreamBoard = new ChessBoard(chessBoard);
-
-                        System.out.println("Before: \n" + dreamBoard);
-
-                        dreamBoard.movePiece(move);
-
-                        if (!isInCheckHelper(teamColor, dreamBoard)) {
-                            return false;
-                        }
-                    }
+                    if (isInStalemateHelper(teamColor, pieceMoves)) return false;
                 }
             }
         }
 
         return true;
 }
+
+    private boolean isInStalemateHelper(TeamColor teamColor, Collection<ChessMove> pieceMoves) {
+        for (ChessMove move : pieceMoves) {
+            ChessBoard dreamBoard = new ChessBoard(chessBoard);
+
+            System.out.println("Before: \n" + dreamBoard);
+
+            dreamBoard.movePiece(move);
+
+            if (!isInCheckHelper(teamColor, dreamBoard)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Sets this game's chessboard with a given board
@@ -294,8 +304,12 @@ public class ChessGame {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ChessGame chessGame = (ChessGame) o;
         return teamTurn == chessGame.teamTurn && Objects.equals(chessBoard, chessGame.chessBoard);
     }

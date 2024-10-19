@@ -7,6 +7,8 @@ import dataaccess.ServerErrorException;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
+import service.request.*;
+import service.response.*;
 
 import java.util.Collection;
 
