@@ -42,7 +42,7 @@ public class Server {
         Spark.awaitStop();
     }
 
-    private Object registerUser(Request req, Response res) throws Exception {
+    public Object registerUser(Request req, Response res) throws Exception {
         try {
             RegisterRequest registerRequest = new Gson().fromJson(req.body(), RegisterRequest.class);
             RegisterHandler registerHandler = new RegisterHandler(registerRequest, service);
@@ -54,7 +54,7 @@ public class Server {
         }
     }
 
-    private Object loginUser(Request req, Response res) {
+    public Object loginUser(Request req, Response res) {
          try {
             LoginRequest loginRequest = new Gson().fromJson(req.body(), LoginRequest.class);
             LoginHandler loginHandler = new LoginHandler(loginRequest, service);
@@ -66,7 +66,7 @@ public class Server {
         }
     }
 
-    private Object logoutUser(Request req, Response res) {
+    public Object logoutUser(Request req, Response res) {
         try {
             LogoutRequest logoutRequest = new LogoutRequest(req.headers("Authorization"));
             LogoutHandler logoutHandler = new LogoutHandler(logoutRequest, service);
@@ -78,7 +78,7 @@ public class Server {
         }
     }
 
-    private Object getGames(Request req, Response res) {
+    public Object getGames(Request req, Response res) {
         try {
             ListGamesRequest listGamesRequest = new ListGamesRequest(req.headers("Authorization"));
             ListGamesHandler listGamesHandler = new ListGamesHandler(listGamesRequest, service);
@@ -90,7 +90,7 @@ public class Server {
         }
     }
 
-    private Object createGame(Request req, Response res) {
+    public Object createGame(Request req, Response res) {
         try {
             CreateGameRequest createGameRequest = new CreateGameRequest(req.headers("Authorization"), req.body());
             CreateGameHandler createGameHandler = new CreateGameHandler(createGameRequest, service);
@@ -102,7 +102,7 @@ public class Server {
         }
     }
 
-    private Object joinGame(Request req, Response res) {
+    public Object joinGame(Request req, Response res) {
         try {
             String body = req.body();
 
@@ -134,7 +134,7 @@ public class Server {
         }
     }
 
-    private Object clearData(Request req, Response res) throws Exception {
+    public Object clearData(Request req, Response res) throws Exception {
         ClearHandler clearHandler = new ClearHandler(service);
         ClearResponse clearResponse = clearHandler.clear();
 

@@ -83,11 +83,7 @@ public class Services {
         try {
             String authToken = logoutData.authToken();
 
-            System.out.println("Logging out user: " + authToken);
-
             String username = getUserFromAuthToken(authToken);
-
-            System.out.println("Logging out user: " + username);
 
             if (username == null) {
                 throw new ServerErrorException(401, "Error: user does not exist");

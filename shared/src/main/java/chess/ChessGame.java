@@ -211,7 +211,9 @@ public class ChessGame {
                 ChessPiece piece = chessBoard.getPiece(p);
                 if (piece != null && piece.getTeamColor() == teamColor) {
                     Collection<ChessMove> pieceMoves = piece.pieceMoves(chessBoard, p);
-                    if (isInCheckmateHelper(teamColor, pieceMoves)) return false;
+                    if (isInCheckmateHelper(teamColor, pieceMoves)) {
+                        return false;
+                    }
                 }
             }
         }
@@ -253,7 +255,9 @@ public class ChessGame {
                 ChessPiece piece = chessBoard.getPiece(p);
                 if (piece != null && piece.getTeamColor() == teamColor) {
                     Collection<ChessMove> pieceMoves = piece.pieceMoves(chessBoard, p);
-                    if (isInStalemateHelper(teamColor, pieceMoves)) return false;
+                    if (isInStalemateHelper(teamColor, pieceMoves)) {
+                        return false;
+                    }
                 }
             }
         }
