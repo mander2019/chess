@@ -111,17 +111,40 @@ public class MemoryUserDAO implements DAO {
     }
 
     @Override
-    public GameData getGame(int gameID) {
+    public GameData getGame(int gameID) throws DataAccessException {
         for (GameData game : games) {
             if (game.gameID() == gameID) {
                 return game;
             }
         }
-        return null;
+        throw new DataAccessException("Error: game not found");
     }
 
+    @Override
     public Collection<GameData> getGames() {
         return games;
+    }
+
+    @Override
+    public void addBlackPlayerToGame(GameData game, String username) {
+        game = new GameData(game.gameID(), game.whiteUsername(), username, game.gameName(), game.game());
+        games.add(game);
+    }
+
+    @Override
+    public void addWhitePlayerToGame(GameData game, String username) {
+        game = new GameData(game.gameID(), username, game.blackUsername(), game.gameName(), game.game());
+        games.add(game);
+    }
+
+    @Override
+    public void removeGame(int gameID) {
+        for (GameData game : games) {
+            if (game.gameID() == gameID) {
+                games.remove(game);
+                break;
+            }
+        }
     }
 
     @Override

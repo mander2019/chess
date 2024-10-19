@@ -1,5 +1,6 @@
 package dataaccess;
 
+import chess.ChessGame;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
@@ -18,8 +19,13 @@ public interface DAO {
     void deleteAuthData(String username);
     boolean authExists(String authToken);
     void addGame(GameData game);
-    GameData getGame(int gameID);
+    GameData getGame(int gameID) throws DataAccessException;
     Collection<GameData> getGames();
+    void addBlackPlayerToGame(GameData game, String username);
+    void addWhitePlayerToGame(GameData game, String username);
+
+    void removeGame(int gameID);
+
     void clear();
 
 }

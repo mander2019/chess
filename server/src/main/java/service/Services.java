@@ -101,11 +101,29 @@ public class Services {
         }
     }
 
+    public ListGamesResponse listGames(ListGamesRequest listGameData) throws ServerErrorException {
+        String authToken = listGameData.authToken();
+
+        try {
+            if (invalidAuthToken(authToken)) {
+                throw new ServerErrorException(401, "Error: unauthorized");
+            }
+
+            Collection<GameData> games = getGames();
+
+            return new ListGamesResponse(games);
+        } catch (ServerErrorException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ServerErrorException(500, "Internal server error");
+        }
+    }
+
     public CreateGameResponse createGame(CreateGameRequest createGameData) throws ServerErrorException{
         String authToken = createGameData.authToken();
 
         try {
-            if (!validAuthToken(authToken)) {
+            if (invalidAuthToken(authToken)) {
                 throw new ServerErrorException(401, "Error: unauthorized");
             }
 
@@ -121,6 +139,34 @@ public class Services {
             throw e;
         } catch (Exception e) {
             throw new ServerErrorException(500, "Internal server error");
+        }
+    }
+
+    public JoinGameResponse joinGame (JoinGameRequest joinGameData) throws ServerErrorException {
+        String authToken = joinGameData.authToken();
+        int gameID = joinGameData.gameID();
+        ChessGame.TeamColor color = joinGameData.teamColor();
+
+        if (color == null) {
+            throw new ServerErrorException(400, "Error: bad request");
+        } else if (invalidAuthToken(authToken)) {
+            throw new ServerErrorException(401, "Error: unauthorized");
+        }
+
+        try {
+            GameData game = getGame(gameID);
+            JoinGameResponse joinGameResponse = null;
+
+            if ((game.whiteUsername() == null && color == ChessGame.TeamColor.WHITE) ||
+                (game.blackUsername() == null && color == ChessGame.TeamColor.BLACK)) {
+                addPlayerToGame(game, getUserFromAuthToken(authToken), color);
+            } else {
+                throw new ServerErrorException(403, "Error: already taken");
+            }
+
+            return joinGameResponse;
+        } catch (DataAccessException e) {
+            throw new ServerErrorException(500, e.getMessage());
         }
     }
 
@@ -161,16 +207,30 @@ public class Services {
         dao.deleteAuthData(username);
     }
 
-    private boolean validAuthToken(String authToken) {
-        return dao.authExists(authToken);
+    private boolean invalidAuthToken(String authToken) {
+        return !dao.authExists(authToken);
     }
 
     private void addGame(GameData game) {
         dao.addGame(game);
     }
 
+    private GameData getGame(int gameID) throws DataAccessException {
+        return dao.getGame(gameID);
+    }
+
     private Collection<GameData> getGames() {
         return dao.getGames();
+    }
+
+    private void addPlayerToGame(GameData game, String username, ChessGame.TeamColor color) {
+        dao.removeGame(game.gameID());
+
+        if (color == ChessGame.TeamColor.WHITE) {
+            dao.addWhitePlayerToGame(game, username);
+        } else {
+            dao.addBlackPlayerToGame(game, username);
+        }
     }
 
     public void clearData() {

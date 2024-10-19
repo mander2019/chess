@@ -1,5 +1,6 @@
 package server;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import dataaccess.ErrorMessage;
 import dataaccess.MemoryUserDAO;
@@ -8,7 +9,7 @@ import service.*;
 import spark.*;
 
 public class Server {
-    private Services service = new Services(new MemoryUserDAO());
+    private final Services service = new Services(new MemoryUserDAO());
 
     public int run(int port) {
         Spark.port(port);
@@ -51,9 +52,7 @@ public class Server {
     }
 
     private Object loginUser(Request req, Response res) {
-//        System.out.println(req.body());
-
-        try {
+         try {
             LoginRequest loginRequest = new Gson().fromJson(req.body(), LoginRequest.class);
             LoginHandler loginHandler = new LoginHandler(loginRequest, service);
             LoginResponse loginResponse = loginHandler.login();
@@ -77,9 +76,15 @@ public class Server {
     }
 
     private Object getGames(Request req, Response res) {
-        System.out.println(req.body());
+        try {
+            ListGamesRequest listGamesRequest = new ListGamesRequest(req.headers("Authorization"));
+            ListGamesHandler listGamesHandler = new ListGamesHandler(listGamesRequest, service);
+            ListGamesResponse listGamesResponse = listGamesHandler.listGames();
 
-        return new Gson().toJson(req.body());
+            return new Gson().toJson(listGamesResponse);
+        } catch (Exception e) {
+            return errorMessageHelper(res, e);
+        }
     }
 
     private Object createGame(Request req, Response res) {
@@ -95,9 +100,35 @@ public class Server {
     }
 
     private Object joinGame(Request req, Response res) {
-        System.out.println(req.body());
+        try {
+            String body = req.body();
 
-        return new Gson().toJson(req.body());
+            int gameID;
+
+            try {
+                gameID = Integer.parseInt(body.replaceAll("[^0-9]", ""));
+            } catch (NumberFormatException e) {
+                throw new ServerErrorException(400, "Error: bad request");
+            }
+
+            ChessGame.TeamColor color;
+
+            if (body.contains("WHITE")) {
+                color = ChessGame.TeamColor.WHITE;
+            } else if (body.contains("BLACK")) {
+                color = ChessGame.TeamColor.BLACK;
+            } else {
+                throw new ServerErrorException(400, "Error: bad request");
+            }
+
+            JoinGameRequest joinGameRequest = new JoinGameRequest(req.headers("Authorization"), color, gameID);
+            JoinGameHandler joinGameHandler = new JoinGameHandler(joinGameRequest, service);
+            JoinGameResponse joinGameResponse = joinGameHandler.joinGame();
+
+            return new Gson().toJson(joinGameResponse);
+        } catch (Exception e) {
+            return errorMessageHelper(res, e);
+        }
     }
 
     private Object clearData(Request req, Response res) throws Exception {
@@ -117,5 +148,4 @@ public class Server {
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
         return new Gson().toJson(errorMessage);
     }
-
 }
