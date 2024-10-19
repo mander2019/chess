@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Created first two test cases">
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Completed test cases">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/DAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryUserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryUserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/Services.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/Services.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/test/java/service/MyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/MyTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,40 +54,48 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.All in server.executor": "Debug",
-    "JUnit.All in shared.executor": "Run",
-    "JUnit.MyTests.executor": "Run",
-    "JUnit.MyTests.testJoinGameThatDoesNotExist.executor": "Debug",
-    "JUnit.MyTests.testLoginUserWithInvalidPassword.executor": "Run",
-    "JUnit.MyTests.testRegisterUserWithTakenUsername.executor": "Debug",
-    "JUnit.StandardAPITests.badGameIDJoin.executor": "Run",
-    "JUnit.StandardAPITests.executor": "Run",
-    "JUnit.StandardAPITests.failRegister.executor": "Run",
-    "JUnit.StandardAPITests.gamesList.executor": "Run",
-    "JUnit.StandardAPITests.goodCreate.executor": "Run",
-    "JUnit.StandardAPITests.successLogout.executor": "Run",
-    "JUnit.StandardAPITests.successRegister.executor": "Run",
-    "JUnit.service in server.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "extract.method.default.visibility": "private",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/matthewanderson/CS 240/chess",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "editor.preferences.tabs"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.All in server.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in shared.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyTests.testJoinGameThatDoesNotExist.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.MyTests.testLoginUserWithInvalidPassword.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyTests.testRegisterUserWithTakenUsername.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.StandardAPITests.badGameIDJoin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.failRegister.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.gamesList.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.goodCreate.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.successLogout.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.successRegister.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.service in server.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/matthewanderson/CS 240/chess&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="JUnit.MyTests">
+}</component>
+  <component name="RunManager" selected="JUnit.All in server">
+    <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MyTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -147,27 +159,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="service in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="service" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.MyTests" />
         <item itemvalue="JUnit.MyTests.testJoinGameThatDoesNotExist" />
         <item itemvalue="JUnit.MyTests.testLoginUserWithInvalidPassword" />
         <item itemvalue="JUnit.MyTests.testRegisterUserWithTakenUsername" />
-        <item itemvalue="JUnit.service in server" />
       </list>
     </recent_temporary>
   </component>
@@ -260,7 +258,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729302559891</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Completed test cases">
+      <option name="closed" value="true" />
+      <created>1729305049157</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1729305049157</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -284,7 +290,8 @@
     <MESSAGE value="Completed join and list game functionality. Passed off all test cases" />
     <MESSAGE value="Cleaned up code and reorganized files" />
     <MESSAGE value="Created first two test cases" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created first two test cases" />
+    <MESSAGE value="Completed test cases" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed test cases" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

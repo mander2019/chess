@@ -19,9 +19,6 @@ public class Server {
 
         Spark.staticFiles.location("web");
 
-
-        // Register your endpoints and handle exceptions here.
-
         Spark.post("/user", this::registerUser);
         Spark.post("/session", this::loginUser);
         Spark.delete("/session", this::logoutUser);
@@ -30,7 +27,7 @@ public class Server {
         Spark.put("/game", this::joinGame);
         Spark.delete("/db", this::clearData);
 
-        //This line initializes the server and can be removed once you have a functioning endpoint
+        // This line initializes the server and can be removed once you have a functioning endpoint
         Spark.init();
 
         Spark.awaitInitialization();
@@ -104,27 +101,7 @@ public class Server {
 
     public Object joinGame(Request req, Response res) {
         try {
-            String body = req.body();
-
-            int gameID;
-
-            try {
-                gameID = Integer.parseInt(body.replaceAll("[^0-9]", ""));
-            } catch (NumberFormatException e) {
-                throw new ServerErrorException(400, "Error: bad request");
-            }
-
-            ChessGame.TeamColor color;
-
-            if (body.contains("WHITE")) {
-                color = ChessGame.TeamColor.WHITE;
-            } else if (body.contains("BLACK")) {
-                color = ChessGame.TeamColor.BLACK;
-            } else {
-                throw new ServerErrorException(400, "Error: bad request");
-            }
-
-            JoinGameRequest joinGameRequest = new JoinGameRequest(req.headers("Authorization"), color, gameID);
+            JoinGameRequest joinGameRequest = new JoinGameRequest(req.headers("Authorization"), getTeamColor(req), getGameID(req));
             JoinGameHandler joinGameHandler = new JoinGameHandler(joinGameRequest, service);
             JoinGameResponse joinGameResponse = joinGameHandler.joinGame();
 
@@ -150,5 +127,32 @@ public class Server {
 
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
         return new Gson().toJson(errorMessage);
+    }
+
+    private int getGameID(Request req) throws ServerErrorException{
+        int gameID;
+
+        try {
+            gameID = Integer.parseInt(req.body().replaceAll("[^0-9]", ""));
+        } catch (NumberFormatException e) {
+            throw new ServerErrorException(400, "Error: bad request");
+        }
+
+        return gameID;
+    }
+
+    private ChessGame.TeamColor getTeamColor(Request req) throws ServerErrorException{
+        ChessGame.TeamColor color;
+        String body = req.body();
+
+        if (body.contains("WHITE")) {
+            color = ChessGame.TeamColor.WHITE;
+        } else if (body.contains("BLACK")) {
+            color = ChessGame.TeamColor.BLACK;
+        } else {
+            throw new ServerErrorException(400, "Error: bad request");
+        }
+
+        return color;
     }
 }

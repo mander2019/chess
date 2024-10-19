@@ -13,23 +13,12 @@ public class MemoryUserDAO implements DAO {
     private final Collection<AuthData> auths = new ArrayList<>();
     private final Collection<GameData> games = new ArrayList<>();
 
-    @Override
     public void addUser(UserData user) {
         users.add(user);
     }
 
-    public String getUser(String authToken) throws DataAccessException {
-        try {
-            for (AuthData auth : auths) {
-                if (auth.authToken().equals(authToken)) {
-                    return auth.username();
-                }
-            }
-        } catch (Exception e) {
-            throw new DataAccessException("Error: user not found");
-        }
-
-        return null;
+    public Collection<UserData> getUsers() {
+        return users;
     }
 
     public String getUserPassword(String username) {
@@ -50,9 +39,6 @@ public class MemoryUserDAO implements DAO {
         return false;
     }
 
-
-
-    @Override
     public void addAuthData(AuthData auth) {
         auths.add(auth);
     }
@@ -61,22 +47,6 @@ public class MemoryUserDAO implements DAO {
         return UUID.randomUUID().toString();
     }
 
-    @Override
-    public String getAuthData(String username) throws DataAccessException {
-        try {
-            for (AuthData auth : auths) {
-                if (auth.username().equals(username)) {
-                    return auth.authToken();
-                }
-            }
-        } catch (Exception e) {
-            throw new DataAccessException("Error: user not found");
-        }
-
-        return null;
-    }
-
-    @Override
     public void deleteAuthData(String username) {
         for (AuthData auth : auths) {
             if (auth.username().equals(username)) {
@@ -84,6 +54,10 @@ public class MemoryUserDAO implements DAO {
                 break;
             }
         }
+    }
+
+    public Collection<AuthData> getAuths() {
+        return auths;
     }
 
     public boolean authExists(String authToken) {
@@ -95,12 +69,10 @@ public class MemoryUserDAO implements DAO {
         return false;
     }
 
-    @Override
     public void addGame(GameData game) {
         games.add(game);
     }
 
-    @Override
     public GameData getGame(int gameID) throws DataAccessException {
         for (GameData game : games) {
             if (game.gameID() == gameID) {
@@ -110,24 +82,20 @@ public class MemoryUserDAO implements DAO {
         throw new DataAccessException("Error: game not found");
     }
 
-    @Override
     public Collection<GameData> getGames() {
         return games;
     }
 
-    @Override
     public void addBlackPlayerToGame(GameData game, String username) {
         game = new GameData(game.gameID(), game.whiteUsername(), username, game.gameName(), game.game());
         games.add(game);
     }
 
-    @Override
     public void addWhitePlayerToGame(GameData game, String username) {
         game = new GameData(game.gameID(), username, game.blackUsername(), game.gameName(), game.game());
         games.add(game);
     }
 
-    @Override
     public void removeGame(int gameID) {
         for (GameData game : games) {
             if (game.gameID() == gameID) {
@@ -137,7 +105,6 @@ public class MemoryUserDAO implements DAO {
         }
     }
 
-    @Override
     public void clear() {
         auths.clear();
         games.clear();

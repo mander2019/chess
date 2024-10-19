@@ -7,6 +7,7 @@ import dataaccess.ServerErrorException;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
+import org.eclipse.jetty.server.Authentication;
 import service.request.*;
 import service.response.*;
 
@@ -24,7 +25,6 @@ public class Services {
         String username = registerData.username();
         String password = registerData.password();
         String email = registerData.email();
-        String authToken = createAuthToken(username);
 
         try {
             if (userExists(username)) { // Check if user already exists
@@ -40,6 +40,7 @@ public class Services {
             UserData newUser = new UserData(username, password, email);
             addUser(newUser);
 
+            String authToken = createAuthToken(username);
             AuthData newAuth = new AuthData(authToken, username);
             addAuthData(newAuth);
 
@@ -82,7 +83,6 @@ public class Services {
     public LogoutResponse logout(LogoutRequest logoutData) throws ServerErrorException {
         try {
             String authToken = logoutData.authToken();
-
             String username = getUserFromAuthToken(authToken);
 
             if (username == null) {
@@ -178,7 +178,19 @@ public class Services {
     }
 
     private String getUserFromAuthToken(String authToken) throws DataAccessException {
-        return dao.getUser(authToken);
+        Collection<AuthData> auths = dao.getAuths();
+
+        try {
+            for (AuthData auth : auths) {
+                if (auth.authToken().equals(authToken)) {
+                    return auth.username();
+                }
+            }
+        } catch (Exception e) {
+            throw new DataAccessException("Error: user not found");
+        }
+
+        return null;
     }
 
     private String getUserPassword(String username) throws DataAccessException {
@@ -193,12 +205,12 @@ public class Services {
         dao.addAuthData(auth);
     }
 
-    private String createAuthToken(String username) {
-        return dao.createAuthToken(username);
-    }
+    private String createAuthToken(String username) throws ServerErrorException {
+        if (!userExists(username)) {
+            throw new ServerErrorException(401, "Error: user not found");
+        }
 
-    private String getAuthData(String username) throws DataAccessException {
-        return dao.getAuthData(username);
+        return dao.createAuthToken(username);
     }
 
     private void deleteAuthData(String username) {

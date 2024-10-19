@@ -6,17 +6,10 @@ import model.AuthData;
 import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.*;
-import passoff.model.*;
-import server.Server;
 import service.request.*;
 import service.response.*;
-import spark.utils.Assert;
 
-import java.net.HttpURLConnection;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Locale;
 
 public class MyTests {
     private static Services services;
@@ -28,9 +21,9 @@ public class MyTests {
         services = new Services(dao);
     }
 
-    @BeforeEach
+    @BeforeEach // Clears server after each test
     public void clear() {
-        services.clear();
+        dao.clear();
     }
 
     // 1. Registering a user successfully

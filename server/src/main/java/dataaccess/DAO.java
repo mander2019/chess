@@ -9,13 +9,13 @@ import java.util.Collection;
 
 public interface DAO {
     void addUser(UserData user);
-    String getUser(String authToken) throws DataAccessException;
+    Collection<UserData> getUsers();
     String getUserPassword(String username);
     boolean userExists(String username);
     String createAuthToken(String username);
     void addAuthData(AuthData auth);
-    String getAuthData(String username) throws DataAccessException;
     void deleteAuthData(String username);
+    Collection<AuthData> getAuths();
     boolean authExists(String authToken);
     void addGame(GameData game);
     GameData getGame(int gameID) throws DataAccessException;
@@ -24,4 +24,5 @@ public interface DAO {
     void addWhitePlayerToGame(GameData game, String username);
     void removeGame(int gameID);
     void clear();
+
 }
