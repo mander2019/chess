@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Cleaned up code and added helper functions" />
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Added database files">
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.iml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,8 +19,8 @@
       <list>
         <option value="Interface" />
         <option value="Exception" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -73,7 +77,7 @@
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/matthewanderson/CS 240/chess",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager"
@@ -266,7 +270,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729360819187</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Added database files">
+      <option name="closed" value="true" />
+      <created>1730245101873</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1730245101873</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -292,7 +304,8 @@
     <MESSAGE value="Created first two test cases" />
     <MESSAGE value="Completed test cases" />
     <MESSAGE value="Cleaned up code and added helper functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up code and added helper functions" />
+    <MESSAGE value="Added database files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added database files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
