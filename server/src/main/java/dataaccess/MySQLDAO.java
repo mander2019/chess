@@ -12,9 +12,6 @@ import java.util.Collection;
 import java.util.UUID;
 
 public class MySQLDAO implements DAO {
-    private final Collection<UserData> users = new ArrayList<>();
-    private final Collection<AuthData> auths = new ArrayList<>();
-    private final Collection<GameData> games = new ArrayList<>();
 
     public MySQLDAO() throws DataAccessException {
         configureDatabase();
@@ -38,15 +35,26 @@ public class MySQLDAO implements DAO {
     public void addUser(UserData user) throws DataAccessException {
         Connection conn = DatabaseManager.getConnection();
 
-//        var statement = "CREATE DATABASE IF NOT EXISTS " + DATABASE_NAME;
-//        try (var preparedStatement = conn.prepareStatement(statement)) {
-//            preparedStatement.executeUpdate();
-//        }
+        var statement = "INSERT INTO users VALUES (" + user.username() + ", " + user.password() + ", " + user.email() + ");";
+
+        try (var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.executeUpdate();
 
 
+            System.out.println("User added");
+
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
     }
 
     public Collection<UserData> getUsers() {
+        Collection<UserData> users = new ArrayList<>();
+
+
+        
+
+
         return null;
     }
 
@@ -56,11 +64,33 @@ public class MySQLDAO implements DAO {
     }
 
     public boolean userExists(String username) {
+        Collection<UserData> users = getUsers();
+
+        if (users != null) {
+            for (UserData user : users) {
+                if (user.username().equals(username)) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
-    public void addAuthData(AuthData auth) {
+    public void addAuthData(AuthData auth) throws DataAccessException {
+        Connection conn = DatabaseManager.getConnection();
 
+        var statement = "INSERT INTO auths VALUES (" + auth.authToken() + ", " + auth.username() + ");";
+
+        try (var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.executeUpdate();
+
+
+            System.out.println("Auth added");
+
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
     }
 
     public String createAuthToken(String username) {

@@ -200,7 +200,7 @@ public class Services {
         return dao.userExists(username);
     }
 
-    private void addAuthData(AuthData auth) {
+    private void addAuthData(AuthData auth) throws DataAccessException {
         dao.addAuthData(auth);
     }
 

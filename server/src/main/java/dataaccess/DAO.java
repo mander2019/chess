@@ -13,7 +13,7 @@ public interface DAO {
     String getUserPassword(String username);
     boolean userExists(String username);
     String createAuthToken(String username);
-    void addAuthData(AuthData auth);
+    void addAuthData(AuthData auth) throws DataAccessException;
     void deleteAuthData(String username);
     Collection<AuthData> getAuths();
     boolean authExists(String authToken);
