@@ -8,7 +8,7 @@ import model.UserData;
 import java.util.Collection;
 
 public interface DAO {
-    void addUser(UserData user);
+    void addUser(UserData user) throws DataAccessException;
     Collection<UserData> getUsers();
     String getUserPassword(String username);
     boolean userExists(String username);

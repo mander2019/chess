@@ -1,6 +1,7 @@
 package service;
 
 import chess.ChessGame;
+import dataaccess.DataAccessException;
 import dataaccess.MemoryUserDAO;
 import model.AuthData;
 import model.GameData;
@@ -16,10 +17,11 @@ public class MyTests {
     private static MemoryUserDAO dao;
 
     @BeforeAll
-    public static void setup() {
+    public static void setup() throws DataAccessException {
         dao = new MemoryUserDAO();
         services = new Services(dao);
     }
+
 
     @BeforeEach // Clears server after each test
     public void clear() {

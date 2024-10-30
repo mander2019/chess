@@ -11,13 +11,14 @@ import org.eclipse.jetty.server.Authentication;
 import service.request.*;
 import service.response.*;
 
+import javax.xml.crypto.Data;
 import java.util.Collection;
 
 
 public class Services {
     private final DAO dao;
 
-    public Services(DAO dao) {
+    public Services(DAO dao) throws DataAccessException {
         this.dao = dao;
     }
 
@@ -92,8 +93,6 @@ public class Services {
             deleteAuthData(username);
 
             return new LogoutResponse();
-        } catch (ServerErrorException e) {
-            throw e;
         } catch (DataAccessException e) {
             throw new ServerErrorException(500, "Internal server error");
         }
@@ -173,7 +172,7 @@ public class Services {
         return new ClearResponse();
     }
 
-    private void addUser(UserData user) {
+    private void addUser(UserData user) throws DataAccessException {
         dao.addUser(user);
     }
 

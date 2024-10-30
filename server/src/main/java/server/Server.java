@@ -2,9 +2,7 @@ package server;
 
 import chess.ChessGame;
 import com.google.gson.Gson;
-import dataaccess.ErrorMessage;
-import dataaccess.MemoryUserDAO;
-import dataaccess.ServerErrorException;
+import dataaccess.*;
 import service.*;
 import service.handler.*;
 import service.request.*;
@@ -12,7 +10,16 @@ import service.response.*;
 import spark.*;
 
 public class Server {
-    private final Services service = new Services(new MemoryUserDAO());
+    private final Services service;
+
+    { // Choose DAO here
+        try {
+            service = new Services(new MySQLDAO());
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public int run(int port) {
         Spark.port(port);

@@ -4,6 +4,8 @@ import model.AuthData;
 import model.GameData;
 import model.UserData;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +35,14 @@ public class MySQLDAO implements DAO {
 //        }
     }
 
-    public void addUser(UserData user) {
+    public void addUser(UserData user) throws DataAccessException {
+        Connection conn = DatabaseManager.getConnection();
+
+//        var statement = "CREATE DATABASE IF NOT EXISTS " + DATABASE_NAME;
+//        try (var preparedStatement = conn.prepareStatement(statement)) {
+//            preparedStatement.executeUpdate();
+//        }
+
 
     }
 
