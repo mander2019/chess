@@ -173,9 +173,12 @@ public class MySQLDAO implements DAO {
         String whiteUsername = game.whiteUsername();
         String blackUsername = game.blackUsername();
         String gameName = game.gameName();
+        gameName = new Gson().toJson(gameName);
         var json = new Gson().toJson(game.game());
 
-
+        if (whiteUsername == null || blackUsername == null || gameName == null || json == null) {
+            throw new DataAccessException("Error: game data is null");
+        }
 
         var statement = "INSERT INTO games (gameID, whiteUsername, blackUsername, gameName, json) ";
         statement += "VALUES ('" + gameID + "', '" + whiteUsername + "', '";
@@ -212,6 +215,7 @@ public class MySQLDAO implements DAO {
                         String whiteUsername = rs.getString("whiteUsername");
                         String blackUsername = rs.getString("blackUsername");
                         String gameName = rs.getString("gameName");
+                        gameName = new Gson().fromJson(gameName, String.class);
                         var json = rs.getString("json");
                         ChessGame gameState = new Gson().fromJson(json, ChessGame.class);
 
