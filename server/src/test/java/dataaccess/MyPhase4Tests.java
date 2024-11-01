@@ -38,7 +38,6 @@ public class MyPhase4Tests {
             dao.clear();
 
             existingAuth = getAuthToken(existingUser.username());
-
         }
 
         // 1. Adding a user successfully
@@ -184,6 +183,105 @@ public class MyPhase4Tests {
                 e.printStackTrace();
             }
         }
+
+        // 8. Get a game successfully
+
+        @Test
+        @DisplayName("Getting a game successfully")
+        public void testGetGame() {
+            try {
+                dao.addGame(game1);
+
+                GameData game = dao.getGame(game1.gameID());
+
+                Assertions.assertEquals(game1, game, "Game should be found in database");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 9. Get a game that does not exist
+
+        @Test
+        @DisplayName("Getting a game that does not exist")
+        public void testGetNonexistentGame() {
+            try {
+                dao.addGame(game1);
+
+                dao.getGame(2);
+
+            } catch (Exception e) {
+                Assertions.assertEquals("Error: game not found", e.getMessage(), "Error message should be 'Error: game not found'");
+            }
+        }
+
+        // 10. Get users successfully
+
+        @Test
+        @DisplayName("Getting users successfully")
+        public void testGetUsers() {
+            try {
+                dao.addUser(newUser);
+                dao.addUser(new UserData("brigham young", "education", "byoung@gmail.com"));
+
+                Collection<UserData> users = dao.getUsers();
+
+                Assertions.assertEquals(2, users.size(), "There are two users in the list");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 11. Get games successfully
+
+        @Test
+        @DisplayName("Getting games successfully")
+        public void testGetGames() {
+            try {
+                dao.addGame(game1);
+                dao.addGame(new GameData(2, null, null, "game2", new ChessGame()));
+
+                Collection<GameData> games = dao.getGames();
+
+                Assertions.assertEquals(2, games.size(), "There are two games in the list");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 12. Get auth data successfully
+
+        @Test
+        @DisplayName("Getting auth data successfully")
+        public void testGetAuths() {
+            try {
+                dao.addAuthData(new AuthData("auth token", "c shane reese"));
+                dao.addAuthData(new AuthData("auth token2", "brigham young"));
+
+                Collection<AuthData> auths = dao.getAuths();
+
+                Assertions.assertEquals(2, auths.size(), "There are two auths in the list");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 13. Find if auth data exists successfully
+
+        @Test
+        @DisplayName("Finding if auth data exists successfully")
+        public void testAuthExists() {
+            try {
+                dao.addAuthData(new AuthData("auth token", "c shane reese"));
+                dao.addAuthData(new AuthData("auth token2", "brigham young"));
+
+                Assertions.assertTrue(dao.authExists("auth token"), "Auth token should exist");
+                Assertions.assertFalse(dao.authExists("auth token3"), "Auth token should not exist");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
 
 
         @Test

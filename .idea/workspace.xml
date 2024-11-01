@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Cleaned up test cases">
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Fixed code quality issues">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +88,7 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.All in server">
+  <component name="RunManager" selected="JUnit.MyPhase4Tests">
     <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="PACKAGE_NAME" value="" />
@@ -162,8 +162,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.MyPhase4Tests" />
+        <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.MyPhase4Tests.testAddNullAuthData" />
         <item itemvalue="JUnit.MyPhase4Tests.testAddUserWithTakenUsername" />
         <item itemvalue="JUnit.StandardAPITests.gamesList" />
@@ -379,7 +379,31 @@
       <option name="project" value="LOCAL" />
       <updated>1730438623867</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Fixed import issue">
+      <option name="closed" value="true" />
+      <created>1730439002862</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1730439002862</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Adding files to repo">
+      <option name="closed" value="true" />
+      <created>1730439094427</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1730439094427</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Fixed code quality issues">
+      <option name="closed" value="true" />
+      <created>1730439463029</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1730439463029</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -394,8 +418,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Figured out config for phase 3" />
-    <MESSAGE value="Added several classes to manage data and functionality to receive HTTP inputs" />
     <MESSAGE value="Added more classes" />
     <MESSAGE value="Completed register and clear functionality" />
     <MESSAGE value="Completed login and logout functionality" />
@@ -418,7 +440,10 @@
     <MESSAGE value="Completed adduser tests" />
     <MESSAGE value="Added auth data and game data tests" />
     <MESSAGE value="Cleaned up test cases" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up test cases" />
+    <MESSAGE value="Fixed import issue" />
+    <MESSAGE value="Adding files to repo" />
+    <MESSAGE value="Fixed code quality issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed code quality issues" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
