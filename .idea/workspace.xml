@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Added auth data and game data tests">
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" afterDir="false" />
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Cleaned up test cases">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +88,7 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.MyPhase4Tests">
+  <component name="RunManager" selected="JUnit.All in server">
     <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="PACKAGE_NAME" value="" />
@@ -161,10 +162,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.MyPhase4Tests" />
         <item itemvalue="JUnit.MyPhase4Tests.testAddNullAuthData" />
         <item itemvalue="JUnit.MyPhase4Tests.testAddUserWithTakenUsername" />
-        <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.StandardAPITests.gamesList" />
       </list>
     </recent_temporary>
@@ -370,7 +371,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730438403410</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Cleaned up test cases">
+      <option name="closed" value="true" />
+      <created>1730438623867</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1730438623867</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -408,7 +417,8 @@
     <MESSAGE value="Began test cases for new DAO" />
     <MESSAGE value="Completed adduser tests" />
     <MESSAGE value="Added auth data and game data tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added auth data and game data tests" />
+    <MESSAGE value="Cleaned up test cases" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up test cases" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

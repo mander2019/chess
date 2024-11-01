@@ -7,6 +7,7 @@ import model.GameData;
 import model.UserData;
 import org.eclipse.jetty.server.Authentication;
 
+import dataaccess.DatabaseManager;
 
 import java.sql.Connection;
 import java.sql.SQLException;
