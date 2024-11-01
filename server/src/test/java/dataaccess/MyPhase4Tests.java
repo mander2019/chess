@@ -355,6 +355,52 @@ public class MyPhase4Tests {
             }
         }
 
+        // 18. Get user password successfully
+
+        @Test
+        @DisplayName("Getting user password successfully")
+        public void testGetUserPassword() {
+            try {
+                dao.addUser(existingUser);
+
+                String password = dao.getUserPassword(existingUser.username());
+
+                Assertions.assertEquals(existingUser.password(), password, "Password should be found in database");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 19. Fail to get a user password that does not exist
+
+        @Test
+        @DisplayName("Failing to get a user password that does not exist")
+        public void testGetNonexistentUserPassword() {
+            try {
+                dao.addUser(existingUser);
+
+                dao.getUserPassword("brigham young");
+
+            } catch (Exception e) {
+                Assertions.assertEquals("Error: user not found", e.getMessage(), "Error message should be 'Error: user not found'");
+            }
+        }
+
+        // 20. Fail to remove a game that does not exist
+
+        @Test
+        @DisplayName("Failing to remove a game that does not exist")
+        public void testRemoveNonexistentGame() {
+            try {
+                dao.addGame(game1);
+
+                dao.removeGame(2);
+
+            } catch (Exception e) {
+                Assertions.assertEquals("Error: game not found", e.getMessage(), "Error message should be 'Error: game not found'");
+            }
+        }
+
         @Test
         @DisplayName("Clear all data successfully")
         public void testClear() {
