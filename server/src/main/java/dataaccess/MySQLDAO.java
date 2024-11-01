@@ -176,10 +176,6 @@ public class MySQLDAO implements DAO {
         gameName = new Gson().toJson(gameName);
         var json = new Gson().toJson(game.game());
 
-        if (whiteUsername == null || blackUsername == null || gameName == null || json == null) {
-            throw new DataAccessException("Error: game data is null");
-        }
-
         var statement = "INSERT INTO games (gameID, whiteUsername, blackUsername, gameName, json) ";
         statement += "VALUES ('" + gameID + "', '" + whiteUsername + "', '";
         statement += blackUsername + "', '" + gameName + "', '" + json + "');";

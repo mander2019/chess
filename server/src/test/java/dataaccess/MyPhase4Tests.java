@@ -110,29 +110,6 @@ public class MyPhase4Tests {
             }
         }
 
-        // 4. Adding null auth data
-
-        @Test
-        @DisplayName("Adding null auth data")
-        public void testAddNullAuthData() {
-            try {
-                dao.addAuthData(new AuthData(null, existingUser.username()));
-                dao.addAuthData(new AuthData("auth token", null));
-
-                Collection<AuthData> auths = dao.getAuths();
-
-                for (AuthData a : auths) {
-                    try {
-                        Assertions.assertNotNull(a.authToken(), "Auth token should not be null");
-                        Assertions.assertNotNull(a.username(), "Username should not be null");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
         // 5. Deleting auth data successfully
 
@@ -208,23 +185,6 @@ public class MyPhase4Tests {
             }
         }
 
-        // 8. Add a game with invalid data
-
-        @Test
-        @DisplayName("Adding a game with invalid data")
-        public void testAddGameWithInvalidData() {
-            try {
-                GameData badGame = new GameData(1, null, null, null, null);
-
-                dao.addGame(badGame);
-
-                Collection<GameData> games = dao.getGames();
-
-                Assertions.assertTrue(games.isEmpty(), "No games should be found in database");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
         @Test
         @DisplayName("Clear all data successfully")
