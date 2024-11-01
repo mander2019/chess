@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Completed list games function">
-      <change afterPath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" afterDir="false" />
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Began test cases for new DAO">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/MyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/MyPhase3Tests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +87,7 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.MyPhase4Tests">
+  <component name="RunManager" selected="JUnit.MyPhase4Tests.testAddUserWithTakenUsername">
     <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="PACKAGE_NAME" value="" />
@@ -128,6 +127,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MyPhase4Tests.testAddUserWithTakenUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dataaccess.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dataaccess" />
+      <option name="MAIN_CLASS_NAME" value="dataaccess.MyPhase4Tests" />
+      <option name="METHOD_NAME" value="testAddUserWithTakenUsername" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="StandardAPITests.gamesList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -144,29 +159,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StandardAPITests.uniqueAuthorizationTokens" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="passoff.server.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="passoff.server" />
-      <option name="MAIN_CLASS_NAME" value="passoff.server.StandardAPITests" />
-      <option name="METHOD_NAME" value="uniqueAuthorizationTokens" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MyPhase4Tests.testAddUserWithTakenUsername" />
         <item itemvalue="JUnit.MyPhase4Tests" />
         <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.StandardAPITests.gamesList" />
         <item itemvalue="JUnit.DatabaseTests.persistenceTest" />
-        <item itemvalue="JUnit.StandardAPITests.uniqueAuthorizationTokens" />
       </list>
     </recent_temporary>
   </component>
@@ -347,7 +346,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730434527690</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Began test cases for new DAO">
+      <option name="closed" value="true" />
+      <created>1730435770101</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1730435770101</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -382,7 +389,8 @@
     <MESSAGE value="Added functionality for creating and joining games" />
     <MESSAGE value="Cleaned up several functions" />
     <MESSAGE value="Completed list games function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed list games function" />
+    <MESSAGE value="Began test cases for new DAO" />
+    <option name="LAST_COMMIT_MESSAGE" value="Began test cases for new DAO" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

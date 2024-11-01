@@ -1,32 +1,45 @@
 package dataaccess;
 
-import chess.ChessGame;
 import model.AuthData;
-import model.GameData;
 import model.UserData;
-import org.eclipse.jetty.server.Authentication;
 import org.junit.jupiter.api.*;
 import service.Services;
-import service.request.*;
-import service.response.*;
 
 import java.util.Collection;
+import java.util.Objects;
 
 
 public class MyPhase4Tests {
         private static Services services;
         private static DAO dao;
 
-        @BeforeAll
+        private static UserData existingUser;
+        private static String existingAuth;
+        private static UserData newUser;
+
+
+    @BeforeAll
         public static void setup() throws DataAccessException {
             dao = new MemoryUserDAO();
             services = new Services(dao);
+
+            existingUser = new UserData("c shane reese", "statistics", "sreese@byu.edu");
+            newUser = new UserData("joseph smith", "bom", "jsmith@churchofjesuschrist.org");
         }
 
 
         @BeforeEach // Clears database after each test
         public void clear() throws DataAccessException {
             dao.clear();
+
+            Collection<AuthData> auths = dao.getAuths();
+
+            for (AuthData auth : auths) {
+                if (Objects.equals(auth.username(), existingUser.username())) {
+                    existingAuth = auth.authToken();
+                }
+            }
+
         }
 
         // 1. Adding a user successfully
@@ -35,22 +48,19 @@ public class MyPhase4Tests {
         @DisplayName("Adding a user successfully")
         public void testAddUser() {
             try {
-                RegisterRequest registerRequest = new RegisterRequest("c shane reese", "statistics", "sreese@byu.edu");
-
-                RegisterResponse registerResponse = services.registerUser(registerRequest);
-
-                UserData user = new UserData("c shane reese", "statistics", "sreese@byu.edu");
-
-                dao.addUser(user);
+                dao.addUser(newUser);
 
                 Collection<UserData> users = dao.getUsers();
 
                 boolean userFound = false;
 
+                for (UserData u : users) {
+                    if (u.equals(newUser)) {
+                        userFound = true;
+                    }
+                }
 
-
-                Assertions.assertEquals("c shane reese", registerResponse.username(), "Username should be 'c shane reese'");
-                Assertions.assertNotNull(registerResponse.authToken(), "Auth token should not be null");
+                Assertions.assertTrue(userFound, "User not found in database");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -62,12 +72,12 @@ public class MyPhase4Tests {
         @DisplayName("Adding a user with an unavailable username")
         public void testAddUserWithTakenUsername() {
             try {
-                RegisterRequest registerRequest = new RegisterRequest("c shane reese", "statistics", "sreese@byu.edu");
+                dao.addUser(existingUser);
 
-                RegisterResponse registerResponse = services.registerUser(registerRequest);
+                Collection<UserData> users = dao.getUsers();
 
-                // This should throw an exception
-                RegisterResponse registerResponse2 = services.registerUser(registerRequest);
+                Assertions.assertFalse(users.size() > 1, "Too many users found in database");
+                Assertions.assertFalse(users.isEmpty(), "No users found in database");
 
             } catch (Exception e) {
                 Assertions.assertEquals("Error: already taken", e.getMessage(), "Error message should be 'Error: already taken'");
