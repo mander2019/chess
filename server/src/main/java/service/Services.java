@@ -20,9 +20,11 @@ import java.util.UUID;
 
 public class Services {
     private final DAO dao;
+    protected int gameID;
 
     public Services(DAO dao) throws DataAccessException {
         this.dao = dao;
+        this.gameID = 0;
     }
 
     public RegisterResponse registerUser(RegisterRequest registerData) throws ServerErrorException {
@@ -116,10 +118,12 @@ public class Services {
 
             Collection<GameData> games = getGames();
 
-            System.out.println("Game IDs: ");
-            for (GameData game : games) {
-                System.out.println(game.gameID());
-            }
+//            for (GameData game : games) {
+//                System.out.println("Game ID: " + game.gameID());
+//                System.out.println("Game Name: " + game.gameName());
+//                System.out.println("White Player: " + game.whiteUsername());
+//                System.out.println("Black Player: " + game.blackUsername());
+//            }
 
             return new ListGamesResponse(games);
         } catch (ServerErrorException e) {
@@ -137,8 +141,10 @@ public class Services {
                 throw new ServerErrorException(401, "Error: unauthorized");
             }
 
-            Collection<GameData> games = getGames();
-            int gameID = games.size() + 1;
+//            Collection<GameData> games = getGames();
+//            int gameID = games.size() + 1;
+
+            gameID++;
 
             GameData newGame = new GameData(gameID, null, null, createGameData.gameName(), new ChessGame());
 
