@@ -1,6 +1,7 @@
 package service;
 
 import chess.ChessGame;
+import dataaccess.DAO;
 import dataaccess.DataAccessException;
 import dataaccess.MemoryUserDAO;
 import model.AuthData;
@@ -12,9 +13,9 @@ import service.response.*;
 
 import java.util.Collection;
 
-public class MyTests {
+public class MyPhase3Tests {
     private static Services services;
-    private static MemoryUserDAO dao;
+    private static DAO dao;
 
     @BeforeAll
     public static void setup() throws DataAccessException {
@@ -24,13 +25,14 @@ public class MyTests {
 
 
     @BeforeEach // Clears server after each test
-    public void clear() {
+    public void clear() throws DataAccessException {
         dao.clear();
     }
 
     // 1. Registering a user successfully
 
     @Test
+    @DisplayName("Registering a user successfully")
     public void testRegisterUser() {
         try {
             RegisterRequest registerRequest = new RegisterRequest("c shane reese", "statistics", "sreese@byu.edu");
@@ -47,6 +49,7 @@ public class MyTests {
     // 2. Registering a user with a username that is already taken
 
     @Test
+    @DisplayName("Registering a user with an unavailable username")
     public void testRegisterUserWithTakenUsername() {
         try {
             RegisterRequest registerRequest = new RegisterRequest("c shane reese", "statistics", "sreese@byu.edu");
@@ -67,6 +70,7 @@ public class MyTests {
     // 3. Login successfully
 
     @Test
+    @DisplayName("Login successfully")
     public void testLoginUser() {
         try {
             RegisterRequest registerRequest = new RegisterRequest("c shane reese", "statistics", "sreese@byu.edu");
@@ -86,6 +90,7 @@ public class MyTests {
     // 4. Login with an invalid password
 
     @Test
+    @DisplayName("Login with an invalid password")
     public void testLoginUserWithInvalidPassword() {
         try {
             RegisterRequest registerRequest = new RegisterRequest("c shane reese", "statistics", "sreese@byu.edu");
@@ -107,6 +112,7 @@ public class MyTests {
     // 5. Logout successfully
 
     @Test
+    @DisplayName("Logout successfully")
     public void testLogoutUser() {
         try {
             RegisterRequest registerRequest = new RegisterRequest("c shane reese", "statistics", "sreese@byu.edu");
@@ -127,7 +133,8 @@ public class MyTests {
     // 6. Logout without being logged in
 
     @Test
-    public void testLogoutUserWithInvalidPassword() {
+    @DisplayName("Logout without being logged in")
+    public void testLogoutUserWithInvalidPassword() throws DataAccessException {
         try {
             RegisterRequest registerRequest = new RegisterRequest("c shane reese", "statistics",
                                                                     "sreese@byu.edu");
@@ -154,6 +161,7 @@ public class MyTests {
     // 7. List all games successfully
 
     @Test
+    @DisplayName("List all games successfully")
     public void testListGames() {
         try {
             dao.addGame(new GameData(1, null, null, "game1", new ChessGame()));
@@ -181,6 +189,7 @@ public class MyTests {
     // 8. List all games when there are no games
 
     @Test
+    @DisplayName("List all games when there are no games")
     public void testListGamesWhileEmpty() {
         try {
             dao.addAuthData(new AuthData("auth token", "c shane reese"));
@@ -198,6 +207,7 @@ public class MyTests {
     // 9. Create a game successfully
 
     @Test
+    @DisplayName("Create a game successfully")
     public void testCreateGame() {
         try {
             dao.addAuthData(new AuthData("auth token", "c shane reese"));
@@ -215,7 +225,8 @@ public class MyTests {
     // 10. Create a game with bad auth token
 
     @Test
-    public void testCreateGameWithBadAuth() {
+    @DisplayName("Create a game with bad auth token")
+    public void testCreateGameWithBadAuth() throws DataAccessException {
         try {
             dao.addAuthData(new AuthData("auth token", "c shane reese"));
 
@@ -232,6 +243,7 @@ public class MyTests {
     // 11. Join a game successfully
 
     @Test
+    @DisplayName("Join a game successfully")
     public void testJoinGame() {
         try {
             dao.addAuthData(new AuthData("auth token", "c shane reese"));
@@ -253,7 +265,8 @@ public class MyTests {
     // 12. Join a game that does not exist
 
     @Test
-    public void testJoinGameThatDoesNotExist() {
+    @DisplayName("Join a game that does not exist")
+    public void testJoinGameThatDoesNotExist() throws DataAccessException {
         try {
             dao.addAuthData(new AuthData("auth token", "c shane reese"));
 
@@ -272,6 +285,7 @@ public class MyTests {
     // 13. Clear all data successfully
 
     @Test
+    @DisplayName("Clear all data successfully")
     public void testClear() {
         try {
             dao.addAuthData(new AuthData("auth token", "c shane reese"));
