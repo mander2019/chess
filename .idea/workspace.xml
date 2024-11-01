@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Added more test cases">
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Added even more test cases">
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -410,7 +411,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730439919324</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Added even more test cases">
+      <option name="closed" value="true" />
+      <created>1730444060824</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1730444060824</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -425,7 +434,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Completed register and clear functionality" />
     <MESSAGE value="Completed login and logout functionality" />
     <MESSAGE value="Completed create game functionality" />
     <MESSAGE value="Completed join and list game functionality. Passed off all test cases" />
@@ -450,7 +458,8 @@
     <MESSAGE value="Adding files to repo" />
     <MESSAGE value="Fixed code quality issues" />
     <MESSAGE value="Added more test cases" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added more test cases" />
+    <MESSAGE value="Added even more test cases" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added even more test cases" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

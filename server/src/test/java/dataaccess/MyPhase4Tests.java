@@ -305,9 +305,11 @@ public class MyPhase4Tests {
                 dao.addGame(game1);
                 dao.addUser(newUser);
 
+                dao.removeGame(game1.gameID());
                 dao.addBlackPlayerToGame(game1, newUser.username());
 
                 GameData game = dao.getGame(game1.gameID());
+
 
                 Assertions.assertEquals(newUser.username(), game.blackUsername(), "Black player should be added to game");
             } catch (Exception e) {
@@ -324,6 +326,7 @@ public class MyPhase4Tests {
                 dao.addGame(game1);
                 dao.addUser(newUser);
 
+                dao.removeGame(game1.gameID());
                 dao.addWhitePlayerToGame(game1, newUser.username());
 
                 GameData game = dao.getGame(game1.gameID());
@@ -334,7 +337,23 @@ public class MyPhase4Tests {
             }
         }
 
+        // 17. Remove game successfully
 
+        @Test
+        @DisplayName("Removing game successfully")
+        public void testRemoveGame() {
+            try {
+                dao.addGame(game1);
+
+                dao.removeGame(game1.gameID());
+
+                Collection<GameData> games = dao.getGames();
+
+                Assertions.assertEquals(0, games.size(), "There are no games in the list");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         @Test
         @DisplayName("Clear all data successfully")
