@@ -282,6 +282,58 @@ public class MyPhase4Tests {
             }
         }
 
+        // 14. Find if user exists successfully
+
+        @Test
+        @DisplayName("Finding if user exists successfully")
+        public void testUserExists() {
+            try {
+                dao.addUser(newUser);
+
+                Assertions.assertTrue(dao.userExists(newUser.username()), "User should exist");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 15. Add black player to game successfully
+
+        @Test
+        @DisplayName("Adding black player to game successfully")
+        public void testAddBlackPlayer() {
+            try {
+                dao.addGame(game1);
+                dao.addUser(newUser);
+
+                dao.addBlackPlayerToGame(game1, newUser.username());
+
+                GameData game = dao.getGame(game1.gameID());
+
+                Assertions.assertEquals(newUser.username(), game.blackUsername(), "Black player should be added to game");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 16. Add white player to game successfully
+
+        @Test
+        @DisplayName("Adding white player to game successfully")
+        public void testAddWhitePlayer() {
+            try {
+                dao.addGame(game1);
+                dao.addUser(newUser);
+
+                dao.addWhitePlayerToGame(game1, newUser.username());
+
+                GameData game = dao.getGame(game1.gameID());
+
+                Assertions.assertEquals(newUser.username(), game.whiteUsername(), "White player should be added to game");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
 
 
         @Test
