@@ -118,13 +118,6 @@ public class Services {
 
             Collection<GameData> games = getGames();
 
-//            for (GameData game : games) {
-//                System.out.println("Game ID: " + game.gameID());
-//                System.out.println("Game Name: " + game.gameName());
-//                System.out.println("White Player: " + game.whiteUsername());
-//                System.out.println("Black Player: " + game.blackUsername());
-//            }
-
             return new ListGamesResponse(games);
         } catch (ServerErrorException e) {
             throw e;

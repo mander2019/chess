@@ -7,8 +7,6 @@ import model.GameData;
 import model.UserData;
 import org.eclipse.jetty.server.Authentication;
 
-import dataaccess.DatabaseManager;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -74,11 +72,10 @@ public class MySQLDAO implements DAO {
         try (var conn = DatabaseManager.getConnection()) {
             var statement = "SELECT username, password FROM users";
             try (var ps = conn.prepareStatement(statement)) {
-                try (var rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        if (rs.getString("username").equals(username)) {
-                            return rs.getString("password");
-                        }
+                var rs = ps.executeQuery();
+                while (rs.next()) {
+                    if (rs.getString("username").equals(username)) {
+                        return rs.getString("password");
                     }
                 }
             }
@@ -205,26 +202,25 @@ public class MySQLDAO implements DAO {
 
         try (var conn = DatabaseManager.getConnection()) {
             var statement = "SELECT gameID, whiteUsername, blackUsername, gameName, json FROM games";
-            try (var ps = conn.prepareStatement(statement)) {
-                try (var rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        int gameID = rs.getInt("gameID");
-                        String whiteUsername = rs.getString("whiteUsername");
-                        String blackUsername = rs.getString("blackUsername");
-                        String gameName = rs.getString("gameName");
-                        gameName = new Gson().fromJson(gameName, String.class);
-                        var json = rs.getString("json");
-                        ChessGame gameState = new Gson().fromJson(json, ChessGame.class);
+            var ps = conn.prepareStatement(statement);
+            try (var rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int gameID = rs.getInt("gameID");
+                    String whiteUsername = rs.getString("whiteUsername");
+                    String blackUsername = rs.getString("blackUsername");
+                    String gameName = rs.getString("gameName");
+                    gameName = new Gson().fromJson(gameName, String.class);
+                    var json = rs.getString("json");
+                    ChessGame gameState = new Gson().fromJson(json, ChessGame.class);
 
-                        if (Objects.equals(whiteUsername, "null")) {
-                            whiteUsername = null;
-                        }
-                        if (Objects.equals(blackUsername, "null")) {
-                            blackUsername = null;
-                        }
-
-                        games.add(new GameData(gameID, whiteUsername, blackUsername, gameName, gameState));
+                    if (Objects.equals(whiteUsername, "null")) {
+                        whiteUsername = null;
                     }
+                    if (Objects.equals(blackUsername, "null")) {
+                        blackUsername = null;
+                    }
+
+                    games.add(new GameData(gameID, whiteUsername, blackUsername, gameName, gameState));
                 }
             }
         } catch (Exception e) {
@@ -271,32 +267,6 @@ public class MySQLDAO implements DAO {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
-        }
-    }
-
-    private int executeUpdate(String statement, Object... params) throws DataAccessException {
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var ps = conn.prepareStatement(statement, RETURN_GENERATED_KEYS)) {
-                for (var i = 0; i < params.length; i++) {
-                    var param = params[i];
-                    if (param instanceof String p) ps.setString(i + 1, p);
-                    else if (param instanceof Integer p) ps.setInt(i + 1, p);
-                    else if (param instanceof UserData p) ps.setString(i + 1, p.toString());
-                    else if (param instanceof AuthData p) ps.setString(i + 1, p.toString());
-                    else if (param instanceof GameData p) ps.setString(i + 1, p.toString());
-                    else if (param == null) ps.setNull(i + 1, NULL);
-                }
-                ps.executeUpdate();
-
-                var rs = ps.getGeneratedKeys();
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-
-                return 0;
-            }
-        } catch (SQLException e) {
-            throw new DataAccessException(String.format("unable to update database: %s, %s", statement, e.getMessage()));
         }
     }
 
