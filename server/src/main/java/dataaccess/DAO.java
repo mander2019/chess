@@ -1,6 +1,5 @@
 package dataaccess;
 
-import chess.ChessGame;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
@@ -9,10 +8,9 @@ import java.util.Collection;
 
 public interface DAO {
     void addUser(UserData user) throws DataAccessException;
-    Collection<UserData> getUsers();
-    String getUserPassword(String username);
-    boolean userExists(String username);
-    String createAuthToken(String username);
+    Collection<UserData> getUsers() throws DataAccessException;
+    String getUserPassword(String username) throws DataAccessException;
+    boolean userExists(String username) throws DataAccessException;
     void addAuthData(AuthData auth) throws DataAccessException;
     void deleteAuthData(String username);
     Collection<AuthData> getAuths();
@@ -23,6 +21,6 @@ public interface DAO {
     void addBlackPlayerToGame(GameData game, String username);
     void addWhitePlayerToGame(GameData game, String username);
     void removeGame(int gameID);
-    void clear();
+    void clear() throws DataAccessException;
 
 }

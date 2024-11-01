@@ -2,7 +2,6 @@ package dataaccess;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.UUID;
 
 import model.AuthData;
 import model.GameData;
@@ -41,10 +40,6 @@ public class MemoryUserDAO implements DAO {
 
     public void addAuthData(AuthData auth) {
         auths.add(auth);
-    }
-
-    public String createAuthToken(String username) {
-        return UUID.randomUUID().toString();
     }
 
     public void deleteAuthData(String username) {

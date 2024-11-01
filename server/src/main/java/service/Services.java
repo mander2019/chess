@@ -8,11 +8,13 @@ import model.AuthData;
 import model.GameData;
 import model.UserData;
 import org.eclipse.jetty.server.Authentication;
+import org.mindrot.jbcrypt.BCrypt;
 import service.request.*;
 import service.response.*;
 
 import javax.xml.crypto.Data;
 import java.util.Collection;
+import java.util.UUID;
 
 
 public class Services {
@@ -27,6 +29,8 @@ public class Services {
         String password = registerData.password();
         String email = registerData.email();
 
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
         try {
             if (userExists(username)) { // Check if user already exists
                 throw new ServerErrorException(403, "Error: already taken");
@@ -38,7 +42,7 @@ public class Services {
                 throw new ServerErrorException(400, "Error: bad request");
             }
 
-            UserData newUser = new UserData(username, password, email);
+            UserData newUser = new UserData(username, hashedPassword, email);
             addUser(newUser);
 
             String authToken = createAuthToken(username);
@@ -62,9 +66,12 @@ public class Services {
                 throw new ServerErrorException(400, "Error: bad request");
             } else if (!userExists(username)) {
                 throw new ServerErrorException(401, "Error: user not found");
-            } else if (!password.equals(getUserPassword(username))) {
+            } else if (!validPassword(username, password)) {
+
+                System.out.println("Invalid password for " + username);
+
                 throw new ServerErrorException(401, "Error: unauthorized");
-            } else if (password.equals(getUserPassword(username))) {
+            } else if (validPassword(username, password)) {
                 String authToken = createAuthToken(username);
                 AuthData newAuth = new AuthData(authToken, username);
                 addAuthData(newAuth);
@@ -167,7 +174,7 @@ public class Services {
         }
     }
 
-    public ClearResponse clear() {
+    public ClearResponse clear() throws DataAccessException {
         clearData();
         return new ClearResponse();
     }
@@ -196,8 +203,26 @@ public class Services {
         return dao.getUserPassword(username);
     }
 
-    private boolean userExists(String username) {
-        return dao.userExists(username);
+    private boolean validPassword(String username, String password) throws DataAccessException {
+//        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        String storedPassword = getUserPassword(username);
+
+        return BCrypt.checkpw(password, storedPassword);
+    }
+
+    private boolean userExists(String username) throws DataAccessException {
+        Collection<UserData> users = dao.getUsers();
+
+        if (users != null) {
+            for (UserData user : users) {
+                if (user.username().equals(username)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private void addAuthData(AuthData auth) throws DataAccessException {
@@ -205,11 +230,18 @@ public class Services {
     }
 
     private String createAuthToken(String username) throws ServerErrorException {
-        if (!userExists(username)) {
+        try {
+            if (!userExists(username)) {
+                throw new ServerErrorException(401, "Error: user not found");
+            }
+        } catch (DataAccessException e) {
+
+            System.out.println("Creating auth token for " + username);
+
             throw new ServerErrorException(401, "Error: user not found");
         }
 
-        return dao.createAuthToken(username);
+        return UUID.randomUUID().toString();
     }
 
     private void deleteAuthData(String username) {
@@ -242,7 +274,7 @@ public class Services {
         }
     }
 
-    public void clearData() {
+    public void clearData() throws DataAccessException {
         dao.clear();
     }
 }
