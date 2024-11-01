@@ -118,7 +118,7 @@ public class MyTests {
             LogoutRequest logoutRequest = new LogoutRequest(loginResponse.authToken());
             LogoutResponse logoutResponse = services.logout(logoutRequest);
 
-            Assertions.assertTrue(dao.authExists(loginResponse.authToken()),"Auth token should be null");
+            Assertions.assertTrue(!dao.authExists(loginResponse.authToken()),"Auth token should be null");
         } catch (Exception e) {
             e.printStackTrace();
         }

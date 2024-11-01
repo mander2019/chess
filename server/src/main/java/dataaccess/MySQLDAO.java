@@ -136,8 +136,6 @@ public class MySQLDAO implements DAO {
     public Collection<AuthData> getAuths() throws DataAccessException {
         Collection<AuthData> auths = new ArrayList<>();
 
-        System.out.println("Getting auths...");
-
         try (var conn = DatabaseManager.getConnection()) {
             var statement = "SELECT authtoken, username FROM auths";
             try (var ps = conn.prepareStatement(statement)) {
@@ -145,9 +143,6 @@ public class MySQLDAO implements DAO {
                     while (rs.next()) {
                         String authToken = rs.getString("authtoken");
                         String username = rs.getString("username");
-
-                        System.out.println("Adding auth token: " + authToken);
-
                         auths.add(new AuthData(authToken, username));
                     }
                 }
@@ -179,6 +174,8 @@ public class MySQLDAO implements DAO {
         String blackUsername = game.blackUsername();
         String gameName = game.gameName();
         var json = new Gson().toJson(game.game());
+
+
 
         var statement = "INSERT INTO games (gameID, whiteUsername, blackUsername, gameName, json) ";
         statement += "VALUES ('" + gameID + "', '" + whiteUsername + "', '";

@@ -116,6 +116,11 @@ public class Services {
 
             Collection<GameData> games = getGames();
 
+            System.out.println("Game IDs: ");
+            for (GameData game : games) {
+                System.out.println(game.gameID());
+            }
+
             return new ListGamesResponse(games);
         } catch (ServerErrorException e) {
             throw e;
