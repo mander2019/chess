@@ -15,6 +15,7 @@ public class Server {
     { // Choose DAO here
         try {
             service = new Services(new MySQLDAO());
+//            service = new Services(new MemoryUserDAO());
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
@@ -96,7 +97,9 @@ public class Server {
 
     public Object createGame(Request req, Response res) {
         try {
-            CreateGameRequest createGameRequest = new CreateGameRequest(req.headers("Authorization"), req.body());
+            String gameName = new Gson().fromJson(req.body(), CreateGameRequest.class).gameName();
+
+            CreateGameRequest createGameRequest = new CreateGameRequest(req.headers("Authorization"), gameName);
             CreateGameHandler createGameHandler = new CreateGameHandler(createGameRequest, service);
             CreateGameResponse createGameResponse = createGameHandler.createGame();
 

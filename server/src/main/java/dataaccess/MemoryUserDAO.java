@@ -42,9 +42,9 @@ public class MemoryUserDAO implements DAO {
         auths.add(auth);
     }
 
-    public void deleteAuthData(String username) {
+    public void deleteAuthData(String authToken) {
         for (AuthData auth : auths) {
-            if (auth.username().equals(username)) {
+            if (auth.authToken().equals(authToken)) {
                 auths.remove(auth);
                 break;
             }

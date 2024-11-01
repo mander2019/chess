@@ -1,6 +1,7 @@
 package service;
 
 import chess.ChessGame;
+import com.google.gson.Gson;
 import dataaccess.DAO;
 import dataaccess.DataAccessException;
 import dataaccess.ServerErrorException;
@@ -97,7 +98,7 @@ public class Services {
                 throw new ServerErrorException(401, "Error: user does not exist");
             }
 
-            deleteAuthData(username);
+            deleteAuthData(authToken);
 
             return new LogoutResponse();
         } catch (DataAccessException e) {
@@ -204,11 +205,7 @@ public class Services {
     }
 
     private boolean validPassword(String username, String password) throws DataAccessException {
-//        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-
-        String storedPassword = getUserPassword(username);
-
-        return BCrypt.checkpw(password, storedPassword);
+        return BCrypt.checkpw(password, getUserPassword(username));
     }
 
     private boolean userExists(String username) throws DataAccessException {
@@ -252,7 +249,7 @@ public class Services {
         return !dao.authExists(authToken);
     }
 
-    private void addGame(GameData game) {
+    private void addGame(GameData game) throws DataAccessException {
         dao.addGame(game);
     }
 
@@ -260,11 +257,11 @@ public class Services {
         return dao.getGame(gameID);
     }
 
-    private Collection<GameData> getGames() {
+    private Collection<GameData> getGames() throws DataAccessException {
         return dao.getGames();
     }
 
-    private void addPlayerToGame(GameData game, String username, ChessGame.TeamColor color) {
+    private void addPlayerToGame(GameData game, String username, ChessGame.TeamColor color) throws DataAccessException {
         dao.removeGame(game.gameID());
 
         if (color == ChessGame.TeamColor.WHITE) {

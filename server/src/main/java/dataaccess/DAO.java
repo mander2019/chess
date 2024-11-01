@@ -15,12 +15,12 @@ public interface DAO {
     void deleteAuthData(String username) throws DataAccessException;
     Collection<AuthData> getAuths() throws DataAccessException;
     boolean authExists(String authToken) throws DataAccessException;
-    void addGame(GameData game);
+    void addGame(GameData game) throws DataAccessException;
     GameData getGame(int gameID) throws DataAccessException;
-    Collection<GameData> getGames();
-    void addBlackPlayerToGame(GameData game, String username);
-    void addWhitePlayerToGame(GameData game, String username);
-    void removeGame(int gameID);
+    Collection<GameData> getGames() throws DataAccessException;
+    void addBlackPlayerToGame(GameData game, String username) throws DataAccessException;
+    void addWhitePlayerToGame(GameData game, String username) throws DataAccessException;
+    void removeGame(int gameID) throws DataAccessException;
     void clear() throws DataAccessException;
 
 }
