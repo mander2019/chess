@@ -130,15 +130,48 @@ public class MySQLDAO implements DAO {
         }
     }
 
-    public void deleteAuthData(String username) {
+    public void deleteAuthData(String username) throws DataAccessException {
+        Connection conn = DatabaseManager.getConnection();
 
+        var statement = "DELETE FROM auths WHERE username='" + username + "';";
+
+        try (var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public Collection<AuthData> getAuths() {
-        return null;
+    public Collection<AuthData> getAuths() throws DataAccessException {
+        Collection<AuthData> auths = new ArrayList<>();
+
+        try (var conn = DatabaseManager.getConnection()) {
+            var statement = "SELECT authtoken, username FROM auths";
+            try (var ps = conn.prepareStatement(statement)) {
+                try (var rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        String authToken = rs.getString("authtoken");
+                        String username = rs.getString("username");
+                        auths.add(new AuthData(authToken, username));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new DataAccessException(String.format("Unable to read data: %s", e.getMessage()));
+        }
+
+        return auths;
     }
 
-    public boolean authExists(String authToken) {
+    public boolean authExists(String authToken) throws DataAccessException {
+        Collection<AuthData> auths = getAuths();
+
+        for (AuthData auth : auths) {
+            if (auth.authToken().equals(authToken)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -175,14 +208,10 @@ public class MySQLDAO implements DAO {
     private void clearHelper(String table) throws DataAccessException {
         Connection conn = DatabaseManager.getConnection();
 
-        try {
-            String statement = "TRUNCATE " + table + ";";
+        String statement = "TRUNCATE " + table + ";";
 
-            System.out.println("Clearing database: " + statement);
-
-            try (var preparedStatement = conn.prepareStatement(statement)) {
-                preparedStatement.executeUpdate();
-            }
+        try (var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }

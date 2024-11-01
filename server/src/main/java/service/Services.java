@@ -146,7 +146,7 @@ public class Services {
         }
     }
 
-    public JoinGameResponse joinGame (JoinGameRequest joinGameData) throws ServerErrorException {
+    public JoinGameResponse joinGame (JoinGameRequest joinGameData) throws ServerErrorException, DataAccessException {
         String authToken = joinGameData.authToken();
         int gameID = joinGameData.gameID();
         ChessGame.TeamColor color = joinGameData.teamColor();
@@ -244,11 +244,11 @@ public class Services {
         return UUID.randomUUID().toString();
     }
 
-    private void deleteAuthData(String username) {
+    private void deleteAuthData(String username) throws DataAccessException {
         dao.deleteAuthData(username);
     }
 
-    private boolean invalidAuthToken(String authToken) {
+    private boolean invalidAuthToken(String authToken) throws DataAccessException {
         return !dao.authExists(authToken);
     }
 

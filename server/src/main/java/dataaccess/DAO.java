@@ -12,9 +12,9 @@ public interface DAO {
     String getUserPassword(String username) throws DataAccessException;
     boolean userExists(String username) throws DataAccessException;
     void addAuthData(AuthData auth) throws DataAccessException;
-    void deleteAuthData(String username);
-    Collection<AuthData> getAuths();
-    boolean authExists(String authToken);
+    void deleteAuthData(String username) throws DataAccessException;
+    Collection<AuthData> getAuths() throws DataAccessException;
+    boolean authExists(String authToken) throws DataAccessException;
     void addGame(GameData game);
     GameData getGame(int gameID) throws DataAccessException;
     Collection<GameData> getGames();
