@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Added final test cases">
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Corrected file organization">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/ServerFacade.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/client/client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +92,22 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.ServerFacadeTests">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/main/java" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="client" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="PACKAGE_NAME" value="" />
@@ -129,22 +147,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyPhase4Tests.testAddUserWithTakenUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="dataaccess.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="dataaccess" />
-      <option name="MAIN_CLASS_NAME" value="dataaccess.MyPhase4Tests" />
-      <option name="METHOD_NAME" value="testAddUserWithTakenUsername" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ServerFacadeTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="client" />
       <extension name="coverage">
@@ -162,11 +164,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.ServerFacadeTests" />
         <item itemvalue="JUnit.MyPhase4Tests" />
         <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.MyPhase4Tests.testAddNullAuthData" />
-        <item itemvalue="JUnit.MyPhase4Tests.testAddUserWithTakenUsername" />
       </list>
     </recent_temporary>
   </component>
@@ -435,7 +437,31 @@
       <option name="project" value="LOCAL" />
       <updated>1730444687752</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Added new files for phase 5">
+      <option name="closed" value="true" />
+      <created>1730926295625</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1730926295625</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Corrected file organization">
+      <option name="closed" value="true" />
+      <created>1730926347948</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1730926347948</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Corrected file organization">
+      <option name="closed" value="true" />
+      <created>1730926378076</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1730926378076</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -450,8 +476,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Completed join and list game functionality. Passed off all test cases" />
-    <MESSAGE value="Cleaned up code and reorganized files" />
     <MESSAGE value="Created first two test cases" />
     <MESSAGE value="Completed test cases" />
     <MESSAGE value="Cleaned up code and added helper functions" />
@@ -475,7 +499,9 @@
     <MESSAGE value="Added even more test cases" />
     <MESSAGE value="Added lots more test cases" />
     <MESSAGE value="Added final test cases" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added final test cases" />
+    <MESSAGE value="Added new files for phase 5" />
+    <MESSAGE value="Corrected file organization" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrected file organization" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

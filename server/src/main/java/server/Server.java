@@ -98,11 +98,8 @@ public class Server {
     public Object createGame(Request req, Response res) {
         try {
             String gameName = new Gson().fromJson(req.body(), CreateGameRequest.class).gameName();
-//            System.out.println("Translated Game Name: " + gameName);
 
             CreateGameRequest createGameRequest = new CreateGameRequest(req.headers("Authorization"), gameName);
-
-//            CreateGameRequest createGameRequest = new CreateGameRequest(req.headers("Authorization"), req.body());
             CreateGameHandler createGameHandler = new CreateGameHandler(createGameRequest, service);
             CreateGameResponse createGameResponse = createGameHandler.createGame();
 
