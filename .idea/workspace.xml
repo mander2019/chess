@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Added lots more test cases">
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/dataaccess/MyPhase4Tests.java" afterDir="false" />
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Added final test cases">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/client/client.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +64,7 @@
     "JUnit.MyTests.testJoinGameThatDoesNotExist.executor": "Debug",
     "JUnit.MyTests.testLoginUserWithInvalidPassword.executor": "Run",
     "JUnit.MyTests.testRegisterUserWithTakenUsername.executor": "Debug",
+    "JUnit.ServerFacadeTests.executor": "Run",
     "JUnit.StandardAPITests.badGameIDJoin.executor": "Run",
     "JUnit.StandardAPITests.executor": "Run",
     "JUnit.StandardAPITests.failRegister.executor": "Run",
@@ -87,7 +89,7 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.MyPhase4Tests">
+  <component name="RunManager" selected="JUnit.ServerFacadeTests">
     <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="PACKAGE_NAME" value="" />
@@ -143,29 +145,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StandardAPITests.gamesList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
+    <configuration name="ServerFacadeTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="passoff.server.*" />
+          <option name="PATTERN" value="client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="passoff.server" />
-      <option name="MAIN_CLASS_NAME" value="passoff.server.StandardAPITests" />
-      <option name="METHOD_NAME" value="gamesList" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="client" />
+      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ServerFacadeTests" />
         <item itemvalue="JUnit.MyPhase4Tests" />
         <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.MyPhase4Tests.testAddNullAuthData" />
         <item itemvalue="JUnit.MyPhase4Tests.testAddUserWithTakenUsername" />
-        <item itemvalue="JUnit.StandardAPITests.gamesList" />
       </list>
     </recent_temporary>
   </component>
@@ -426,7 +427,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730444460307</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Added final test cases">
+      <option name="closed" value="true" />
+      <created>1730444687752</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1730444687752</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -441,7 +450,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Completed create game functionality" />
     <MESSAGE value="Completed join and list game functionality. Passed off all test cases" />
     <MESSAGE value="Cleaned up code and reorganized files" />
     <MESSAGE value="Created first two test cases" />
@@ -466,7 +474,8 @@
     <MESSAGE value="Added more test cases" />
     <MESSAGE value="Added even more test cases" />
     <MESSAGE value="Added lots more test cases" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added lots more test cases" />
+    <MESSAGE value="Added final test cases" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added final test cases" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
