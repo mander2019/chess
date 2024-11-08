@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Added create, list and join functionality">
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Began observe and printing functionality">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +57,7 @@
     "Application.Main (1).executor": "Debug",
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.All in client.executor": "Run",
     "JUnit.All in server.executor": "Run",
     "JUnit.All in shared.executor": "Run",
     "JUnit.DatabaseTests.persistenceTest.executor": "Run",
@@ -116,6 +117,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="All in client" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="PACKAGE_NAME" value="" />
@@ -139,28 +148,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerFacadeTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="client" />
-      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.All in client" />
         <item itemvalue="Application.Main (1)" />
         <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.MyPhase4Tests" />
-        <item itemvalue="JUnit.ServerFacadeTests" />
       </list>
     </recent_temporary>
   </component>
@@ -501,7 +495,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731044858052</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Began observe and printing functionality">
+      <option name="closed" value="true" />
+      <created>1731046873117</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1731046873117</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -516,7 +518,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added functionality for adding users" />
     <MESSAGE value="Added functionality for login and clear" />
     <MESSAGE value="Added functionality for logout" />
     <MESSAGE value="Added functionality for creating and joining games" />
@@ -541,7 +542,8 @@
     <MESSAGE value="Finished logout functionality" />
     <MESSAGE value="Streamlined UI" />
     <MESSAGE value="Added create, list and join functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added create, list and join functionality" />
+    <MESSAGE value="Began observe and printing functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Began observe and printing functionality" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

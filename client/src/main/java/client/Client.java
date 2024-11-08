@@ -271,7 +271,9 @@ public class Client {
                 throw new ResponseException(400, "Game not found\n");
             }
 
-            output = printGame(game);
+            output = printGame(game, ChessGame.TeamColor.WHITE);
+            output += "\n";
+            output += printGame(game, ChessGame.TeamColor.BLACK);
 
             return output;
         } else {
@@ -279,38 +281,97 @@ public class Client {
         }
     }
 
-    private String printGame(ChessGame game) {
-        ChessBoard board = game.getBoard();
-        ChessPiece[][] pieces = board.getSquares();
-
-
-        return board.toString();
-    }
-
-    private String printBoard(ChessGame game) {
-        ChessBoard board = game.getBoard();
-        ChessPiece[][] pieces = board.getSquares();
-        StringBuilder output = new StringBuilder();
+private String printGame(ChessGame game, ChessGame.TeamColor color) {
+    ChessBoard board = game.getBoard();
+    ChessPiece[][] pieces = board.getSquares();
+    String output = "";
+    if (color == ChessGame.TeamColor.WHITE) {
+        output += "   a  b  c  d  e  f  g  h\n";
         for (int i = 0; i < 8; i++) {
+            output += (8 - i) + " ";
             for (int j = 0; j < 8; j++) {
-                output.append(pieces[i][j].toString());
+                if ((i + j) % 2 == 1) {
+                    output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
+                } else {
+                    output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
+                }
+                output += " " + EscapeSequences.RESET_BG_COLOR;
             }
-            output.append("\n");
+            output += " " + (8 - i) + "\n";
         }
-        return output.toString();
-    }
-
-    private String printBoardUpsideDown(ChessGame game) {
-        ChessBoard board = game.getBoard();
-        ChessPiece[][] pieces = board.getSquares();
-        StringBuilder output = new StringBuilder();
+        output += "   a  b  c  d  e  f  g  h\n";
+    } else {
+        output += "   h  g  f  e  d  c  b  a\n";
         for (int i = 7; i >= 0; i--) {
-            for (int j = 0; j < 8; j++) {
-                output.append(pieces[i][j].toString());
+            output += (8 - i) + " ";
+            for (int j = 7; j >= 0; j--) {
+                if ((i + j) % 2 == 0) {
+                    output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
+                } else {
+                    output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
+                }
+                output += " " + EscapeSequences.RESET_BG_COLOR;
             }
-            output.append("\n");
+            output += " " + (8 - i) + "\n";
         }
-        return output.toString();
+        output += "   h  g  f  e  d  c  b  a\n";
+    }
+    return output;
+}
+
+    private String chessPieceToString(ChessPiece piece) {
+
+        if  (piece == null) {
+            return " ";
+        }
+
+        ChessGame.TeamColor color = piece.getTeamColor();
+        ChessPiece.PieceType type = piece.getPieceType();
+        String string = "";
+
+        if (color == ChessGame.TeamColor.WHITE) {
+            string += EscapeSequences.SET_TEXT_COLOR_RED;
+
+            if (type == ChessPiece.PieceType.ROOK) {
+                string += "R";
+            } else if (type == ChessPiece.PieceType.KNIGHT) {
+                string += "N";
+            } else if (type == ChessPiece.PieceType.BISHOP) {
+                string += "B";
+            } else if (type == ChessPiece.PieceType.QUEEN) {
+                string += "Q";
+            } else if (type == ChessPiece.PieceType.KING) {
+                string += "K";
+            } else if (type == ChessPiece.PieceType.PAWN) {
+                string += "P";
+            } else {
+                return "Error: piece type not found";
+            }
+        } else if (color == ChessGame.TeamColor.BLACK) {
+            string += EscapeSequences.SET_TEXT_COLOR_BLUE;
+
+            if (type == ChessPiece.PieceType.ROOK) {
+                string += "r";
+            } else if (type == ChessPiece.PieceType.KNIGHT) {
+                string += "n";
+            } else if (type == ChessPiece.PieceType.BISHOP) {
+                string += "b";
+            } else if (type == ChessPiece.PieceType.QUEEN) {
+                string += "q";
+            } else if (type == ChessPiece.PieceType.KING) {
+                string += "k";
+            } else if (type == ChessPiece.PieceType.PAWN) {
+                string += "p";
+            } else {
+                return "Error: piece type not found";
+            }
+        } else {
+            return "Error: piece color not found";
+        }
+
+        string += EscapeSequences.RESET_TEXT_COLOR;
+
+        return string;
     }
 
     public String help() {
