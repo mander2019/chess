@@ -6,7 +6,7 @@ import model.*;
 import model.response.*;
 import model.request.*;
 import exception.*;
-//import server.Server;
+import server.Server;
 
 import java.io.*;
 import java.net.*;
@@ -19,15 +19,12 @@ public class ServerFacade {
 
     public ServerFacade(String serverUrl) {
         this.serverUrl = serverUrl;
-
 //        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
+
+
 //        server = new Server();
 //        server.run(serverPort);
     }
-
-//    public void stop() {
-//        server.stop();
-//    }
 
     public String register(String username, String password, String email) throws ResponseException {
         var body = new Gson().toJson(new RegisterRequest(username, password, email));

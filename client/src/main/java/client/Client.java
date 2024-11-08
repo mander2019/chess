@@ -73,9 +73,9 @@ public class Client {
             try {
                 addAuth(serverFacade.register(username, password, email));
             } catch (ResponseException e) {
-                if (e.StatusCode() == 403) {
+                if (e.getStatusCode() == 403) {
                     return "Username already taken\n";
-                } else if (e.StatusCode() == 400) {
+                } else if (e.getStatusCode() == 400) {
                     return "Bad input.\nExpected: <" + magentaString("USERNAME") + "> <"
                             + magentaString("PASSWORD") + "> <" + magentaString("EMAIL") + ">\n";
                 } else {
@@ -100,9 +100,9 @@ public class Client {
             try {
                 addAuth(serverFacade.login(username, password));
             } catch (ResponseException e) {
-                if (e.StatusCode() == 401) {
+                if (e.getStatusCode() == 401) {
                     return "Invalid login credentials\n";
-                } else if (e.StatusCode() == 400) {
+                } else if (e.getStatusCode() == 400) {
                     return "Bad input\nExpected: <" + magentaString("USERNAME") + "> <"
                             + magentaString("PASSWORD") + ">\n";
                 } else {
@@ -123,7 +123,7 @@ public class Client {
             auth = getAuthToken();
             serverFacade.logout(auth);
         } catch (ResponseException e) {
-            if (e.StatusCode() == 401) {
+            if (e.getStatusCode() == 401) {
                 return "Logout error\n";
             } else {
                 throw e;
@@ -143,9 +143,9 @@ public class Client {
 
                 games.add(new GameData(gameID, null, null, name, new ChessGame()));
             } catch (ResponseException e) {
-                if (e.StatusCode() == 400) {
+                if (e.getStatusCode() == 400) {
                     return "Bad input\nExpected: <" + magentaString("NAME") + ">\n";
-                } else if (e.StatusCode() == 401) {
+                } else if (e.getStatusCode() == 401) {
                     return "Unauthorized\n";
                 } else {
                         throw e;
@@ -168,7 +168,7 @@ public class Client {
 
             return listHelper();
         } catch (ResponseException e) {
-            if (e.StatusCode() == 401) {
+            if (e.getStatusCode() == 401) {
                 return "Unauthorized\n";
             } else {
                 throw e;
@@ -238,11 +238,11 @@ public class Client {
             try {
                 serverFacade.joinGame(getAuthToken(), teamColor, Integer.toString(gameID));
             } catch (ResponseException e) {
-                if (e.StatusCode() == 400) {
+                if (e.getStatusCode() == 400) {
                     return "Bad input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
-                } else if (e.StatusCode() == 401) {
+                } else if (e.getStatusCode() == 401) {
                     return "Unauthorized\n";
-                } else if (e.StatusCode() == 403) {
+                } else if (e.getStatusCode() == 403) {
                     return "Game already taken\n";
                 } else {
                     return e.getMessage();

@@ -25,8 +25,6 @@ public class ServerFacadeTests {
         server = new Server();
         var port = server.run(0);
 
-//        var port = 8080;
-
         String serverUrl = "http://localhost:" + port;
         System.out.println("Started test HTTP server on " + port);
         serverFacade = new ServerFacade(serverUrl);
@@ -61,7 +59,7 @@ public class ServerFacadeTests {
         try {
             serverFacade.register(existingUser.username(), existingUser.password(), existingUser.email());
         } catch (ResponseException e) {
-            Assertions.assertEquals(403, e.StatusCode());
+            Assertions.assertEquals(403, e.getStatusCode());
         }
     }
 
@@ -78,7 +76,7 @@ public class ServerFacadeTests {
         try {
             serverFacade.login(newUser.username(), newUser.password());
         } catch (ResponseException e) {
-            Assertions.assertEquals(401, e.StatusCode());
+            Assertions.assertEquals(401, e.getStatusCode());
         }
     }
 
@@ -90,7 +88,7 @@ public class ServerFacadeTests {
         try {
             serverFacade.listGames(existingAuth);
         } catch (ResponseException e) {
-            Assertions.assertEquals(401, e.StatusCode());
+            Assertions.assertEquals(401, e.getStatusCode());
         }
     }
 
@@ -101,7 +99,7 @@ public class ServerFacadeTests {
             serverFacade.logout(existingAuth);
             serverFacade.logout(existingAuth);
         } catch (ResponseException e) {
-            Assertions.assertEquals(401, e.StatusCode());
+            Assertions.assertEquals(401, e.getStatusCode());
         }
     }
 
@@ -119,7 +117,7 @@ public class ServerFacadeTests {
             serverFacade.logout(existingAuth);
             serverFacade.createGame(existingAuth, game1.gameName());
         } catch (ResponseException e) {
-            Assertions.assertEquals(401, e.StatusCode());
+            Assertions.assertEquals(401, e.getStatusCode());
         }
     }
 
@@ -141,7 +139,7 @@ public class ServerFacadeTests {
             serverFacade.logout(existingAuth);
             serverFacade.listGames(existingAuth);
         } catch (ResponseException e) {
-            Assertions.assertEquals(401, e.StatusCode());
+            Assertions.assertEquals(401, e.getStatusCode());
         }
     }
 
@@ -166,7 +164,7 @@ public class ServerFacadeTests {
             serverFacade.logout(existingAuth);
             serverFacade.joinGame(existingAuth, ChessGame.TeamColor.BLACK, "1");
         } catch (ResponseException e) {
-            Assertions.assertEquals(401, e.StatusCode());
+            Assertions.assertEquals(401, e.getStatusCode());
         }
     }
 
@@ -177,7 +175,7 @@ public class ServerFacadeTests {
             serverFacade.joinGame(existingAuth, ChessGame.TeamColor.BLACK, "1");
             serverFacade.joinGame(existingAuth, ChessGame.TeamColor.BLACK, "1");
         } catch (ResponseException e) {
-            Assertions.assertEquals(403, e.StatusCode());
+            Assertions.assertEquals(403, e.getStatusCode());
         }
     }
 
@@ -188,7 +186,7 @@ public class ServerFacadeTests {
             serverFacade.clearData();
             serverFacade.listGames(existingAuth);
         } catch (ResponseException e) {
-            Assertions.assertEquals(401, e.StatusCode());
+            Assertions.assertEquals(401, e.getStatusCode());
         }
     }
 
