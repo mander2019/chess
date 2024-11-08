@@ -8,9 +8,9 @@ public class Main {
             serverUrl = args[0];
         }
 
-        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
-        Server server = new Server();
-        server.run(serverPort);
+//        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
+//        Server server = new Server();
+//        server.run(serverPort);
 
         new Repl(serverUrl).run();
     }

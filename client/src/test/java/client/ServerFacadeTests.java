@@ -5,14 +5,14 @@ import exception.ResponseException;
 import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.*;
-import server.Server;
+//import server.Server;
 import server.ServerFacade;
 
 import java.util.Collection;
 
 
 public class ServerFacadeTests {
-    private static Server server;
+//    private static Server server;
     static ServerFacade serverFacade;
 
     private static UserData existingUser;
@@ -22,8 +22,10 @@ public class ServerFacadeTests {
 
     @BeforeAll
     public static void init() {
-        server = new Server();
-        var port = server.run(0);
+//        server = new Server();
+//        var port = server.run(0);
+
+        var port = 8080;
         String serverUrl = "http://localhost:" + port;
         System.out.println("Started test HTTP server on " + port);
         serverFacade = new ServerFacade(serverUrl);
@@ -35,13 +37,13 @@ public class ServerFacadeTests {
 
     @AfterAll
     static void stopServer() {
-        server.stop();
+        serverFacade.stop();
     }
 
     @BeforeEach
     void setup() throws ResponseException {
         serverFacade.clearData();
-        existingAuth = serverFacade.register(existingUser.username(), existingUser.password(), existingUser.email()).authToken();
+        existingAuth = serverFacade.register(existingUser.username(), existingUser.password(), existingUser.email());
         serverFacade.createGame(existingAuth, game1.gameName());
     }
 
@@ -49,8 +51,7 @@ public class ServerFacadeTests {
     @DisplayName("Successfully register new user")
     void registerUser() throws ResponseException {
         var response = serverFacade.register(newUser.username(), newUser.password(), newUser.email());
-        Assertions.assertEquals(newUser.username(), response.username());
-        Assertions.assertNotNull(response.authToken());
+        Assertions.assertNotNull(response);
     }
 
     @Test
@@ -67,8 +68,7 @@ public class ServerFacadeTests {
     @DisplayName("Successfully login")
     void loginUser() throws ResponseException {
         var response = serverFacade.login(existingUser.username(), existingUser.password());
-        Assertions.assertEquals(existingUser.username(), response.username());
-        Assertions.assertNotNull(response.authToken());
+        Assertions.assertNotNull(response);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class ServerFacadeTests {
     @DisplayName("Successfully create game")
     void createGame() throws ResponseException {
         var response = serverFacade.createGame(existingAuth, "game2");
-        Assertions.assertEquals(2, response.gameID());
+        Assertions.assertEquals(2, response);
     }
 
     @Test
@@ -126,11 +126,11 @@ public class ServerFacadeTests {
     @DisplayName("Successfully list games")
     void listGames() throws ResponseException {
         var response = serverFacade.listGames(existingAuth);
-        Assertions.assertEquals(1, response.games().size());
+        Assertions.assertEquals(1, response.size());
 
         serverFacade.createGame(existingAuth, "game2");
         response = serverFacade.listGames(existingAuth);
-        Assertions.assertEquals(2, response.games().size());
+        Assertions.assertEquals(2, response.size());
     }
 
     @Test
@@ -149,8 +149,7 @@ public class ServerFacadeTests {
     void joinGame() throws ResponseException {
         serverFacade.joinGame(existingAuth, ChessGame.TeamColor.BLACK, "1");
 
-        var response = serverFacade.listGames(existingAuth);
-        Collection<GameData> games = response.games();
+        Collection<GameData> games = serverFacade.listGames(existingAuth);
 
         for (GameData game : games) {
             if (game.gameID() == 1) {

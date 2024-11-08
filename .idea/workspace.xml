@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Completed observe and printing functionality">
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Completed test cases for ServerFacade">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/client/client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/server/ServerFacade.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -512,7 +513,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731094136144</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Completed test cases for ServerFacade">
+      <option name="closed" value="true" />
+      <created>1731097720111</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1731097720111</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -527,7 +536,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added functionality for logout" />
     <MESSAGE value="Added functionality for creating and joining games" />
     <MESSAGE value="Cleaned up several functions" />
     <MESSAGE value="Completed list games function" />
@@ -552,7 +560,8 @@
     <MESSAGE value="Added create, list and join functionality" />
     <MESSAGE value="Began observe and printing functionality" />
     <MESSAGE value="Completed observe and printing functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed observe and printing functionality" />
+    <MESSAGE value="Completed test cases for ServerFacade" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed test cases for ServerFacade" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

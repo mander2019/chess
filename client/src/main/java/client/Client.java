@@ -8,9 +8,6 @@ import exception.ResponseException;
 import model.AuthData;
 import model.GameData;
 import server.ServerFacade;
-import service.response.RegisterResponse;
-import service.response.LoginResponse;
-import service.response.CreateGameResponse;
 import ui.EscapeSequences;
 
 import java.util.ArrayList;
@@ -137,8 +134,8 @@ public class Client {
         if (params.length == 1) {
             var name = params[0];
             try {
-                CreateGameResponse game = server.createGame(getAuthToken(), name);
-                int gameID = game.gameID();
+                int gameID = server.createGame(getAuthToken(), name);
+
                 games.add(new GameData(gameID, null, null, name, new ChessGame()));
             } catch (ResponseException e) {
                 if (e.StatusCode() == 400) {
@@ -199,7 +196,7 @@ public class Client {
 
     private void updateGameDirectory() throws ResponseException {
         gameDirectory = new HashMap<>();
-        games = server.listGames(getAuthToken()).games();
+        games = server.listGames(getAuthToken());
         int gameNumber = 1;
         for (GameData game : games) {
             gameDirectory.put(gameNumber, game);
@@ -407,16 +404,8 @@ public class Client {
         return username;
     }
 
-    private void addAuth(Object response) throws ResponseException {
-        if (response instanceof RegisterResponse registerResponse) {
-            AuthData auth = new AuthData(registerResponse.authToken(), registerResponse.username());
-            auths.add(auth);
-        } else if (response instanceof LoginResponse loginResponse) {
-            AuthData auth = new AuthData(loginResponse.authToken(), loginResponse.username());
-            auths.add(auth);
-        } else {
-            throw new ResponseException(500, "Couldn't parse auth data.");
-        }
+    private void addAuth(String authToken) throws ResponseException {
+        auths.add(new AuthData(authToken, username));
     }
 
     private void removeAuth(String auth) {

@@ -2,6 +2,7 @@ package server;
 
 import chess.ChessGame;
 import com.google.gson.Gson;
+import model.GameData;
 import service.request.*;
 import service.response.*;
 import exception.*;
@@ -9,36 +10,55 @@ import dataaccess.ServerErrorException;
 
 import java.io.*;
 import java.net.*;
+import java.util.Collection;
 import java.util.Map;
 
 public class ServerFacade {
     private final String serverUrl;
+    private Server server;
 
     public ServerFacade(String serverUrl) {
         this.serverUrl = serverUrl;
+
+        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
+        server = new Server();
+        server.run(serverPort);
     }
 
-    public RegisterResponse register(String username, String password, String email) throws ResponseException {
+    public void stop() {
+        server.stop();
+    }
+
+    public String register(String username, String password, String email) throws ResponseException {
         var body = new Gson().toJson(new RegisterRequest(username, password, email));
-        return this.makeRequest("POST", "/user", null, body, RegisterResponse.class);
+
+        RegisterResponse response = this.makeRequest("POST", "/user", null, body, RegisterResponse.class);
+
+        return response.authToken();
     }
 
-    public LoginResponse login(String username, String password) throws ResponseException {
+    public String login(String username, String password) throws ResponseException {
         var body = new Gson().toJson(new LoginRequest(username, password));
-        return this.makeRequest("POST", "/session", null, body, LoginResponse.class);
+        LoginResponse response = this.makeRequest("POST", "/session", null, body, LoginResponse.class);
+
+        return response.authToken();
     }
 
     public void logout(String authToken) throws ResponseException {
         this.makeRequest("DELETE", "/session", authToken, null, LogoutResponse.class);
     }
 
-    public CreateGameResponse createGame(String authToken, String name) throws ResponseException {
+    public int createGame(String authToken, String name) throws ResponseException {
         var body = new Gson().toJson(Map.of("gameName", name));
-        return this.makeRequest("POST", "/game", authToken, body, CreateGameResponse.class);
+        CreateGameResponse response = this.makeRequest("POST", "/game", authToken, body, CreateGameResponse.class);
+
+        return response.gameID();
     }
 
-    public ListGamesResponse listGames(String authToken) throws ResponseException {
-        return this.makeRequest("GET", "/game", authToken, null, ListGamesResponse.class);
+    public Collection<GameData> listGames(String authToken) throws ResponseException {
+        ListGamesResponse response = this.makeRequest("GET", "/game", authToken, null, ListGamesResponse.class);
+
+        return response.games();
     }
 
     public void joinGame(String authToken, ChessGame.TeamColor teamColor, String gameID) throws ResponseException {
