@@ -1,7 +1,7 @@
 package service.handler;
 
-import model.request.LogoutRequest;
-import model.response.LogoutResponse;
+import service.request.LogoutRequest;
+import service.response.LogoutResponse;
 import service.Services;
 
 public class LogoutHandler extends Handler {

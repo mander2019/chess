@@ -1,7 +1,7 @@
 package service.handler;
 
-import model.request.JoinGameRequest;
-import model.response.JoinGameResponse;
+import service.request.JoinGameRequest;
+import service.response.JoinGameResponse;
 import service.Services;
 
 public class JoinGameHandler extends Handler {

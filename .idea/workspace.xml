@@ -4,8 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Improved code quality 2">
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Improved code quality 3">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ClientMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/ServerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/Services.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/Services.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/ClearHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/ClearHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/CreateGameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/CreateGameHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/JoinGameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/JoinGameHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/ListGamesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/ListGamesHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/LoginHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/LoginHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/LogoutHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/LogoutHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/RegisterHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/RegisterHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/MyPhase3Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/MyPhase3Tests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shared/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/CreateGameRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/CreateGameRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/JoinGameRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/JoinGameRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/ListGamesRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/ListGamesRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/LogoutRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/LogoutRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/RegisterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/ClearResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/ClearResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/CreateGameResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/CreateGameResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/JoinGameResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/JoinGameResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/ListGamesResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/ListGamesResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/LoginResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/LogoutResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/LogoutResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/RegisterResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/RegisterResponse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,8 +82,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.ClientMain.executor": "Run",
     "Application.Main (1).executor": "Run",
     "Application.Main.executor": "Run",
+    "Application.ServerMain.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
     "JUnit.All in client.executor": "Run",
     "JUnit.All in server.executor": "Run",
@@ -100,17 +132,17 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ServerFacadeTests">
-    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="server" />
+  <component name="RunManager" selected="Application.ClientMain">
+    <configuration name="ClientMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ClientMain" />
+      <module name="client" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="client" />
+    <configuration name="ServerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ServerMain" />
+      <module name="server" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -148,9 +180,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ClientMain" />
+        <item itemvalue="Application.ServerMain" />
         <item itemvalue="JUnit.ServerFacadeTests" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Main (1)" />
         <item itemvalue="JUnit.All in client" />
         <item itemvalue="JUnit.All in server" />
       </list>
@@ -164,14 +196,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728951889235</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Figured out config for phase 3">
-      <option name="closed" value="true" />
-      <created>1728954499007</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1728954499007</updated>
     </task>
     <task id="LOCAL-00003" summary="Added several classes to manage data and functionality to receive HTTP inputs">
       <option name="closed" value="true" />
@@ -557,7 +581,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731106769656</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Improved code quality 3">
+      <option name="closed" value="true" />
+      <created>1731106840322</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1731106840322</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -572,7 +604,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added auth data and game data tests" />
     <MESSAGE value="Cleaned up test cases" />
     <MESSAGE value="Fixed import issue" />
     <MESSAGE value="Adding files to repo" />
@@ -597,7 +628,8 @@
     <MESSAGE value="Dependencies adjusted" />
     <MESSAGE value="Improved code quality" />
     <MESSAGE value="Improved code quality 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improved code quality 2" />
+    <MESSAGE value="Improved code quality 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improved code quality 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

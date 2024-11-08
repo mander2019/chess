@@ -1,4 +1,4 @@
-package model.request;
+package service.request;
 
 public record CreateGameRequest(String authToken, String gameName) {
 }

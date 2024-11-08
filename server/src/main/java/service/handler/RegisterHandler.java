@@ -1,8 +1,8 @@
 package service.handler;
 
 
-import model.request.RegisterRequest;
-import model.response.RegisterResponse;
+import service.request.RegisterRequest;
+import service.response.RegisterResponse;
 import service.Services;
 
 public class RegisterHandler extends Handler {

@@ -7,11 +7,12 @@ import dataaccess.ServerErrorException;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
-import model.request.*;
-import model.response.*;
 import org.mindrot.jbcrypt.BCrypt;
+import service.request.*;
+import service.response.*;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -152,6 +153,7 @@ public class Services {
         String authToken = joinGameData.authToken();
         int gameID = joinGameData.gameID();
         ChessGame.TeamColor color = joinGameData.teamColor();
+        String username = getUserFromAuthToken(authToken);
 
         if (color == null) {
             throw new ServerErrorException(400, "Error: bad request");
@@ -162,6 +164,17 @@ public class Services {
         try {
             GameData game = getGame(gameID);
             JoinGameResponse joinGameResponse = null;
+
+
+            System.out.println("Joining game as " + username + " with color " + color);
+
+            System.out.println("Game white player: " + game.whiteUsername());
+            System.out.println("Game black player: " + game.blackUsername());
+
+            if ((color == ChessGame.TeamColor.WHITE && Objects.equals(game.blackUsername(), username)) ||
+                (color == ChessGame.TeamColor.BLACK && Objects.equals(game.whiteUsername(), username))) {
+                throw new ServerErrorException(403, "Error: already joined game");
+            }
 
             if ((game.whiteUsername() == null && color == ChessGame.TeamColor.WHITE) ||
                 (game.blackUsername() == null && color == ChessGame.TeamColor.BLACK)) {
