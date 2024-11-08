@@ -3,6 +3,7 @@ package chess;
 import java.util.Arrays;
 import java.util.Objects;
 
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -14,7 +15,6 @@ public class ChessBoard implements Cloneable {
     private ChessPiece[][] squares = new ChessPiece[8][8];
 
     public ChessBoard() {
-        
     }
 
     /**
@@ -100,7 +100,7 @@ public class ChessBoard implements Cloneable {
     }
 
     public String toString() {
-        String string = "|";
+        String string = "   a b c d e f g h \n8 |";
         for (int i = 7; i > -1; i--) {
             for (int j = 0; j < 8; j++) {
                 ChessPiece piece = squares[i][j];
@@ -138,15 +138,21 @@ public class ChessBoard implements Cloneable {
                 string = string + "|";
 
                 if (j == 7) {
-                    string = string + "\n";
+                    string = string + " " + (i + 1) + "\n";
                     if (i != 0) {
-                        string = string + "|";
+                        string = string + i + " " + "|";
                     }
                 }
             }
         }
 
+        string = string + "   a b c d e f g h \n";
+
         return string;
+    }
+
+    public ChessPiece[][] getSquares() {
+        return squares;
     }
 
     public boolean kingExists() {

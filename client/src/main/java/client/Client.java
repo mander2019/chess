@@ -1,15 +1,16 @@
 package client;
 
+import chess.ChessBoard;
 import chess.ChessGame;
+import chess.ChessPiece;
 import client.websocket.NotificationHandler;
 import exception.ResponseException;
 import model.AuthData;
 import model.GameData;
 import server.ServerFacade;
-import service.response.CreateGameResponse;
-import service.response.ListGamesResponse;
-import service.response.LoginResponse;
 import service.response.RegisterResponse;
+import service.response.LoginResponse;
+import service.response.CreateGameResponse;
 import ui.EscapeSequences;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class Client {
                 case "create" -> createGame(params);
                 case "list" -> list();
                 case "join" -> joinGame(params);
-//                case "observe" -> observe(params);
+                case "observe" -> observe(params);
                 case "quit" -> "quit";
                 default -> help();
             };
@@ -204,9 +205,6 @@ public class Client {
             gameDirectory.put(gameNumber, game);
             gameNumber++;
         }
-
-        System.out.println("Game Directory:");
-        System.out.println("Number of games: " + gameDirectory.size());
     }
 
     public String joinGame(String... params) throws ResponseException {
@@ -242,6 +240,8 @@ public class Client {
                     return "Bad input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
                 } else if (e.StatusCode() == 401) {
                     return "Unauthorized\n";
+                } else if (e.StatusCode() == 403) {
+                    return "Game already taken\n";
                 } else {
                     return e.getMessage();
                 }
@@ -251,6 +251,66 @@ public class Client {
         } else {
             return "Bad input—incorrect number of arguments\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
         }
+    }
+
+    public String observe(String... params) throws ResponseException {
+        assertSignedIn();
+        updateGameDirectory();
+        String output;
+
+        if (params.length == 1) {
+            int gameID;
+            try {
+                gameID = Integer.parseInt(params[0]);
+            } catch (NumberFormatException e) {
+                throw new ResponseException(400, "Bad input\nExpected: <" + magentaString("ID") + ">\n");
+            }
+
+            ChessGame game = getGame(gameID);
+            if (game == null) {
+                throw new ResponseException(400, "Game not found\n");
+            }
+
+            output = printGame(game);
+
+            return output;
+        } else {
+            throw new ResponseException(400, "Bad input\nExpected: <" + magentaString("ID") + ">\n");
+        }
+    }
+
+    private String printGame(ChessGame game) {
+        ChessBoard board = game.getBoard();
+        ChessPiece[][] pieces = board.getSquares();
+
+
+        return board.toString();
+    }
+
+    private String printBoard(ChessGame game) {
+        ChessBoard board = game.getBoard();
+        ChessPiece[][] pieces = board.getSquares();
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                output.append(pieces[i][j].toString());
+            }
+            output.append("\n");
+        }
+        return output.toString();
+    }
+
+    private String printBoardUpsideDown(ChessGame game) {
+        ChessBoard board = game.getBoard();
+        ChessPiece[][] pieces = board.getSquares();
+        StringBuilder output = new StringBuilder();
+        for (int i = 7; i >= 0; i--) {
+            for (int j = 0; j < 8; j++) {
+                output.append(pieces[i][j].toString());
+            }
+            output.append("\n");
+        }
+        return output.toString();
     }
 
     public String help() {
