@@ -8,8 +8,8 @@ import exception.ResponseException;
 import model.AuthData;
 import model.GameData;
 import ui.EscapeSequences;
-import serverfacade.ServerFacade;
-import server.Server;
+import server.*;
+//import server.Server;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,9 +32,9 @@ public class Client {
         this.serverUrl = serverUrl;
         this.notificationHandler = notificationHandler;
 
-        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
-        Server server = new Server();
-        server.run(serverPort);
+//        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
+//        Server server = new Server();
+//        server.run(serverPort);
     }
 
     public String eval(String input) {

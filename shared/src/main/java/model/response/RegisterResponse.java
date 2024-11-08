@@ -1,4 +1,4 @@
-package records.response;
+package model.response;
 
 public record RegisterResponse(String username, String authToken) {
 }

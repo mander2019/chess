@@ -1,7 +1,7 @@
 package service.handler;
 
-import records.request.CreateGameRequest;
-import records.response.CreateGameResponse;
+import model.request.CreateGameRequest;
+import model.response.CreateGameResponse;
 import service.Services;
 
 public class CreateGameHandler extends Handler {

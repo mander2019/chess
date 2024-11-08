@@ -6,7 +6,7 @@ import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.*;
 import server.Server;
-import serverfacade.ServerFacade;
+import server.ServerFacade;
 
 import java.util.Collection;
 
@@ -24,6 +24,9 @@ public class ServerFacadeTests {
     public static void init() {
         server = new Server();
         var port = server.run(0);
+
+//        var port = 8080;
+
         String serverUrl = "http://localhost:" + port;
         System.out.println("Started test HTTP server on " + port);
         serverFacade = new ServerFacade(serverUrl);

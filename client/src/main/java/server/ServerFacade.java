@@ -1,15 +1,12 @@
-package serverfacade;
+package server;
 
 import chess.ChessGame;
 import com.google.gson.Gson;
-import model.GameData;
-import records.response.*;
-import records.request.*;
-//import service.request.*;
-//import service.response.*;
-//import server.Server;
+import model.*;
+import model.response.*;
+import model.request.*;
 import exception.*;
-//import dataaccess.ServerErrorException;
+//import server.Server;
 
 import java.io.*;
 import java.net.*;
@@ -35,11 +32,7 @@ public class ServerFacade {
     public String register(String username, String password, String email) throws ResponseException {
         var body = new Gson().toJson(new RegisterRequest(username, password, email));
 
-//        var body = new Gson().toJson(Map.of("username", username, "password", password, "email", email));
-
         RegisterResponse response = this.makeRequest("POST", "/user", null, body, RegisterResponse.class);
-
-//        var response = this.makeRequest("POST", "/user", null, body, RegisterResponse.class);
 
         return response.authToken();
     }
@@ -146,9 +139,9 @@ public class ServerFacade {
     private ResponseException errorMessageHelper(Exception e) {
         if (e instanceof ResponseException) {
             return (ResponseException) e;
+        } else {
+            return new ResponseException(500, e.getMessage());
         }
-
-        return new ResponseException(500, e.getMessage());
     }
 
 }

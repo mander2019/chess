@@ -7,9 +7,9 @@ import dataaccess.ServerErrorException;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
+import model.request.*;
+import model.response.*;
 import org.mindrot.jbcrypt.BCrypt;
-import records.request.*;
-import records.response.*;
 
 import java.util.Collection;
 import java.util.UUID;

@@ -7,9 +7,9 @@ import dataaccess.MemoryUserDAO;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
+import model.request.*;
+import model.response.*;
 import org.junit.jupiter.api.*;
-import records.request.*;
-import records.response.*;
 
 import java.util.Collection;
 
