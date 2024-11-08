@@ -281,43 +281,43 @@ public class Client {
         }
     }
 
-private String printGame(ChessGame game, ChessGame.TeamColor color) {
-    ChessBoard board = game.getBoard();
-    ChessPiece[][] pieces = board.getSquares();
-    String output = "";
-    if (color == ChessGame.TeamColor.WHITE) {
-        output += "   a  b  c  d  e  f  g  h\n";
-        for (int i = 0; i < 8; i++) {
-            output += (8 - i) + " ";
-            for (int j = 0; j < 8; j++) {
-                if ((i + j) % 2 == 1) {
-                    output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
-                } else {
-                    output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
+    private String printGame(ChessGame game, ChessGame.TeamColor color) {
+        ChessBoard board = game.getBoard();
+        ChessPiece[][] pieces = board.getSquares();
+        String output = "";
+        if (color == ChessGame.TeamColor.WHITE) {
+            output += "   a  b  c  d  e  f  g  h\n";
+            for (int i = 0; i < 8; i++) {
+                output += (8 - i) + " ";
+                for (int j = 0; j < 8; j++) {
+                    if ((i + j) % 2 == 1) {
+                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
+                    } else {
+                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
+                    }
+                    output += " " + EscapeSequences.RESET_BG_COLOR;
                 }
-                output += " " + EscapeSequences.RESET_BG_COLOR;
+                output += " " + (8 - i) + "\n";
             }
-            output += " " + (8 - i) + "\n";
-        }
-        output += "   a  b  c  d  e  f  g  h\n";
-    } else {
-        output += "   h  g  f  e  d  c  b  a\n";
-        for (int i = 7; i >= 0; i--) {
-            output += (8 - i) + " ";
-            for (int j = 7; j >= 0; j--) {
-                if ((i + j) % 2 == 0) {
-                    output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
-                } else {
-                    output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
+            output += "   a  b  c  d  e  f  g  h\n";
+        } else {
+            output += "   h  g  f  e  d  c  b  a\n";
+            for (int i = 7; i >= 0; i--) {
+                output += (8 - i) + " ";
+                for (int j = 7; j >= 0; j--) {
+                    if ((i + j) % 2 == 0) {
+                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
+                    } else {
+                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
+                    }
+                    output += " " + EscapeSequences.RESET_BG_COLOR;
                 }
-                output += " " + EscapeSequences.RESET_BG_COLOR;
+                output += " " + (8 - i) + "\n";
             }
-            output += " " + (8 - i) + "\n";
+            output += "   h  g  f  e  d  c  b  a\n";
         }
-        output += "   h  g  f  e  d  c  b  a\n";
+        return output;
     }
-    return output;
-}
 
     private String chessPieceToString(ChessPiece piece) {
 

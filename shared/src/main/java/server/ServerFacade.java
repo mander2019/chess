@@ -53,6 +53,10 @@ public class ServerFacade {
         this.makeRequest("PUT", "/game", authToken, body, JoinGameResponse.class);
     }
 
+    public void clearData() throws ResponseException {
+        this.makeRequest("DELETE", "/db", null, null, ClearResponse.class);
+    }
+
     private <T> T makeRequest(String method, String path, String header, String body, Class<T> responseClass) throws ResponseException {
         try {
             URL url = (new URI(serverUrl + path)).toURL();
