@@ -31,10 +31,6 @@ public class Client {
         serverFacade = new ServerFacade(serverUrl);
         this.serverUrl = serverUrl;
         this.notificationHandler = notificationHandler;
-
-//        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
-//        Server server = new Server();
-//        server.run(serverPort);
     }
 
     public String eval(String input) {
