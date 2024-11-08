@@ -1,10 +1,11 @@
-package server;
+package serverfacade;
 
 import chess.ChessGame;
 import com.google.gson.Gson;
 import model.GameData;
 import service.request.*;
 import service.response.*;
+import server.Server;
 import exception.*;
 import dataaccess.ServerErrorException;
 

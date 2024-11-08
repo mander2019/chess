@@ -7,8 +7,8 @@ import client.websocket.NotificationHandler;
 import exception.ResponseException;
 import model.AuthData;
 import model.GameData;
-import server.ServerFacade;
 import ui.EscapeSequences;
+import serverfacade.ServerFacade;
 
 import java.util.ArrayList;
 import java.util.Arrays;
