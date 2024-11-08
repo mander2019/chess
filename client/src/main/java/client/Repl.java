@@ -1,7 +1,6 @@
 package client;
 
 import client.websocket.NotificationHandler;
-import ui.EscapeSequences;
 import java.util.*;
 
 public class Repl implements NotificationHandler {
