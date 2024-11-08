@@ -1,15 +1,22 @@
 package client;
 
+import chess.ChessGame;
 import client.websocket.NotificationHandler;
 import exception.ResponseException;
 import model.AuthData;
+import model.GameData;
 import server.ServerFacade;
+import service.response.CreateGameResponse;
+import service.response.ListGamesResponse;
 import service.response.LoginResponse;
 import service.response.RegisterResponse;
+import ui.EscapeSequences;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Client {
     private String username;
@@ -18,7 +25,9 @@ public class Client {
     private NotificationHandler notificationHandler;
     private LoginState state = LoginState.SIGNEDOUT;
     private Collection<AuthData> auths = new ArrayList<>();
-
+    private Collection<GameData> games = new ArrayList<>();
+    private Map<Integer, GameData> gameDirectory = new HashMap<>();
+    
     public Client(String serverUrl, NotificationHandler notificationHandler) {
         server = new ServerFacade(serverUrl);
         this.serverUrl = serverUrl;
@@ -40,9 +49,9 @@ public class Client {
                 case "register" -> register(params);
                 case "login" -> login(params);
                 case "logout" -> logout();
-//                case "create" -> create(params);
-//                case "list" -> list();
-//                case "join" -> join(params);
+                case "create" -> createGame(params);
+                case "list" -> list();
+                case "join" -> joinGame(params);
 //                case "observe" -> observe(params);
                 case "quit" -> "quit";
                 default -> help();
@@ -62,22 +71,24 @@ public class Client {
                 addAuth(server.register(username, password, email));
             } catch (ResponseException e) {
                 if (e.StatusCode() == 403) {
-                    return "Username already taken.\n";
+                    return "Username already taken\n";
                 } else if (e.StatusCode() == 400) {
-                    return "Bad input.\nExpected: <USERNAME> <PASSWORD> <EMAIL>\n";
+                    return "Bad input.\nExpected: <" + magentaString("USERNAME") + "> <"
+                            + magentaString("PASSWORD") + "> <" + magentaString("EMAIL") + ">\n";
                 } else {
                     throw e;
                 }
             }
             state = LoginState.SIGNEDIN;
-            return "You have been successfully registered and signed in as '" + username + "'.\n";
+            return "You have been successfully registered and signed in as " + greenString(username) + "\n";
         }
-        throw new ResponseException(400, "Bad input.\nExpected: <USERNAME> <PASSWORD> <EMAIL>\n");
+        throw new ResponseException(400, "Bad input.\nExpected: <" + magentaString("USERNAME") + "> <"
+                                         + magentaString("PASSWORD") + "> <" + magentaString("EMAIL") + ">\n");
     }
 
     public String login(String... params) throws ResponseException {
         if (state == LoginState.SIGNEDIN) {
-            throw new ResponseException(400, "You are already signed in.\n");
+            throw new ResponseException(400, "You are already signed in\n");
         }
 
         if (params.length == 2) {
@@ -87,17 +98,19 @@ public class Client {
                 addAuth(server.login(username, password));
             } catch (ResponseException e) {
                 if (e.StatusCode() == 401) {
-                    return "Invalid login credentials.\n";
+                    return "Invalid login credentials\n";
                 } else if (e.StatusCode() == 400) {
-                    return "Bad input.\nExpected: <USERNAME> <PASSWORD>\n";
+                    return "Bad input\nExpected: <" + magentaString("USERNAME") + "> <"
+                            + magentaString("PASSWORD") + ">\n";
                 } else {
                     throw e;
                 }
             }
             state = LoginState.SIGNEDIN;
-            return "You have been successfully signed in as '" + username + "'.\n";
+            return "You have been successfully signed in as " + greenString(username) + "\n";
         }
-        throw new ResponseException(400, "Bad input.\nExpected: <USERNAME> <PASSWORD>\n");
+        throw new ResponseException(400, "Bad input\nExpected: <" + magentaString("USERNAME") + "> <"
+                                          + magentaString("PASSWORD") + ">\n");
     }
 
     public String logout() throws ResponseException {
@@ -108,33 +121,160 @@ public class Client {
             server.logout(auth);
         } catch (ResponseException e) {
             if (e.StatusCode() == 401) {
-                return "Logout error.\n";
+                return "Logout error\n";
             } else {
                 throw e;
             }
         }
         removeAuth(auth);
         state = LoginState.SIGNEDOUT;
-        return "You have been successfully signed out.\n";
+        return "You have been successfully signed out\n";
+    }
+
+    public String createGame(String... params) throws ResponseException {
+        assertSignedIn();
+        if (params.length == 1) {
+            var name = params[0];
+            try {
+                CreateGameResponse game = server.createGame(getAuthToken(), name);
+                int gameID = game.gameID();
+                games.add(new GameData(gameID, null, null, name, new ChessGame()));
+            } catch (ResponseException e) {
+                if (e.StatusCode() == 400) {
+                    return "Bad input\nExpected: <" + magentaString("NAME") + ">\n";
+                } else if (e.StatusCode() == 401) {
+                    return "Unauthorized\n";
+                } else {
+                        throw e;
+                }
+            }
+            return "Game " + greenString(name) + " has been successfully created\n";
+        } else {
+            return "Bad input\nExpected: <" + magentaString("NAME") + ">\n";
+        }
+    }
+
+    public String list() throws ResponseException {
+        assertSignedIn();
+        try {
+            updateGameDirectory();
+
+            if (games.isEmpty()) {
+                return "No games found\n";
+            }
+
+            return listHelper();
+        } catch (ResponseException e) {
+            if (e.StatusCode() == 401) {
+                return "Unauthorized\n";
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    private String listHelper() {
+        String output = "GAME NUMBER | NAME | WHITE PLAYER | BLACK PLAYER\n";
+        int gameNumber = 1;
+
+        for (GameData game : games) {
+
+            String blackPlayer = game.blackUsername();
+            String whitePlayer = game.whiteUsername();
+
+            if (blackPlayer == null) {
+                blackPlayer = "\t";
+            }
+            if (whitePlayer == null) {
+                whitePlayer = "\t";
+            }
+
+            output += gameNumber + "\t" + game.gameName() + "\t";
+            output += whitePlayer + "\t" + blackPlayer + "\n";
+            gameNumber++;
+        }
+        return output + "\n";
+    }
+
+    private void updateGameDirectory() throws ResponseException {
+        gameDirectory = new HashMap<>();
+        games = server.listGames(getAuthToken()).games();
+        int gameNumber = 1;
+        for (GameData game : games) {
+            gameDirectory.put(gameNumber, game);
+            gameNumber++;
+        }
+
+        System.out.println("Game Directory:");
+        System.out.println("Number of games: " + gameDirectory.size());
+    }
+
+    public String joinGame(String... params) throws ResponseException {
+        assertSignedIn();
+        updateGameDirectory();
+
+        if (params.length == 2) {
+            int directoryIndex;
+            int gameID;
+            try { // Convert input to gameID
+                directoryIndex = Integer.parseInt(params[0]);
+
+                gameID = gameDirectory.get(directoryIndex).gameID();
+            } catch (NumberFormatException e) {
+                return "Bad <" + magentaString("ID")+ "> input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
+            }
+
+            // Get color
+            String color = params[1].toLowerCase();
+            ChessGame.TeamColor teamColor;
+            if (color.equals("white")) {
+                teamColor = ChessGame.TeamColor.WHITE;
+            } else if (color.equals("black")) {
+                teamColor = ChessGame.TeamColor.BLACK;
+            } else {
+                return "Bad <" + magentaString("COLOR")+ "> input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
+            }
+
+            try {
+                server.joinGame(getAuthToken(), teamColor, Integer.toString(gameID));
+            } catch (ResponseException e) {
+                if (e.StatusCode() == 400) {
+                    return "Bad input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
+                } else if (e.StatusCode() == 401) {
+                    return "Unauthorized\n";
+                } else {
+                    return e.getMessage();
+                }
+            }
+
+            return "You have successfully joined game " + gameID + " as " + color + "\n";
+        } else {
+            return "Bad input—incorrect number of arguments\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
+        }
     }
 
     public String help() {
         if (state == LoginState.SIGNEDOUT) {
-            return """
-                    register <USERNAME> <PASSWORD> <EMAIL>
-                    login <USERNAME> <PASSWORD>
-                    quit
-                    help
-                    """;
+            return blueString("register") + " " +
+               "<" + magentaString("USERNAME") + "> " +
+               "<" + magentaString("PASSWORD") + "> " +
+               "<" + magentaString("EMAIL") + ">\n" +
+               blueString("login") + " " +
+               "<" + magentaString("USERNAME") + "> " +
+               "<" + magentaString("PASSWORD") + ">\n" +
+               blueString("quit") + "\n" +
+               blueString("help") + "\n";
         } else {
-            return """
-                    create <NAME>
-                    list
-                    join <ID> <COLOR>
-                    observe <ID>
-                    quit
-                    help
-                    """;
+            return blueString("create") + " " +
+                "<" + magentaString("NAME") + ">\n" +
+                blueString("list") + "\n" +
+                blueString("join") + " " +
+                "<" + magentaString("ID") + "> " +
+                "<" + magentaString("COLOR") + ">\n" +
+                blueString("observe") + " " +
+                "<" + magentaString("ID") + ">\n" +
+                blueString("quit") + "\n" +
+                blueString("help") + "\n";
         }
     }
 
@@ -176,9 +316,35 @@ public class Client {
         return null;
     }
 
+    private ChessGame getGame(int id) {
+        for (GameData game : games) {
+            if (game.gameID() == id) {
+                return game.game();
+            }
+        }
+        return null;
+    }
+
     private void assertSignedIn() throws ResponseException {
         if (state == LoginState.SIGNEDOUT) {
             throw new ResponseException(400, "You must be signed in to perform this action.");
         }
     }
+
+    public String blueString(String str) {
+        return EscapeSequences.SET_TEXT_COLOR_BLUE + str + EscapeSequences.RESET_TEXT_COLOR;
+    }
+
+    public String magentaString(String str) {
+        return EscapeSequences.SET_TEXT_COLOR_MAGENTA + str + EscapeSequences.RESET_TEXT_COLOR;
+    }
+
+    public String redString(String str) {
+        return EscapeSequences.SET_TEXT_COLOR_RED + str + EscapeSequences.RESET_TEXT_COLOR;
+    }
+
+    public String greenString(String str) {
+        return EscapeSequences.SET_TEXT_COLOR_GREEN + str + EscapeSequences.RESET_TEXT_COLOR;
+    }
+
 }

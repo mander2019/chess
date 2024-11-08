@@ -128,13 +128,16 @@ public class Services {
 
         try {
             if (invalidAuthToken(authToken)) {
+
+                System.out.println("Invalid auth token");
+
                 throw new ServerErrorException(401, "Error: unauthorized");
             }
 
-//            Collection<GameData> games = getGames();
-//            int gameID = games.size() + 1;
+            Collection<GameData> games = getGames();
+            int gameID = games.size() + 1;
 
-            gameID++;
+//            gameID++;
 
             GameData newGame = new GameData(gameID, null, null, createGameData.gameName(), new ChessGame());
 

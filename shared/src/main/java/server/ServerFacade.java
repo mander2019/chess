@@ -1,5 +1,6 @@
 package server;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import service.request.*;
 import service.response.*;
@@ -8,6 +9,7 @@ import dataaccess.ServerErrorException;
 
 import java.io.*;
 import java.net.*;
+import java.util.Map;
 
 public class ServerFacade {
     private final String serverUrl;
@@ -16,18 +18,39 @@ public class ServerFacade {
         this.serverUrl = serverUrl;
     }
 
-    public Object register(String username, String password, String email) throws ResponseException {
+    public RegisterResponse register(String username, String password, String email) throws ResponseException {
         var body = new Gson().toJson(new RegisterRequest(username, password, email));
         return this.makeRequest("POST", "/user", null, body, RegisterResponse.class);
     }
 
-    public Object login(String username, String password) throws ResponseException {
+    public LoginResponse login(String username, String password) throws ResponseException {
         var body = new Gson().toJson(new LoginRequest(username, password));
         return this.makeRequest("POST", "/session", null, body, LoginResponse.class);
     }
 
-    public Object logout(String authToken) throws ResponseException {
-        return this.makeRequest("DELETE", "/session", authToken, null, LogoutResponse.class);
+    public void logout(String authToken) throws ResponseException {
+        this.makeRequest("DELETE", "/session", authToken, null, LogoutResponse.class);
+    }
+
+    public CreateGameResponse createGame(String authToken, String name) throws ResponseException {
+        var body = new Gson().toJson(Map.of("gameName", name));
+        return this.makeRequest("POST", "/game", authToken, body, CreateGameResponse.class);
+    }
+
+    public ListGamesResponse listGames(String authToken) throws ResponseException {
+        return this.makeRequest("GET", "/game", authToken, null, ListGamesResponse.class);
+    }
+
+    public void joinGame(String authToken, ChessGame.TeamColor teamColor, String gameID) throws ResponseException {
+        String color;
+        if (teamColor == ChessGame.TeamColor.BLACK) {
+            color = "black";
+        } else {
+            color = "white";
+        }
+
+        var body = new Gson().toJson(Map.of("playerColor", color, "gameID", gameID));
+        this.makeRequest("PUT", "/game", authToken, body, JoinGameResponse.class);
     }
 
     private <T> T makeRequest(String method, String path, String header, String body, Class<T> responseClass) throws ResponseException {

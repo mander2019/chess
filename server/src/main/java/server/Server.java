@@ -135,6 +135,9 @@ public class Server {
         }
 
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
+
+//        System.out.println(errorMessage.message());
+
         return new Gson().toJson(errorMessage);
     }
 
@@ -152,7 +155,7 @@ public class Server {
 
     private ChessGame.TeamColor getTeamColor(Request req) throws ServerErrorException{
         ChessGame.TeamColor color;
-        String body = req.body();
+        String body = req.body().toUpperCase();
 
         if (body.contains("WHITE")) {
             color = ChessGame.TeamColor.WHITE;
@@ -164,4 +167,5 @@ public class Server {
 
         return color;
     }
+
 }

@@ -1,7 +1,7 @@
 package client;
 
 import client.websocket.NotificationHandler;
-
+import ui.EscapeSequences;
 import java.util.*;
 
 public class Repl implements NotificationHandler {
@@ -12,7 +12,7 @@ public class Repl implements NotificationHandler {
     }
 
     public void run() {
-        System.out.println("♕ 240 Chess client. Type 'help' to get started.");
+        System.out.println("♕ 240 Chess client\nType '" + client.blueString("help") + "' for a list of commands");
         System.out.print(client.help());
 
         Scanner scanner = new Scanner(System.in);
@@ -29,7 +29,7 @@ public class Repl implements NotificationHandler {
                     break;
                 }
 
-                System.out.print(result);
+                System.out.print("\n" + result + "\n");
             } catch (Throwable e) {
                 var msg = e.toString();
                 System.out.print(msg);
@@ -40,9 +40,9 @@ public class Repl implements NotificationHandler {
 
     private void printPrompt() {
         if (client.getState() == LoginState.SIGNEDIN) {
-            System.out.print("[logged in | " + client.getUsername() + "]");
+            System.out.print("[" + client.greenString("logged in") + " | " + client.greenString(client.getUsername()) + "]");
         } else {
-            System.out.print("[logged out]");
+            System.out.print("[" + client.redString("logged out") + "]");
         }
 
         System.out.print(" >>> ");
