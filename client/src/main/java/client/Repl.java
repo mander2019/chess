@@ -39,7 +39,13 @@ public class Repl implements NotificationHandler {
     }
 
     private void printPrompt() {
-        System.out.print(">>> ");
+        if (client.getState() == LoginState.SIGNEDIN) {
+            System.out.print("[logged in | " + client.getUsername() + "]");
+        } else {
+            System.out.print("[logged out]");
+        }
+
+        System.out.print(" >>> ");
     }
 
 }

@@ -102,8 +102,10 @@ public class Client {
 
     public String logout() throws ResponseException {
         assertSignedIn();
+        String auth;
         try {
-            server.logout(getAuthToken());
+            auth = getAuthToken();
+            server.logout(auth);
         } catch (ResponseException e) {
             if (e.StatusCode() == 401) {
                 return "Logout error.\n";
@@ -111,6 +113,7 @@ public class Client {
                 throw e;
             }
         }
+        removeAuth(auth);
         state = LoginState.SIGNEDOUT;
         return "You have been successfully signed out.\n";
     }
@@ -135,6 +138,14 @@ public class Client {
         }
     }
 
+    public LoginState getState() {
+        return state;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
     private void addAuth(Object response) throws ResponseException {
         if (response instanceof RegisterResponse registerResponse) {
             AuthData auth = new AuthData(registerResponse.authToken(), registerResponse.username());
@@ -147,8 +158,13 @@ public class Client {
         }
     }
 
-    private void removeAuth(AuthData auth) {
-        auths.remove(auth);
+    private void removeAuth(String auth) {
+        for (AuthData a : auths) {
+            if (a.authToken().equals(auth)) {
+                auths.remove(a);
+                break;
+            }
+        }
     }
 
     private String getAuthToken() {
