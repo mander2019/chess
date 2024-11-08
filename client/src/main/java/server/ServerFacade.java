@@ -3,10 +3,10 @@ package server;
 import chess.ChessGame;
 import com.google.gson.Gson;
 import model.*;
-import model.response.*;
-import model.request.*;
 import exception.*;
-//import server.Server;
+import model.request.LoginRequest;
+import model.request.RegisterRequest;
+import model.response.*;
 
 import java.io.*;
 import java.net.*;
@@ -15,15 +15,9 @@ import java.util.Map;
 
 public class ServerFacade {
     private final String serverUrl;
-//    private Server server;
 
     public ServerFacade(String serverUrl) {
         this.serverUrl = serverUrl;
-//        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
-
-
-//        server = new Server();
-//        server.run(serverPort);
     }
 
     public String register(String username, String password, String email) throws ResponseException {

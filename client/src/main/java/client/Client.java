@@ -9,7 +9,6 @@ import model.AuthData;
 import model.GameData;
 import ui.EscapeSequences;
 import server.*;
-//import server.Server;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -438,7 +437,7 @@ public class Client {
 
     private void assertSignedIn() throws ResponseException {
         if (state == LoginState.SIGNEDOUT) {
-            throw new ResponseException(400, "You must be signed in to perform this action.");
+            throw new ResponseException(400, "You must be signed in to perform this action\n");
         }
     }
 
