@@ -21,7 +21,6 @@ public class Server {
         }
     }
 
-
     public int run(int port) {
         Spark.port(port);
 
@@ -49,9 +48,6 @@ public class Server {
 
     public Object registerUser(Request req, Response res) throws Exception {
         try {
-            System.out.println(req.body());
-
-
             RegisterRequest registerRequest = new Gson().fromJson(req.body(), RegisterRequest.class);
             RegisterHandler registerHandler = new RegisterHandler(registerRequest, service);
             RegisterResponse registerResponse = registerHandler.register();

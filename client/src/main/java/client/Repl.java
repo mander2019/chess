@@ -1,9 +1,6 @@
 package client;
 
 import client.websocket.NotificationHandler;
-import server.ServerFacade;
-import spark.Request;
-import spark.Response;
 
 import java.util.Scanner;
 
@@ -26,6 +23,12 @@ public class Repl implements NotificationHandler {
 
             try {
                 result = client.eval(line);
+
+                if ("quit".equals(result)) {
+                    System.out.print("Goodbye!");
+                    break;
+                }
+
                 System.out.print(result);
             } catch (Throwable e) {
                 var msg = e.toString();
@@ -36,7 +39,7 @@ public class Repl implements NotificationHandler {
     }
 
     private void printPrompt() {
-        System.out.print("\n>>> ");
+        System.out.print(">>> ");
     }
 
 }

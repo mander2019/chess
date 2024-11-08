@@ -4,24 +4,26 @@ import com.google.gson.Gson;
 import service.request.*;
 import service.response.*;
 import exception.*;
+import dataaccess.ServerErrorException;
 
 import java.io.*;
 import java.net.*;
 
 public class ServerFacade {
     private final String serverUrl;
-    private Server server;
 
     public ServerFacade(String serverUrl) {
         this.serverUrl = serverUrl;
-        server = new Server();
-        server.run(8080);
     }
 
     public Object register(String username, String password, String email) throws ResponseException {
-        var path = "/register";
         var body = new Gson().toJson(new RegisterRequest(username, password, email));
-        return this.makeRequest("POST", path, body, RegisterResponse.class);
+        return this.makeRequest("POST", "/user", body, RegisterResponse.class);
+    }
+
+    public Object login(String username, String password) throws ResponseException {
+        var body = new Gson().toJson(new LoginRequest(username, password));
+        return this.makeRequest("POST", "/session", body, LoginResponse.class);
     }
 
     private <T> T makeRequest(String method, String path, String body, Class<T> responseClass) throws ResponseException {
@@ -35,8 +37,8 @@ public class ServerFacade {
             http.connect();
             throwIfNotSuccessful(http);
             return readBody(http, responseClass);
-        } catch (Exception ex) {
-            throw new ResponseException(500, ex.getMessage());
+        } catch (Exception e) {
+            throw errorMessageHelper(e);
         }
     }
 
@@ -71,6 +73,22 @@ public class ServerFacade {
     }
 
     private boolean isSuccessful(int status) {
-        return status == 200;
+        return status >= 200 && status < 300;
+    }
+
+    private ResponseException errorMessageHelper(Exception e) {
+        if (e instanceof ResponseException) {
+            return (ResponseException) e;
+        }
+
+        int statusCode;
+
+        if (e instanceof ServerErrorException) {
+            statusCode = ((ServerErrorException) e).statusCode();
+        } else {
+            statusCode = 500;
+        }
+
+        return new ResponseException(statusCode, e.getMessage());
     }
 }

@@ -1,7 +1,6 @@
 package client;
 
 import client.websocket.NotificationHandler;
-import dataaccess.ServerErrorException;
 import exception.ResponseException;
 import server.ServerFacade;
 
@@ -33,11 +32,12 @@ public class Client {
 
             return switch (function) {
                 case "register" -> register(params);
-//                case "login" -> login(params);
+                case "login" -> login(params);
 //                case "create" -> create(params);
 //                case "list" -> list();
 //                case "join" -> join(params);
 //                case "observe" -> observe(params);
+                case "quit" -> "quit";
                 default -> help();
             };
         } catch (Throwable e) {
@@ -50,11 +50,37 @@ public class Client {
             username = params[0];
             var password = params[1];
             var email = params[2];
-            server.register(username, password, email);
+
+            try {
+                server.register(username, password, email);
+            } catch (ResponseException e) {
+                if (e.StatusCode() == 403) {
+                    return "Username already taken.\n";
+                } else if (e.StatusCode() == 400) {
+                    return "Bad input.\nExpected: <USERNAME> <PASSWORD> <EMAIL>\n";
+                } else {
+                    throw e;
+                }
+            }
             state = LoginState.SIGNEDIN;
-            return "You have been successfully registered and signed in.";
+            return "You have been successfully registered and signed in as " + username + ".\n";
         }
-        throw new ResponseException(400, "Expected: <USERNAME> <PASSWORD> <EMAIL>");
+        throw new ResponseException(400, "Bad input.\nExpected: <USERNAME> <PASSWORD> <EMAIL>\n");
+    }
+
+    public String login(String... params) throws ResponseException {
+        if (state == LoginState.SIGNEDIN) {
+            throw new ResponseException(400, "You are already signed in.\n");
+        }
+
+        if (params.length == 2) {
+            username = params[0];
+            var password = params[1];
+            server.login(username, password);
+            state = LoginState.SIGNEDIN;
+            return "You have been successfully signed in as " + username + ".\n";
+        }
+        throw new ResponseException(400, "Bad input.\nExpected: <USERNAME> <PASSWORD>\n");
     }
 
     public String help() {
@@ -77,9 +103,9 @@ public class Client {
         }
     }
 
-    private void assertSignedIn() throws ServerErrorException {
+    private void assertSignedIn() throws ResponseException {
         if (state == LoginState.SIGNEDOUT) {
-            throw new ServerErrorException(400, "You must be signed in to perform this action.");
+            throw new ResponseException(400, "You must be signed in to perform this action.");
         }
     }
 }
