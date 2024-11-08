@@ -70,9 +70,6 @@ public class Services {
             } else if (!userExists(username)) {
                 throw new ServerErrorException(401, "Error: user not found");
             } else if (!validPassword(username, password)) {
-
-                System.out.println("Invalid password for " + username);
-
                 throw new ServerErrorException(401, "Error: unauthorized");
             } else if (validPassword(username, password)) {
                 String authToken = createAuthToken(username);

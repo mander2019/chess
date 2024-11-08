@@ -2,9 +2,14 @@ package client;
 
 import client.websocket.NotificationHandler;
 import exception.ResponseException;
+import model.AuthData;
 import server.ServerFacade;
+import service.response.LoginResponse;
+import service.response.RegisterResponse;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 public class Client {
     private String username;
@@ -12,6 +17,7 @@ public class Client {
     private String serverUrl;
     private NotificationHandler notificationHandler;
     private LoginState state = LoginState.SIGNEDOUT;
+    private Collection<AuthData> auths = new ArrayList<>();
 
     public Client(String serverUrl, NotificationHandler notificationHandler) {
         server = new ServerFacade(serverUrl);
@@ -33,6 +39,7 @@ public class Client {
             return switch (function) {
                 case "register" -> register(params);
                 case "login" -> login(params);
+                case "logout" -> logout();
 //                case "create" -> create(params);
 //                case "list" -> list();
 //                case "join" -> join(params);
@@ -52,7 +59,7 @@ public class Client {
             var email = params[2];
 
             try {
-                server.register(username, password, email);
+                addAuth(server.register(username, password, email));
             } catch (ResponseException e) {
                 if (e.StatusCode() == 403) {
                     return "Username already taken.\n";
@@ -63,7 +70,7 @@ public class Client {
                 }
             }
             state = LoginState.SIGNEDIN;
-            return "You have been successfully registered and signed in as " + username + ".\n";
+            return "You have been successfully registered and signed in as '" + username + "'.\n";
         }
         throw new ResponseException(400, "Bad input.\nExpected: <USERNAME> <PASSWORD> <EMAIL>\n");
     }
@@ -76,11 +83,36 @@ public class Client {
         if (params.length == 2) {
             username = params[0];
             var password = params[1];
-            server.login(username, password);
+            try {
+                addAuth(server.login(username, password));
+            } catch (ResponseException e) {
+                if (e.StatusCode() == 401) {
+                    return "Invalid login credentials.\n";
+                } else if (e.StatusCode() == 400) {
+                    return "Bad input.\nExpected: <USERNAME> <PASSWORD>\n";
+                } else {
+                    throw e;
+                }
+            }
             state = LoginState.SIGNEDIN;
-            return "You have been successfully signed in as " + username + ".\n";
+            return "You have been successfully signed in as '" + username + "'.\n";
         }
         throw new ResponseException(400, "Bad input.\nExpected: <USERNAME> <PASSWORD>\n");
+    }
+
+    public String logout() throws ResponseException {
+        assertSignedIn();
+        try {
+            server.logout(getAuthToken());
+        } catch (ResponseException e) {
+            if (e.StatusCode() == 401) {
+                return "Logout error.\n";
+            } else {
+                throw e;
+            }
+        }
+        state = LoginState.SIGNEDOUT;
+        return "You have been successfully signed out.\n";
     }
 
     public String help() {
@@ -101,6 +133,31 @@ public class Client {
                     help
                     """;
         }
+    }
+
+    private void addAuth(Object response) throws ResponseException {
+        if (response instanceof RegisterResponse registerResponse) {
+            AuthData auth = new AuthData(registerResponse.authToken(), registerResponse.username());
+            auths.add(auth);
+        } else if (response instanceof LoginResponse loginResponse) {
+            AuthData auth = new AuthData(loginResponse.authToken(), loginResponse.username());
+            auths.add(auth);
+        } else {
+            throw new ResponseException(500, "Couldn't parse auth data.");
+        }
+    }
+
+    private void removeAuth(AuthData auth) {
+        auths.remove(auth);
+    }
+
+    private String getAuthToken() {
+        for (AuthData auth : auths) {
+            if (auth.username().equals(username)) {
+                return auth.authToken();
+            }
+        }
+        return null;
     }
 
     private void assertSignedIn() throws ResponseException {

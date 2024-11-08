@@ -18,27 +18,39 @@ public class ServerFacade {
 
     public Object register(String username, String password, String email) throws ResponseException {
         var body = new Gson().toJson(new RegisterRequest(username, password, email));
-        return this.makeRequest("POST", "/user", body, RegisterResponse.class);
+        return this.makeRequest("POST", "/user", null, body, RegisterResponse.class);
     }
 
     public Object login(String username, String password) throws ResponseException {
         var body = new Gson().toJson(new LoginRequest(username, password));
-        return this.makeRequest("POST", "/session", body, LoginResponse.class);
+        return this.makeRequest("POST", "/session", null, body, LoginResponse.class);
     }
 
-    private <T> T makeRequest(String method, String path, String body, Class<T> responseClass) throws ResponseException {
+    public Object logout(String authToken) throws ResponseException {
+        return this.makeRequest("DELETE", "/session", authToken, null, LogoutResponse.class);
+    }
+
+    private <T> T makeRequest(String method, String path, String header, String body, Class<T> responseClass) throws ResponseException {
         try {
             URL url = (new URI(serverUrl + path)).toURL();
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setRequestMethod(method);
             http.setDoOutput(true);
 
+            writeHeader(header, http);
             writeBody(body, http);
+
             http.connect();
             throwIfNotSuccessful(http);
             return readBody(http, responseClass);
         } catch (Exception e) {
             throw errorMessageHelper(e);
+        }
+    }
+
+    private static void writeHeader(String header, HttpURLConnection http) {
+        if (header != null) {
+            http.setRequestProperty("Authorization", header);
         }
     }
 
@@ -67,8 +79,9 @@ public class ServerFacade {
 
     private void throwIfNotSuccessful(HttpURLConnection http) throws IOException, ResponseException {
         var status = http.getResponseCode();
+
         if (!isSuccessful(status)) {
-            throw new ResponseException(status, "failure: " + status);
+            throw new ResponseException(status, http.getResponseMessage());
         }
     }
 
@@ -91,4 +104,5 @@ public class ServerFacade {
 
         return new ResponseException(statusCode, e.getMessage());
     }
+
 }

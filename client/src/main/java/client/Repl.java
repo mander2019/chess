@@ -2,7 +2,7 @@ package client;
 
 import client.websocket.NotificationHandler;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Repl implements NotificationHandler {
     private final Client client;
