@@ -1,6 +1,6 @@
 package service.handler;
 
-import service.response.ClearResponse;
+import records.response.ClearResponse;
 import service.Services;
 
 public class ClearHandler extends Handler {

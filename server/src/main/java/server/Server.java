@@ -3,10 +3,10 @@ package server;
 import chess.ChessGame;
 import com.google.gson.Gson;
 import dataaccess.*;
+import records.request.*;
+import records.response.*;
 import service.*;
 import service.handler.*;
-import service.request.*;
-import service.response.*;
 import spark.*;
 
 public class Server {

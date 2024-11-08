@@ -1,7 +1,7 @@
 package service.handler;
 
-import service.request.ListGamesRequest;
-import service.response.ListGamesResponse;
+import records.request.ListGamesRequest;
+import records.response.ListGamesResponse;
 import service.Services;
 
 public class ListGamesHandler extends Handler {

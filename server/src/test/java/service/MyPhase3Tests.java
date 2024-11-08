@@ -8,8 +8,8 @@ import model.AuthData;
 import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.*;
-import service.request.*;
-import service.response.*;
+import records.request.*;
+import records.response.*;
 
 import java.util.Collection;
 

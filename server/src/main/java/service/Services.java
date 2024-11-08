@@ -1,19 +1,16 @@
 package service;
 
 import chess.ChessGame;
-import com.google.gson.Gson;
 import dataaccess.DAO;
 import dataaccess.DataAccessException;
 import dataaccess.ServerErrorException;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
-import org.eclipse.jetty.server.Authentication;
 import org.mindrot.jbcrypt.BCrypt;
-import service.request.*;
-import service.response.*;
+import records.request.*;
+import records.response.*;
 
-import javax.xml.crypto.Data;
 import java.util.Collection;
 import java.util.UUID;
 

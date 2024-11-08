@@ -9,6 +9,7 @@ import model.AuthData;
 import model.GameData;
 import ui.EscapeSequences;
 import serverfacade.ServerFacade;
+import server.Server;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 public class Client {
     private String username;
-    private ServerFacade server;
+    private ServerFacade serverFacade;
     private String serverUrl;
     private NotificationHandler notificationHandler;
     private LoginState state = LoginState.SIGNEDOUT;
@@ -27,9 +28,13 @@ public class Client {
     private Map<Integer, GameData> gameDirectory = new HashMap<>();
     
     public Client(String serverUrl, NotificationHandler notificationHandler) {
-        server = new ServerFacade(serverUrl);
+        serverFacade = new ServerFacade(serverUrl);
         this.serverUrl = serverUrl;
         this.notificationHandler = notificationHandler;
+
+        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
+        Server server = new Server();
+        server.run(serverPort);
     }
 
     public String eval(String input) {
@@ -66,7 +71,7 @@ public class Client {
             var email = params[2];
 
             try {
-                addAuth(server.register(username, password, email));
+                addAuth(serverFacade.register(username, password, email));
             } catch (ResponseException e) {
                 if (e.StatusCode() == 403) {
                     return "Username already taken\n";
@@ -93,7 +98,7 @@ public class Client {
             username = params[0];
             var password = params[1];
             try {
-                addAuth(server.login(username, password));
+                addAuth(serverFacade.login(username, password));
             } catch (ResponseException e) {
                 if (e.StatusCode() == 401) {
                     return "Invalid login credentials\n";
@@ -116,7 +121,7 @@ public class Client {
         String auth;
         try {
             auth = getAuthToken();
-            server.logout(auth);
+            serverFacade.logout(auth);
         } catch (ResponseException e) {
             if (e.StatusCode() == 401) {
                 return "Logout error\n";
@@ -134,7 +139,7 @@ public class Client {
         if (params.length == 1) {
             var name = params[0];
             try {
-                int gameID = server.createGame(getAuthToken(), name);
+                int gameID = serverFacade.createGame(getAuthToken(), name);
 
                 games.add(new GameData(gameID, null, null, name, new ChessGame()));
             } catch (ResponseException e) {
@@ -172,7 +177,7 @@ public class Client {
     }
 
     private String listHelper() {
-        String output = "GAME NUMBER | NAME | WHITE PLAYER | BLACK PLAYER\n";
+        String output = "ID | NAME | WHITE | BLACK\n";
         int gameNumber = 1;
 
         for (GameData game : games) {
@@ -181,22 +186,22 @@ public class Client {
             String whitePlayer = game.whiteUsername();
 
             if (blackPlayer == null) {
-                blackPlayer = "\t";
+                blackPlayer = "empty";
             }
             if (whitePlayer == null) {
-                whitePlayer = "\t";
+                whitePlayer = "empty";
             }
 
             output += gameNumber + "\t" + game.gameName() + "\t";
             output += whitePlayer + "\t" + blackPlayer + "\n";
             gameNumber++;
         }
-        return output + "\n";
+        return output;
     }
 
     private void updateGameDirectory() throws ResponseException {
         gameDirectory = new HashMap<>();
-        games = server.listGames(getAuthToken());
+        games = serverFacade.listGames(getAuthToken());
         int gameNumber = 1;
         for (GameData game : games) {
             gameDirectory.put(gameNumber, game);
@@ -231,7 +236,7 @@ public class Client {
             }
 
             try {
-                server.joinGame(getAuthToken(), teamColor, Integer.toString(gameID));
+                serverFacade.joinGame(getAuthToken(), teamColor, Integer.toString(gameID));
             } catch (ResponseException e) {
                 if (e.StatusCode() == 400) {
                     return "Bad input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";

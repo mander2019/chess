@@ -1,7 +1,7 @@
 package service.handler;
 
-import service.request.LoginRequest;
-import service.response.LoginResponse;
+import records.request.LoginRequest;
+import records.response.LoginResponse;
 import service.Services;
 
 public class LoginHandler extends Handler {

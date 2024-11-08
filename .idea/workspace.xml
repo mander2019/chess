@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Modified improper dependencies">
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Modified improper dependencies - pt 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/client/client.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/server/ServerFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/shared.iml" beforeDir="false" afterPath="$PROJECT_DIR$/shared/shared.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/serverfacade/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/serverfacade/ServerFacade.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +104,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.ServerFacadeTests">
     <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="server" />
@@ -153,8 +152,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.ServerFacadeTests" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.All in client" />
         <item itemvalue="Application.Main (1)" />
         <item itemvalue="JUnit.All in server" />
@@ -530,7 +529,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731099152516</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Modified improper dependencies - pt 2">
+      <option name="closed" value="true" />
+      <created>1731099425147</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1731099425147</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -545,7 +552,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Cleaned up several functions" />
     <MESSAGE value="Completed list games function" />
     <MESSAGE value="Began test cases for new DAO" />
     <MESSAGE value="Completed adduser tests" />
@@ -570,7 +576,8 @@
     <MESSAGE value="Completed observe and printing functionality" />
     <MESSAGE value="Completed test cases for ServerFacade" />
     <MESSAGE value="Modified improper dependencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modified improper dependencies" />
+    <MESSAGE value="Modified improper dependencies - pt 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modified improper dependencies - pt 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

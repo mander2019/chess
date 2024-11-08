@@ -5,14 +5,14 @@ import exception.ResponseException;
 import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.*;
-//import server.Server;
+import server.Server;
 import serverfacade.ServerFacade;
 
 import java.util.Collection;
 
 
 public class ServerFacadeTests {
-//    private static Server server;
+    private static Server server;
     static ServerFacade serverFacade;
 
     private static UserData existingUser;
@@ -22,10 +22,8 @@ public class ServerFacadeTests {
 
     @BeforeAll
     public static void init() {
-//        server = new Server();
-//        var port = server.run(0);
-
-        var port = 8080;
+        server = new Server();
+        var port = server.run(0);
         String serverUrl = "http://localhost:" + port;
         System.out.println("Started test HTTP server on " + port);
         serverFacade = new ServerFacade(serverUrl);
@@ -37,7 +35,7 @@ public class ServerFacadeTests {
 
     @AfterAll
     static void stopServer() {
-        serverFacade.stop();
+        server.stop();
     }
 
     @BeforeEach

@@ -3,11 +3,13 @@ package serverfacade;
 import chess.ChessGame;
 import com.google.gson.Gson;
 import model.GameData;
-import service.request.*;
-import service.response.*;
-import server.Server;
+import records.response.*;
+import records.request.*;
+//import service.request.*;
+//import service.response.*;
+//import server.Server;
 import exception.*;
-import dataaccess.ServerErrorException;
+//import dataaccess.ServerErrorException;
 
 import java.io.*;
 import java.net.*;
@@ -16,24 +18,28 @@ import java.util.Map;
 
 public class ServerFacade {
     private final String serverUrl;
-    private Server server;
+//    private Server server;
 
     public ServerFacade(String serverUrl) {
         this.serverUrl = serverUrl;
 
-        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
-        server = new Server();
-        server.run(serverPort);
+//        int serverPort = Integer.parseInt(serverUrl.split(":")[2]);
+//        server = new Server();
+//        server.run(serverPort);
     }
 
-    public void stop() {
-        server.stop();
-    }
+//    public void stop() {
+//        server.stop();
+//    }
 
     public String register(String username, String password, String email) throws ResponseException {
         var body = new Gson().toJson(new RegisterRequest(username, password, email));
 
+//        var body = new Gson().toJson(Map.of("username", username, "password", password, "email", email));
+
         RegisterResponse response = this.makeRequest("POST", "/user", null, body, RegisterResponse.class);
+
+//        var response = this.makeRequest("POST", "/user", null, body, RegisterResponse.class);
 
         return response.authToken();
     }
@@ -142,15 +148,7 @@ public class ServerFacade {
             return (ResponseException) e;
         }
 
-        int statusCode;
-
-        if (e instanceof ServerErrorException) {
-            statusCode = ((ServerErrorException) e).statusCode();
-        } else {
-            statusCode = 500;
-        }
-
-        return new ResponseException(statusCode, e.getMessage());
+        return new ResponseException(500, e.getMessage());
     }
 
 }
