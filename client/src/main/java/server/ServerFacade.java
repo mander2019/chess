@@ -4,9 +4,9 @@ import chess.ChessGame;
 import com.google.gson.Gson;
 import model.*;
 import exception.*;
-import service.request.LoginRequest;
-import service.request.RegisterRequest;
-import service.response.*;
+import model.request.LoginRequest;
+import model.request.RegisterRequest;
+import model.response.*;
 
 import java.io.*;
 import java.net.*;

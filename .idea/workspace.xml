@@ -4,39 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Improved code quality 3">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ClientMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/ServerMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/Services.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/Services.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/ClearHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/ClearHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/CreateGameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/CreateGameHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/JoinGameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/JoinGameHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/ListGamesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/ListGamesHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/LoginHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/LoginHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/LogoutHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/LogoutHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/handler/RegisterHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/handler/RegisterHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/MyPhase3Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/MyPhase3Tests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shared/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/CreateGameRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/CreateGameRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/JoinGameRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/JoinGameRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/ListGamesRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/ListGamesRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/LoginRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/LogoutRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/LogoutRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/request/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/request/RegisterRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/ClearResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/ClearResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/CreateGameResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/CreateGameResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/JoinGameResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/JoinGameResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/ListGamesResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/ListGamesResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/LoginResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/LogoutResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/LogoutResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/model/response/RegisterResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/response/RegisterResponse.java" afterDir="false" />
-    </list>
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,6 +23,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -80,49 +49,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ClientMain.executor": "Run",
-    "Application.Main (1).executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.ServerMain.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.All in client.executor": "Run",
-    "JUnit.All in server.executor": "Run",
-    "JUnit.All in shared.executor": "Run",
-    "JUnit.DatabaseTests.persistenceTest.executor": "Run",
-    "JUnit.MyPhase4Tests.executor": "Run",
-    "JUnit.MyPhase4Tests.testAddNullAuthData.executor": "Run",
-    "JUnit.MyPhase4Tests.testAddUserWithTakenUsername.executor": "Run",
-    "JUnit.MyTests.executor": "Run",
-    "JUnit.MyTests.testJoinGameThatDoesNotExist.executor": "Debug",
-    "JUnit.MyTests.testLoginUserWithInvalidPassword.executor": "Run",
-    "JUnit.MyTests.testRegisterUserWithTakenUsername.executor": "Debug",
-    "JUnit.ServerFacadeTests.executor": "Run",
-    "JUnit.StandardAPITests.badGameIDJoin.executor": "Run",
-    "JUnit.StandardAPITests.executor": "Run",
-    "JUnit.StandardAPITests.failRegister.executor": "Run",
-    "JUnit.StandardAPITests.gamesList.executor": "Run",
-    "JUnit.StandardAPITests.goodCreate.executor": "Run",
-    "JUnit.StandardAPITests.goodJoin.executor": "Run",
-    "JUnit.StandardAPITests.successLogout.executor": "Run",
-    "JUnit.StandardAPITests.successRegister.executor": "Run",
-    "JUnit.StandardAPITests.uniqueAuthorizationTokens.executor": "Run",
-    "JUnit.service in server.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "extract.method.default.visibility": "private",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/matthewanderson/CS 240/chess",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ClientMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ServerMain.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.All in client.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in server.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in shared.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DatabaseTests.persistenceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyPhase4Tests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyPhase4Tests.testAddNullAuthData.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyPhase4Tests.testAddUserWithTakenUsername.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyTests.testJoinGameThatDoesNotExist.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.MyTests.testLoginUserWithInvalidPassword.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyTests.testRegisterUserWithTakenUsername.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.ServerFacadeTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.badGameIDJoin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.failRegister.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.gamesList.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.goodCreate.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.goodJoin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.successLogout.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.successRegister.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StandardAPITests.uniqueAuthorizationTokens.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.service in server.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/matthewanderson/CS 240/chess&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/client/src/main/java" />
@@ -196,38 +165,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728951889235</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Added several classes to manage data and functionality to receive HTTP inputs">
-      <option name="closed" value="true" />
-      <created>1729040106977</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1729040106977</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Added more classes">
-      <option name="closed" value="true" />
-      <created>1729043398482</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1729043398482</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Completed register and clear functionality">
-      <option name="closed" value="true" />
-      <created>1729278651798</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1729278651798</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Completed login and logout functionality">
-      <option name="closed" value="true" />
-      <created>1729290839885</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1729290839885</updated>
     </task>
     <task id="LOCAL-00007" summary="Completed create game functionality">
       <option name="closed" value="true" />
@@ -589,7 +526,39 @@
       <option name="project" value="LOCAL" />
       <updated>1731106840322</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Improved code quality 4">
+      <option name="closed" value="true" />
+      <created>1731108510479</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1731108510479</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Improved code quality 4">
+      <option name="closed" value="true" />
+      <created>1731108525481</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1731108525481</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Improved code quality 4">
+      <option name="closed" value="true" />
+      <created>1731108563987</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1731108563987</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <option name="closed" value="true" />
+      <created>1731108653606</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1731108653607</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -604,8 +573,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Cleaned up test cases" />
-    <MESSAGE value="Fixed import issue" />
     <MESSAGE value="Adding files to repo" />
     <MESSAGE value="Fixed code quality issues" />
     <MESSAGE value="Added more test cases" />
@@ -629,7 +596,9 @@
     <MESSAGE value="Improved code quality" />
     <MESSAGE value="Improved code quality 2" />
     <MESSAGE value="Improved code quality 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improved code quality 3" />
+    <MESSAGE value="Improved code quality 4" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,4 +1,4 @@
-package service.response;
+package model.response;
 
 public record ClearResponse() {
 }
