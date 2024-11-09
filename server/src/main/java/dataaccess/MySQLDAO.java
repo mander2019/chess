@@ -7,6 +7,7 @@ import model.GameData;
 import model.UserData;
 import org.eclipse.jetty.server.Authentication;
 
+import java.awt.desktop.SystemSleepEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;

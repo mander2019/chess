@@ -215,7 +215,7 @@ public class MyPhase3Tests {
             CreateGameRequest createGameRequest = new CreateGameRequest("auth token", "game1");
             CreateGameResponse createGameResponse = services.createGame(createGameRequest);
 
-            Assertions.assertEquals(services.gameID, createGameResponse.gameID(), "Game ID should be 1");
+            Assertions.assertEquals(1, createGameResponse.gameID(), "Game ID should be 1");
             Assertions.assertEquals(dao.getGames().size(), 1, "There is one game in the list");
         } catch (Exception e) {
             e.printStackTrace();
