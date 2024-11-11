@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Adjusted repl">
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Corrected join bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/Services.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/Services.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/service/MyPhase3Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/service/MyPhase3Tests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Repl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +105,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ServerFacadeTests">
+  <component name="RunManager" selected="Application.ClientMain">
     <configuration name="ClientMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ClientMain" />
       <module name="client" />
@@ -163,11 +161,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ClientMain" />
+        <item itemvalue="Application.ServerMain" />
         <item itemvalue="JUnit.ServerFacadeTests" />
         <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.StandardAPITests.gamesList" />
-        <item itemvalue="Application.ClientMain" />
-        <item itemvalue="Application.ServerMain" />
       </list>
     </recent_temporary>
   </component>
@@ -179,14 +177,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728951889235</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Cleaned up code and reorganized files">
-      <option name="closed" value="true" />
-      <created>1729300297753</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1729300297753</updated>
     </task>
     <task id="LOCAL-00010" summary="Created first two test cases">
       <option name="closed" value="true" />
@@ -572,7 +562,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731109222032</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Corrected join bug">
+      <option name="closed" value="true" />
+      <created>1731114181468</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1731114181469</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -587,7 +585,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed code quality issues" />
     <MESSAGE value="Added more test cases" />
     <MESSAGE value="Added even more test cases" />
     <MESSAGE value="Added lots more test cases" />
@@ -612,7 +609,8 @@
     <MESSAGE value="Improved code quality 4" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
     <MESSAGE value="Adjusted repl" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adjusted repl" />
+    <MESSAGE value="Corrected join bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrected join bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -625,16 +623,6 @@
           <properties class="java.io.IOException" package="java.io" />
           <option name="timeStamp" value="18" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java</url>
-          <line>170</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java</url>
-          <line>213</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

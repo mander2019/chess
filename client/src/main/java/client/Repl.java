@@ -1,6 +1,7 @@
 package client;
 
 import client.websocket.NotificationHandler;
+import client.*;
 import java.util.*;
 
 public class Repl implements NotificationHandler {
@@ -11,7 +12,7 @@ public class Repl implements NotificationHandler {
     }
 
     public void run() {
-        System.out.println("♕ 240 Chess client\nType '" + client.blueString("help") + "' for a list of commands");
+        System.out.println("♕ 240 Chess Client\nType '" + client.blueString("help") + "' for a list of commands");
         System.out.print(client.help());
 
         Scanner scanner = new Scanner(System.in);

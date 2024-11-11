@@ -214,6 +214,10 @@ public class Client {
             try { // Convert input to gameID
                 directoryIndex = Integer.parseInt(params[0]);
 
+                if (directoryIndex > games.size() || directoryIndex <= 0) {
+                    return "Game not found\n";
+                }
+
                 gameID = gameDirectory.get(directoryIndex).gameID();
             } catch (NumberFormatException e) {
                 return "Bad <" + magentaString("ID")+ "> input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
@@ -244,7 +248,23 @@ public class Client {
                 }
             }
 
-            return "You have successfully joined game " + gameID + " as " + color + "\n";
+            String output;
+
+            try {
+                ChessGame game = getGame(gameID);
+
+                if (game == null) {
+                    return "Game not found\n";
+                }
+
+                output = printGame(game, ChessGame.TeamColor.WHITE);
+                output += "\n";
+                output += printGame(game, ChessGame.TeamColor.BLACK);
+            } catch (Exception e) {
+                return "Game doesn't exist\n";
+            }
+
+            return output + "\nYou have successfully joined game " + gameID + " as " + color + "\n";
         } else {
             return "Bad input—incorrect number of arguments\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
         }
@@ -284,23 +304,8 @@ public class Client {
         String output = "";
         if (color == ChessGame.TeamColor.WHITE) {
             output += "   a  b  c  d  e  f  g  h\n";
-            for (int i = 0; i < 8; i++) {
-                output += (8 - i) + " ";
-                for (int j = 0; j < 8; j++) {
-                    if ((i + j) % 2 == 1) {
-                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
-                    } else {
-                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
-                    }
-                    output += " " + EscapeSequences.RESET_BG_COLOR;
-                }
-                output += " " + (8 - i) + "\n";
-            }
-            output += "   a  b  c  d  e  f  g  h\n";
-        } else {
-            output += "   h  g  f  e  d  c  b  a\n";
             for (int i = 7; i >= 0; i--) {
-                output += (8 - i) + " ";
+                output += (i + 1) + " ";
                 for (int j = 7; j >= 0; j--) {
                     if ((i + j) % 2 == 0) {
                         output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
@@ -309,7 +314,22 @@ public class Client {
                     }
                     output += " " + EscapeSequences.RESET_BG_COLOR;
                 }
-                output += " " + (8 - i) + "\n";
+                output += " " + (i + 1) + "\n";
+            }
+            output += "   a  b  c  d  e  f  g  h\n";
+        } else {
+            output += "   h  g  f  e  d  c  b  a\n";
+            for (int i = 0; i < 8; i++) {
+                output += (i + 1) + " ";
+                for (int j = 0; j < 8; j++) {
+                    if ((i + j) % 2 == 0) {
+                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
+                    } else {
+                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
+                    }
+                    output += " " + EscapeSequences.RESET_BG_COLOR;
+                }
+                output += " " + (i + 1) + "\n";
             }
             output += "   h  g  f  e  d  c  b  a\n";
         }
@@ -391,6 +411,7 @@ public class Client {
                 "<" + magentaString("COLOR") + ">\n" +
                 blueString("observe") + " " +
                 "<" + magentaString("ID") + ">\n" +
+                blueString("logout") + "\n" +
                 blueString("quit") + "\n" +
                 blueString("help") + "\n";
         }
