@@ -1,10 +1,11 @@
 package server;
 
 import chess.ChessGame;
+import chess.ChessMove;
+import client.Client;
 import client.websocket.NotificationHandler;
 import com.google.gson.Gson;
 import model.*;
-import exception.*;
 import model.request.LoginRequest;
 import model.request.RegisterRequest;
 import model.response.*;
@@ -15,6 +16,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import exception.ResponseException;
+import websocket.commands.UserGameCommand;
 import websocket.messages.ServerMessage;
 
 import javax.websocket.*;
@@ -26,13 +28,15 @@ public class ServerFacade extends Endpoint {
     private String serverUrl;
     NotificationHandler notificationHandler;
     Session session;
+    Client client;
 
     public ServerFacade(String serverUrl, NotificationHandler notificationHandler) {
         this.serverUrl = serverUrl;
         this.notificationHandler = notificationHandler;
+        client = notificationHandler.getClient();
     }
 
-    private void WebSocketFacade() throws ResponseException {
+    private void webSocketConnection() throws ResponseException {
         try {
             serverUrl = serverUrl.replace("http", "ws");
             URI socketURI = new URI(serverUrl + "/ws");
@@ -45,6 +49,9 @@ public class ServerFacade extends Endpoint {
                 @Override
                 public void onMessage(String message) {
                     ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
+                    if (ServerMessage.ServerMessageType.LOAD_GAME == serverMessage.getServerMessageType()) {
+                        client.updateCurrentGame(serverMessage.getChessGame());
+                    }
                     notificationHandler.notify(serverMessage);
                 }
             });
@@ -53,9 +60,24 @@ public class ServerFacade extends Endpoint {
         }
     }
 
-    //Endpoint requires this method, but you don't have to do anything
-    @Override
-    public void onOpen(Session session, EndpointConfig endpointConfig) {
+    public void enterGame(String authToken, int gameID) throws IOException {
+        sendCommand(new UserGameCommand(UserGameCommand.CommandType.CONNECT, authToken, gameID));
+    }
+
+    public void makeMove(String authToken, int gameID, ChessMove move) throws IOException {
+        sendCommand(new UserGameCommand(UserGameCommand.CommandType.MAKE_MOVE, authToken, gameID, move));
+    }
+
+    public void leaveGame(String authToken, int gameID) throws IOException {
+        sendCommand(new UserGameCommand(UserGameCommand.CommandType.LEAVE, authToken, gameID));
+    }
+
+    public void resignGame(String authToken, int gameID) throws IOException {
+        sendCommand(new UserGameCommand(UserGameCommand.CommandType.RESIGN, authToken, gameID));
+    }
+
+    private void sendCommand(UserGameCommand cmd) throws IOException {
+        session.getBasicRemote().sendText(new Gson().toJson(cmd));
     }
 
 //    public void enterPetShop(String visitorName) throws ResponseException {
@@ -76,6 +98,11 @@ public class ServerFacade extends Endpoint {
 //            throw new ResponseException(500, ex.getMessage());
 //        }
 //    }
+
+    //Endpoint requires this method, but you don't have to do anything
+    @Override
+    public void onOpen(Session session, EndpointConfig endpointConfig) {
+    }
 
     public String register(String username, String password, String email) throws ResponseException {
         var body = new Gson().toJson(new RegisterRequest(username, password, email));
@@ -120,7 +147,7 @@ public class ServerFacade extends Endpoint {
         var body = new Gson().toJson(Map.of("playerColor", color, "gameID", gameID));
         this.makeRequest("PUT", "/game", authToken, body, JoinGameResponse.class);
 
-
+        webSocketConnection();
     }
 
     public void clearData() throws ResponseException {

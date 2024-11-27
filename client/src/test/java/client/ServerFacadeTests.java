@@ -27,7 +27,7 @@ public class ServerFacadeTests {
 
         String serverUrl = "http://localhost:" + port;
         System.out.println("Started test HTTP server on " + port);
-        serverFacade = new ServerFacade(serverUrl);
+        serverFacade = new ServerFacade(serverUrl, new Repl(serverUrl));
 
         existingUser = new UserData("c shane reese", "statistics", "sreese@byu.edu");
         newUser = new UserData("joseph smith", "bom", "jsmith@churchofjesuschrist.org");

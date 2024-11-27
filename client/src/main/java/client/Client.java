@@ -10,6 +10,7 @@ import model.GameData;
 import ui.EscapeSequences;
 import server.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -248,7 +249,8 @@ public class Client {
                 serverFacade.joinGame(getAuthToken(), teamColor, Integer.toString(gameID));
                 playingGame = true;
                 currentColor = teamColor;
-                updateCurrentGame(getGame(gameID), gameID);
+                updateCurrentGame(getGame(gameID));
+                serverFacade.enterGame(getAuthToken(), gameID);
             } catch (ResponseException e) {
                 if (e.getStatusCode() == 400) {
                     return "Bad input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
@@ -259,6 +261,8 @@ public class Client {
                 } else {
                     return e.getMessage();
                 }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
 
             String output;
@@ -499,9 +503,8 @@ public class Client {
         return null;
     }
 
-    private void updateCurrentGame(ChessGame game, int gameID) {
+    public void updateCurrentGame(ChessGame game) {
         currentGame = game;
-        currentGameID = gameID;
     }
 
     private ChessGame getCurrentGame() {

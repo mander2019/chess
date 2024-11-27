@@ -55,4 +55,8 @@ public class Repl implements NotificationHandler {
         System.out.print(" >>> ");
     }
 
+    public Client getClient() {
+        return client;
+    }
+
 }
