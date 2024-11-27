@@ -1,6 +1,7 @@
 package server;
 
 import chess.ChessGame;
+import client.websocket.NotificationHandler;
 import com.google.gson.Gson;
 import model.*;
 import exception.*;
@@ -13,12 +14,68 @@ import java.net.*;
 import java.util.Collection;
 import java.util.Map;
 
-public class ServerFacade {
-    private final String serverUrl;
+import exception.ResponseException;
+import websocket.messages.ServerMessage;
 
-    public ServerFacade(String serverUrl) {
+import javax.websocket.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+public class ServerFacade extends Endpoint {
+    private String serverUrl;
+    NotificationHandler notificationHandler;
+    Session session;
+
+    public ServerFacade(String serverUrl, NotificationHandler notificationHandler) {
         this.serverUrl = serverUrl;
+        this.notificationHandler = notificationHandler;
     }
+
+    private void WebSocketFacade() throws ResponseException {
+        try {
+            serverUrl = serverUrl.replace("http", "ws");
+            URI socketURI = new URI(serverUrl + "/ws");
+
+            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+            this.session = container.connectToServer(this, socketURI);
+
+            //set message handler
+            this.session.addMessageHandler(new MessageHandler.Whole<String>() {
+                @Override
+                public void onMessage(String message) {
+                    ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
+                    notificationHandler.notify(serverMessage);
+                }
+            });
+        } catch (DeploymentException | IOException | URISyntaxException ex) {
+            throw new ResponseException(500, ex.getMessage());
+        }
+    }
+
+    //Endpoint requires this method, but you don't have to do anything
+    @Override
+    public void onOpen(Session session, EndpointConfig endpointConfig) {
+    }
+
+//    public void enterPetShop(String visitorName) throws ResponseException {
+//        try {
+//            var action = new Action(Action.Type.ENTER, visitorName);
+//            this.session.getBasicRemote().sendText(new Gson().toJson(action));
+//        } catch (IOException ex) {
+//            throw new ResponseException(500, ex.getMessage());
+//        }
+//    }
+//
+//    public void leavePetShop(String visitorName) throws ResponseException {
+//        try {
+//            var action = new Action(Action.Type.EXIT, visitorName);
+//            this.session.getBasicRemote().sendText(new Gson().toJson(action));
+//            this.session.close();
+//        } catch (IOException ex) {
+//            throw new ResponseException(500, ex.getMessage());
+//        }
+//    }
 
     public String register(String username, String password, String email) throws ResponseException {
         var body = new Gson().toJson(new RegisterRequest(username, password, email));
@@ -62,6 +119,8 @@ public class ServerFacade {
 
         var body = new Gson().toJson(Map.of("playerColor", color, "gameID", gameID));
         this.makeRequest("PUT", "/game", authToken, body, JoinGameResponse.class);
+
+
     }
 
     public void clearData() throws ResponseException {

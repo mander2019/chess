@@ -2,6 +2,8 @@ package client;
 
 import client.websocket.NotificationHandler;
 import client.*;
+import websocket.messages.ServerMessage;
+
 import java.util.*;
 
 public class Repl implements NotificationHandler {
@@ -36,6 +38,11 @@ public class Repl implements NotificationHandler {
             }
         }
         System.out.println();
+    }
+
+    public void notify(ServerMessage notification) {
+        System.out.println(notification.getMessage());
+        printPrompt();
     }
 
     private void printPrompt() {

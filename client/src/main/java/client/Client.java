@@ -22,12 +22,17 @@ public class Client {
     private String serverUrl;
     private NotificationHandler notificationHandler;
     private LoginState state = LoginState.SIGNEDOUT;
+    private boolean playingGame = false;
+    private boolean observingGame = false;
+    private ChessGame currentGame;
+    private int currentGameID;
+    private ChessGame.TeamColor currentColor;
     private Collection<AuthData> auths = new ArrayList<>();
     private Collection<GameData> games = new ArrayList<>();
     private Map<Integer, GameData> gameDirectory = new HashMap<>();
     
     public Client(String serverUrl, NotificationHandler notificationHandler) {
-        serverFacade = new ServerFacade(serverUrl);
+        serverFacade = new ServerFacade(serverUrl, notificationHandler);
         this.serverUrl = serverUrl;
         this.notificationHandler = notificationHandler;
     }
@@ -52,6 +57,11 @@ public class Client {
                 case "join" -> joinGame(params);
                 case "observe" -> observe(params);
                 case "quit" -> "quit";
+                case "redraw" -> redraw();
+//                case "leave" -> leave();
+//                case "move" -> move(params);
+//                case "resign" -> resign();
+//                case "moves" -> moves();
                 default -> help();
             };
         } catch (Throwable e) {
@@ -236,6 +246,9 @@ public class Client {
 
             try {
                 serverFacade.joinGame(getAuthToken(), teamColor, Integer.toString(gameID));
+                playingGame = true;
+                currentColor = teamColor;
+                updateCurrentGame(getGame(gameID), gameID);
             } catch (ResponseException e) {
                 if (e.getStatusCode() == 400) {
                     return "Bad input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
@@ -295,6 +308,23 @@ public class Client {
             return output;
         } else {
             throw new ResponseException(400, "Bad input\nExpected: <" + magentaString("ID") + ">\n");
+        }
+    }
+
+    public String redraw() throws ResponseException {
+        assertSignedIn();
+        ChessGame game = getCurrentGame();
+
+        if (observingGame) {
+            return printGame(game, ChessGame.TeamColor.WHITE) + "\n";
+        } else if (playingGame) {
+            if (currentColor == ChessGame.TeamColor.WHITE) {
+                return printGame(game, ChessGame.TeamColor.WHITE) + "\n";
+            } else {
+                return printGame(game, ChessGame.TeamColor.BLACK) + "\n";
+            }
+        } else {
+            return "You are not currently in a game\n";
         }
     }
 
@@ -402,7 +432,7 @@ public class Client {
                "<" + magentaString("PASSWORD") + ">\n" +
                blueString("quit") + "\n" +
                blueString("help") + "\n";
-        } else {
+        } else if (state == LoginState.SIGNEDIN && !playingGame && !observingGame) {
             return blueString("create") + " " +
                 "<" + magentaString("NAME") + ">\n" +
                 blueString("list") + "\n" +
@@ -414,6 +444,19 @@ public class Client {
                 blueString("logout") + "\n" +
                 blueString("quit") + "\n" +
                 blueString("help") + "\n";
+        } else if (state == LoginState.SIGNEDIN && playingGame) {
+            return blueString("redraw") + "\n" +
+                    blueString("leave") + "\n" +
+                    blueString("move") + " " +
+                    "<" + magentaString("ROW") + "> " +
+                    "<" + magentaString("COLUMN") + ">\n" +
+                    blueString("resign") + "\n" +
+                    blueString("moves") + "\n" +
+                    blueString("help") + "\n";
+        } else {
+            return blueString("redraw") + "\n" +
+                    blueString("leave") + "\n" +
+                    blueString("help") + "\n";
         }
     }
 
@@ -454,6 +497,15 @@ public class Client {
             }
         }
         return null;
+    }
+
+    private void updateCurrentGame(ChessGame game, int gameID) {
+        currentGame = game;
+        currentGameID = gameID;
+    }
+
+    private ChessGame getCurrentGame() {
+        return currentGame;
     }
 
     private void assertSignedIn() throws ResponseException {
