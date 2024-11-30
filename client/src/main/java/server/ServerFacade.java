@@ -49,9 +49,6 @@ public class ServerFacade extends Endpoint {
                 @Override
                 public void onMessage(String message) {
                     ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
-                    if (ServerMessage.ServerMessageType.LOAD_GAME == serverMessage.getServerMessageType()) {
-                        client.updateCurrentGame(serverMessage.getChessGame());
-                    }
                     notificationHandler.notify(serverMessage);
                 }
             });

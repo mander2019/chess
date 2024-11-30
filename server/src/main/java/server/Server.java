@@ -14,17 +14,24 @@ import spark.*;
 public class Server {
     private final Services service;
     private final WebSocketHandler webSocketHandler;
+    private DAO dao;
 
-    { // Choose DAO here
-        try {
-            service = new Services(new MySQLDAO());
-//            service = new Services(new MemoryUserDAO());
-
-            webSocketHandler = new WebSocketHandler();
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
-        }
+    public Server() throws DataAccessException {
+        dao = new MySQLDAO();
+        service = new Services(dao);
+        webSocketHandler = new WebSocketHandler(dao);
     }
+
+//    { // Set DAO here
+//        try {
+//            dao = new MySQLDAO();
+//
+//            service = new Services(dao);
+//            webSocketHandler = new WebSocketHandler(dao);
+//        } catch (DataAccessException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public int run(int port) {
         Spark.port(port);

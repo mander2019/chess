@@ -250,6 +250,7 @@ public class Client {
                 playingGame = true;
                 currentColor = teamColor;
                 updateCurrentGame(getGame(gameID));
+
                 serverFacade.enterGame(getAuthToken(), gameID);
             } catch (ResponseException e) {
                 if (e.getStatusCode() == 400) {
