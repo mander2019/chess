@@ -66,10 +66,10 @@ public class ChessGame {
 
         for (ChessMove move : moves) { // Only allows legitimate moves
             dreamBoard = new ChessBoard(chessBoard);
-            System.out.println("Before: \n" + dreamBoard);
+//            System.out.println("Before: \n" + dreamBoard);
             dreamBoard.movePiece(move);
-            System.out.println("After: \n" + dreamBoard);
-            System.out.println(("Is in check: " + isInCheckHelper(piece.getTeamColor(), dreamBoard)));
+//            System.out.println("After: \n" + dreamBoard);
+//            System.out.println(("Is in check: " + isInCheckHelper(piece.getTeamColor(), dreamBoard)));
 //            System.out.println(dreamBoard.getPiece(new ChessPosition(4, 6)).pieceMoves(dreamBoard, new ChessPosition(4, 6)));
 //            System.out.println(dreamBoard.getPiece(new ChessPosition(3, 7)));
             if (!isInCheckHelper(piece.getTeamColor(), dreamBoard)) {
@@ -104,14 +104,18 @@ public class ChessGame {
         } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN & Math.abs(end.getRow() - start.getRow()) == 2 & piece.hasMoved) {
             throw new InvalidMoveException("ERROR: Pawn double move");
         } else if (teamTurn != piece.getTeamColor()) {
-            System.out.println(chessBoard);
             throw new InvalidMoveException("ERROR: Wrong player's turn");
         } else if (chessBoard.getPiece(end) != null) {
             if (chessBoard.getPiece(end).getTeamColor() == teamTurn) {
                 throw new InvalidMoveException("ERROR: Capture of own piece");
             }
-        } else if (chessBoard.kingExists()) {
+        }
+
+        dreamBoard.movePiece(move);
+
+        if (chessBoard.kingExists()) {
             if (isInCheckHelper(piece.getTeamColor(), dreamBoard)) {
+                System.out.println("Is in check: \n" + dreamBoard);
                 throw new InvalidMoveException("ERROR: Cannot put own king in check");
             }
         }
@@ -159,10 +163,6 @@ public class ChessGame {
                 }
             }
         }
-
-
-//        System.out.println(board);
-
 
         for (Collection<ChessMove> moves : enemyMoves) {
             for (ChessMove move : moves) {
@@ -268,8 +268,6 @@ public class ChessGame {
     private boolean isInStalemateHelper(TeamColor teamColor, Collection<ChessMove> pieceMoves) {
         for (ChessMove move : pieceMoves) {
             ChessBoard dreamBoard = new ChessBoard(chessBoard);
-
-            System.out.println("Before: \n" + dreamBoard);
 
             dreamBoard.movePiece(move);
 

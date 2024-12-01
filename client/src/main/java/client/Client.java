@@ -1,8 +1,6 @@
 package client;
 
-import chess.ChessBoard;
-import chess.ChessGame;
-import chess.ChessPiece;
+import chess.*;
 import client.websocket.NotificationHandler;
 import exception.ResponseException;
 import model.AuthData;
@@ -19,23 +17,22 @@ import java.util.Map;
 
 public class Client {
     private String username;
-    private ServerFacade serverFacade;
-    private String serverUrl;
-    private NotificationHandler notificationHandler;
+    private final ServerFacade serverFacade;
+//    private String serverUrl;
+//    private NotificationHandler notificationHandler;
     private LoginState state = LoginState.SIGNEDOUT;
-    private boolean playingGame = false;
-    private boolean observingGame = false;
+    private GameState gameState = GameState.NONE;
     private ChessGame currentGame;
-    private int currentGameID;
-    private ChessGame.TeamColor currentColor;
+    private Integer currentGameID = -1;
+    private ChessGame.TeamColor playerColor;
     private Collection<AuthData> auths = new ArrayList<>();
     private Collection<GameData> games = new ArrayList<>();
     private Map<Integer, GameData> gameDirectory = new HashMap<>();
     
     public Client(String serverUrl, NotificationHandler notificationHandler) {
         serverFacade = new ServerFacade(serverUrl, notificationHandler);
-        this.serverUrl = serverUrl;
-        this.notificationHandler = notificationHandler;
+//        this.serverUrl = serverUrl;
+//        this.notificationHandler = notificationHandler;
     }
 
     public String eval(String input) {
@@ -49,22 +46,42 @@ public class Client {
             }
             var params = Arrays.copyOfRange(tokens, 1, tokens.length);
 
-            return switch (function) {
-                case "register" -> register(params);
-                case "login" -> login(params);
-                case "logout" -> logout();
-                case "create" -> createGame(params);
-                case "list" -> list();
-                case "join" -> joinGame(params);
-                case "observe" -> observe(params);
-                case "quit" -> "quit";
-                case "redraw" -> redraw();
-//                case "leave" -> leave();
-//                case "move" -> move(params);
-//                case "resign" -> resign();
+            if (state == LoginState.SIGNEDOUT) {
+                return switch (function) {
+                    case "register" -> register(params);
+                    case "login" -> login(params);
+                    case "quit" -> "quit";
+                    default -> help();
+                };
+            } else if (state == LoginState.SIGNEDIN && gameState == GameState.NONE) {
+                return switch (function) {
+                    case "create" -> createGame(params);
+                    case "list" -> list();
+                    case "join" -> joinGame(params);
+                    case "observe" -> observe(params);
+                    case "logout" -> logout();
+                    case "quit" -> "quit";
+                    default -> help();
+                };
+            } else if (state == LoginState.SIGNEDIN && gameState == GameState.PLAYING) {
+                return switch (function) {
+                    case "move" -> makeMove(params);
 //                case "moves" -> moves();
-                default -> help();
-            };
+                    case "redraw" -> redraw();
+//                case "resign" -> resign();
+                    case "leave" -> leave();
+                    default -> help();
+                };
+            } else if (state == LoginState.SIGNEDIN && gameState == GameState.OBSERVING) {
+                return switch (function) {
+//                case "moves" -> moves();
+                    case "redraw" -> redraw();
+                    case "leave" -> leave();
+                    default -> help();
+                };
+            } else {
+                return help();
+            }
         } catch (Throwable e) {
             return e.getMessage();
         }
@@ -137,6 +154,10 @@ public class Client {
         }
         removeAuth(auth);
         state = LoginState.SIGNEDOUT;
+        playerColor = null;
+        currentGame = null;
+        gameState = GameState.NONE;
+        currentGameID = -1;
         return "You have been successfully signed out\n";
     }
 
@@ -146,7 +167,6 @@ public class Client {
             var name = params[0];
             try {
                 int gameID = serverFacade.createGame(getAuthToken(), name);
-
                 games.add(new GameData(gameID, null, null, name, new ChessGame()));
             } catch (ResponseException e) {
                 if (e.getStatusCode() == 400) {
@@ -247,9 +267,10 @@ public class Client {
 
             try {
                 serverFacade.joinGame(getAuthToken(), teamColor, Integer.toString(gameID));
-                playingGame = true;
-                currentColor = teamColor;
+                gameState = GameState.PLAYING;
+                playerColor = teamColor;
                 updateCurrentGame(getGame(gameID));
+                currentGameID = gameID;
 
                 serverFacade.enterGame(getAuthToken(), gameID);
             } catch (ResponseException e) {
@@ -267,17 +288,22 @@ public class Client {
             }
 
             String output;
+            ChessGame game;
 
             try {
-                ChessGame game = getGame(gameID);
+                game = getGame(gameID);
 
                 if (game == null) {
                     return "Game not found\n";
                 }
 
-                output = printGame(game, ChessGame.TeamColor.WHITE);
-                output += "\n";
-                output += printGame(game, ChessGame.TeamColor.BLACK);
+                output = printGame(game, teamColor);
+//                output = "";
+
+
+//                output = printGame(game, ChessGame.TeamColor.WHITE);
+//                output += "\n";
+//                output += printGame(game, ChessGame.TeamColor.BLACK);
             } catch (Exception e) {
                 return "Game doesn't exist\n";
             }
@@ -301,14 +327,16 @@ public class Client {
                 throw new ResponseException(400, "Bad input\nExpected: <" + magentaString("ID") + ">\n");
             }
 
-            ChessGame game = getGame(gameID);
-            if (game == null) {
+
+            gameState = GameState.OBSERVING;
+            currentGame = getGame(gameID);
+            if (currentGame == null) {
                 throw new ResponseException(400, "Game not found\n");
             }
 
-            output = printGame(game, ChessGame.TeamColor.WHITE);
-            output += "\n";
-            output += printGame(game, ChessGame.TeamColor.BLACK);
+            output = printGame(currentGame, ChessGame.TeamColor.WHITE);
+            output += "\n\n";
+            output += printGame(currentGame, ChessGame.TeamColor.BLACK);
 
             return output;
         } else {
@@ -316,18 +344,86 @@ public class Client {
         }
     }
 
-    public String redraw() throws ResponseException {
+    public String makeMove(String... params) throws ResponseException {
         assertSignedIn();
         ChessGame game = getCurrentGame();
+        if (game == null) {
+            return "You are not currently in a game\n";
+        }
 
-        if (observingGame) {
-            return printGame(game, ChessGame.TeamColor.WHITE) + "\n";
-        } else if (playingGame) {
-            if (currentColor == ChessGame.TeamColor.WHITE) {
-                return printGame(game, ChessGame.TeamColor.WHITE) + "\n";
+        if (params.length == 2 || params.length == 3) {
+            ChessPosition startPos = getChessPosition(params[0]);
+            ChessPosition endPos = getChessPosition(params[1]);
+            ChessPiece.PieceType promotionType;
+            ChessMove move;
+
+            if (params.length == 3) {
+                String inputPromotionType = params[2].toLowerCase();
+                switch (inputPromotionType) {
+                    case "rook" -> promotionType = ChessPiece.PieceType.ROOK;
+                    case "knight" -> promotionType = ChessPiece.PieceType.KNIGHT;
+                    case "bishop" -> promotionType = ChessPiece.PieceType.BISHOP;
+                    case "queen" -> promotionType = ChessPiece.PieceType.QUEEN;
+                    default -> { return "Bad input\nPromotion piece not recognized\n"; }
+                }
+
+                move = new ChessMove(startPos, endPos, promotionType);
             } else {
-                return printGame(game, ChessGame.TeamColor.BLACK) + "\n";
+                move = new ChessMove(startPos, endPos, null);
             }
+
+            try {
+                serverFacade.makeMove(getAuthToken(), currentGameID, move);
+            } catch (Exception e) {
+                return e.getMessage();
+            }
+
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            return printGame(getCurrentGame(), playerColor);
+//            return printGame(getCurrentGame(), playerColor) + "\nMove successful: " + move + "\n";
+        } else {
+            return "Bad input\nExpected: <" + magentaString("START") + "> <" + magentaString("END") + ">\n";
+        }
+    }
+
+    public String redraw() throws ResponseException {
+        assertSignedIn();
+
+//        try {
+//            Thread.sleep(200);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        ChessGame game = getCurrentGame();
+
+        if (isObserving()) {
+            return printGame(game, ChessGame.TeamColor.WHITE);
+        } else if (isPlaying()) {
+            return printGame(game, playerColor);
+        } else {
+            return "You are not currently in a game\n";
+        }
+    }
+
+    public String leave() throws ResponseException {
+        assertSignedIn();
+        if (isPlaying() || isObserving()) {
+            try {
+                serverFacade.leaveGame(getAuthToken(), currentGameID);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            gameState = GameState.NONE;
+            playerColor = null;
+            currentGame = null;
+            currentGameID = -1;
+            return "You have successfully left the game\n";
         } else {
             return "You are not currently in a game\n";
         }
@@ -336,12 +432,12 @@ public class Client {
     private String printGame(ChessGame game, ChessGame.TeamColor color) {
         ChessBoard board = game.getBoard();
         ChessPiece[][] pieces = board.getSquares();
-        String output = "";
+        String output = "\n";
         if (color == ChessGame.TeamColor.WHITE) {
             output += "   a  b  c  d  e  f  g  h\n";
             for (int i = 7; i >= 0; i--) {
                 output += (i + 1) + " ";
-                for (int j = 7; j >= 0; j--) {
+                for (int j = 0; j < 8; j++) {
                     if ((i + j) % 2 == 0) {
                         output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
                     } else {
@@ -356,7 +452,7 @@ public class Client {
             output += "   h  g  f  e  d  c  b  a\n";
             for (int i = 0; i < 8; i++) {
                 output += (i + 1) + " ";
-                for (int j = 0; j < 8; j++) {
+                for (int j = 7; j >= 0; j--) {
                     if ((i + j) % 2 == 0) {
                         output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
                     } else {
@@ -368,6 +464,9 @@ public class Client {
             }
             output += "   h  g  f  e  d  c  b  a\n";
         }
+
+        output += "\n——" + game.getTeamTurn().toString() + "'s turn——";
+
         return output;
     }
 
@@ -403,17 +502,17 @@ public class Client {
             string += EscapeSequences.SET_TEXT_COLOR_BLUE;
 
             if (type == ChessPiece.PieceType.ROOK) {
-                string += "r";
+                string += "R";
             } else if (type == ChessPiece.PieceType.KNIGHT) {
-                string += "n";
+                string += "N";
             } else if (type == ChessPiece.PieceType.BISHOP) {
-                string += "b";
+                string += "B";
             } else if (type == ChessPiece.PieceType.QUEEN) {
-                string += "q";
+                string += "Q";
             } else if (type == ChessPiece.PieceType.KING) {
-                string += "k";
+                string += "K";
             } else if (type == ChessPiece.PieceType.PAWN) {
-                string += "p";
+                string += "P";
             } else {
                 return "Error: piece type not found";
             }
@@ -427,41 +526,43 @@ public class Client {
     }
 
     public String help() {
-        if (state == LoginState.SIGNEDOUT) {
+        if (!isSignedIn()) { // Register or login menu
             return blueString("register") + " " +
-               "<" + magentaString("USERNAME") + "> " +
-               "<" + magentaString("PASSWORD") + "> " +
-               "<" + magentaString("EMAIL") + ">\n" +
-               blueString("login") + " " +
-               "<" + magentaString("USERNAME") + "> " +
-               "<" + magentaString("PASSWORD") + ">\n" +
-               blueString("quit") + "\n" +
-               blueString("help") + "\n";
-        } else if (state == LoginState.SIGNEDIN && !playingGame && !observingGame) {
+                   "<" + magentaString("USERNAME") + "> " +
+                   "<" + magentaString("PASSWORD") + "> " +
+                   "<" + magentaString("EMAIL") + ">\n" +
+                   blueString("login") + " " +
+                   "<" + magentaString("USERNAME") + "> " +
+                   "<" + magentaString("PASSWORD") + ">\n" +
+                   blueString("quit") + "\n" +
+                   blueString("help") + "\n";
+        } else if (!isPlaying() && !isObserving()) { // Logged in menu
             return blueString("create") + " " +
-                "<" + magentaString("NAME") + ">\n" +
-                blueString("list") + "\n" +
-                blueString("join") + " " +
-                "<" + magentaString("ID") + "> " +
-                "<" + magentaString("COLOR") + ">\n" +
-                blueString("observe") + " " +
-                "<" + magentaString("ID") + ">\n" +
-                blueString("logout") + "\n" +
-                blueString("quit") + "\n" +
-                blueString("help") + "\n";
-        } else if (state == LoginState.SIGNEDIN && playingGame) {
-            return blueString("redraw") + "\n" +
-                    blueString("leave") + "\n" +
-                    blueString("move") + " " +
-                    "<" + magentaString("ROW") + "> " +
-                    "<" + magentaString("COLUMN") + ">\n" +
-                    blueString("resign") + "\n" +
-                    blueString("moves") + "\n" +
-                    blueString("help") + "\n";
-        } else {
-            return blueString("redraw") + "\n" +
-                    blueString("leave") + "\n" +
-                    blueString("help") + "\n";
+                   "<" + magentaString("NAME") + ">\n" +
+                   blueString("list") + "\n" +
+                   blueString("join") + " " +
+                   "<" + magentaString("ID") + "> " +
+                   "<" + magentaString("COLOR") + ">\n" +
+                   blueString("observe") + " " +
+                   "<" + magentaString("ID") + ">\n" +
+                   blueString("logout") + "\n" +
+                   blueString("quit") + "\n" +
+                   blueString("help") + "\n";
+        } else if (isPlaying()) { // Playing game menu
+            return blueString("move") + " " +
+                   "<" + magentaString("START") + "> " +
+                   "<" + magentaString("END") + "> " +
+                   "<" + magentaString("PROMOTION TYPE") + ">\n" +
+                   blueString("moves") + "\n" +
+                   blueString("redraw") + "\n" +
+                   blueString("resign") + "\n" +
+                   blueString("leave") + "\n" +
+                   blueString("help") + "\n";
+        } else { // Observing game menu
+            return blueString("moves") + "\n" +
+                   blueString("redraw") + "\n" +
+                   blueString("leave") + "\n" +
+                   blueString("help") + "\n";
         }
     }
 
@@ -512,6 +613,36 @@ public class Client {
         return currentGame;
     }
 
+    private ChessPosition getChessPosition(String position) {
+        if (position.length() != 2) {
+            return null;
+        }
+
+        String row = position.substring(1);
+        String col = position.substring(0, 1);
+
+        int rowInt = Integer.parseInt(row) - 1;
+        int colInt;
+
+        if (rowInt < 0 || rowInt > 7) {
+            return null;
+        }
+
+        switch (col) {
+            case "a" -> colInt = 0;
+            case "b" -> colInt = 1;
+            case "c" -> colInt = 2;
+            case "d" -> colInt = 3;
+            case "e" -> colInt = 4;
+            case "f" -> colInt = 5;
+            case "g" -> colInt = 6;
+            case "h" -> colInt = 7;
+            default -> { return null; }
+        }
+
+        return new ChessPosition(rowInt + 1, colInt + 1);
+    }
+
     private void assertSignedIn() throws ResponseException {
         if (state == LoginState.SIGNEDOUT) {
             throw new ResponseException(400, "You must be signed in to perform this action\n");
@@ -532,6 +663,22 @@ public class Client {
 
     public String greenString(String str) {
         return EscapeSequences.SET_TEXT_COLOR_GREEN + str + EscapeSequences.RESET_TEXT_COLOR;
+    }
+
+    public enum GameState {
+        PLAYING, OBSERVING, NONE
+    }
+
+    private boolean isPlaying() {
+        return gameState == GameState.PLAYING;
+    }
+
+    private boolean isObserving() {
+        return gameState == GameState.OBSERVING;
+    }
+
+    private boolean isSignedIn() {
+        return state == LoginState.SIGNEDIN;
     }
 
 }

@@ -253,6 +253,13 @@ public class MySQLDAO implements DAO {
         }
     }
 
+    public void updateGame(GameData game) throws DataAccessException {
+        int gameID = game.gameID();
+
+        removeGame(gameID);
+        addGame(game);
+    }
+
     public void clear() throws DataAccessException {
         clearHelper("users");
         clearHelper("auths");

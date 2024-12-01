@@ -8,18 +8,18 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionManager {
-    public final ConcurrentHashMap<Integer, Connection> connections = new ConcurrentHashMap<>();
+    public final ConcurrentHashMap<String, Connection> connections = new ConcurrentHashMap<>();
 
-    public void add(int gameID, Session session) {
-        var connection = new Connection(gameID, session);
-        connections.put(gameID, connection);
+    public void add(String visitorName, Session session) {
+        var connection = new Connection(visitorName, session);
+        connections.put(visitorName, connection);
     }
 
-    public void remove(int gameID) {
-        connections.remove(gameID);
+    public void remove(String visitorName) {
+        connections.remove(visitorName);
     }
 
-    public void broadcast(Session excludeSession, String msg, int gameID) throws IOException {
+    public void broadcast(Session excludeSession, String msg) throws IOException {
         for (var c : connections.values()) {
             if (c.session.isOpen()) {
                 if (!c.session.equals(excludeSession)) {

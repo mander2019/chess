@@ -22,5 +22,5 @@ public interface DAO {
     void addWhitePlayerToGame(GameData game, String username) throws DataAccessException;
     void removeGame(int gameID) throws DataAccessException;
     void clear() throws DataAccessException;
-
+    void updateGame(GameData gameData) throws DataAccessException;
 }

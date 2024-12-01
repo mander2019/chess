@@ -100,6 +100,16 @@ public class MemoryUserDAO implements DAO {
         }
     }
 
+    public void updateGame(GameData game) {
+        for (GameData g : games) {
+            if (g.gameID() == game.gameID()) {
+                games.remove(g);
+                games.add(game);
+                break;
+            }
+        }
+    }
+
     public void clear() {
         auths.clear();
         games.clear();

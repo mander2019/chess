@@ -38,8 +38,8 @@ public class ServerFacade extends Endpoint {
 
     private void webSocketConnection() throws ResponseException {
         try {
-            serverUrl = serverUrl.replace("http", "ws");
-            URI socketURI = new URI(serverUrl + "/ws");
+            String WS_serverUrl = serverUrl.replace("http", "ws");
+            URI socketURI = new URI(WS_serverUrl + "/ws");
 
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             this.session = container.connectToServer(this, socketURI);
@@ -67,6 +67,7 @@ public class ServerFacade extends Endpoint {
 
     public void leaveGame(String authToken, int gameID) throws IOException {
         sendCommand(new UserGameCommand(UserGameCommand.CommandType.LEAVE, authToken, gameID));
+        this.session.close();
     }
 
     public void resignGame(String authToken, int gameID) throws IOException {
