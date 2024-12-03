@@ -16,9 +16,17 @@ public class Server {
     private final WebSocketHandler webSocketHandler;
     private DAO dao;
 
-    public Server() throws DataAccessException {
-        dao = new MySQLDAO();
-        service = new Services(dao);
+    public Server() {
+        try {
+            dao = new MySQLDAO();
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            service = new Services(dao);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
         webSocketHandler = new WebSocketHandler(dao);
     }
 
