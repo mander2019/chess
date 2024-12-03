@@ -24,12 +24,6 @@ public class ServerMessage {
         NOTIFICATION
     }
 
-//    public ServerMessage(ServerMessageType type, String newMessage, String game) {
-//        this.serverMessageType = type;
-//        this.message = newMessage;
-//        this.chessGame = game;
-//    }
-
     public ServerMessage(ServerMessageType type, String newMessage) {
         this.serverMessageType = type;
 

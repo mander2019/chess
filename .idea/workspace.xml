@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Code quality updates">
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Repl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/websocket/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/ConnectionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/WebSocketHandler.java" afterDir="false" />
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Code quality updates pt 2">
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/ClientHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/ClientHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/websocket/messages/ServerMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/websocket/messages/ServerMessage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +55,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.ClientMain.executor": "Debug",
+    "Application.ClientMain.executor": "Run",
     "Application.Main (1).executor": "Run",
     "Application.Main.executor": "Run",
     "Application.ServerMain.executor": "Run",
@@ -115,7 +112,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ClientMain">
+  <component name="RunManager" selected="JUnit.All in shared">
     <configuration name="ClientMain" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ClientMain" />
       <module name="client" />
@@ -130,16 +127,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in client" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
+    <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
+    <configuration name="All in shared" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shared" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
@@ -163,11 +160,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in shared" />
         <item itemvalue="Application.ClientMain" />
         <item itemvalue="Application.ServerMain" />
         <item itemvalue="JUnit.WebSocketTests" />
         <item itemvalue="JUnit.All in server" />
-        <item itemvalue="JUnit.All in client" />
       </list>
     </recent_temporary>
   </component>
@@ -179,14 +176,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728951889235</updated>
-    </task>
-    <task id="LOCAL-00025" summary="Cleaned up test cases">
-      <option name="closed" value="true" />
-      <created>1730438623867</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1730438623867</updated>
     </task>
     <task id="LOCAL-00026" summary="Fixed import issue">
       <option name="closed" value="true" />
@@ -572,7 +561,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733259620694</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Code quality updates pt 2">
+      <option name="closed" value="true" />
+      <created>1733259987025</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1733259987025</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -587,7 +584,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Modified improper dependencies - pt 2" />
     <MESSAGE value="Corrected file organization" />
     <MESSAGE value="Dependencies adjusted" />
     <MESSAGE value="Improved code quality" />
@@ -612,7 +608,8 @@
     <MESSAGE value="Corrected dependency issue pt 3" />
     <MESSAGE value="Corrected dependency issue pt 4" />
     <MESSAGE value="Code quality updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Code quality updates" />
+    <MESSAGE value="Code quality updates pt 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Code quality updates pt 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

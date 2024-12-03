@@ -110,17 +110,17 @@ public class ClientHelper extends Client {
             output += "   a  b  c  d  e  f  g  h\n";
         } else {
             output += "   h  g  f  e  d  c  b  a\n";
-            for (int i = 0; i < 8; i++) {
-                output += (i + 1) + " ";
-                for (int j = 7; j >= 0; j--) {
-                    if ((i + j) % 2 == 0) {
-                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
+            for (int x = 0; x < 8; x++) {
+                output += (x + 1) + " ";
+                for (int y = 7; y >= 0; y--) {
+                    if ((x + y) % 2 == 0) {
+                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[x][y]);
                     } else {
-                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
+                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[x][y]);
                     }
                     output += " " + EscapeSequences.RESET_BG_COLOR;
                 }
-                output += " " + (i + 1) + "\n";
+                output += " " + (x + 1) + "\n";
             }
             output += "   h  g  f  e  d  c  b  a\n";
         }
@@ -283,10 +283,6 @@ public class ClientHelper extends Client {
 //                output = printGame(game, teamColor);
                 output = "";
 
-
-//                output = printGame(game, ChessGame.TeamColor.WHITE);
-//                output += "\n";
-//                output += printGame(game, ChessGame.TeamColor.BLACK);
             } catch (Exception e) {
                 return "Game doesn't exist\n";
             }

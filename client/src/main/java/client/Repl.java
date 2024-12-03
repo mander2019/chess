@@ -80,7 +80,9 @@ public class Repl implements NotificationHandler {
             ChessGame.TeamColor playerColor = client.getPlayerColor();
 
             if (turn == playerColor && game.getWinner() == null && !game.isDraw()) {
-                output = "[" + client.greenString("playing") + " | " + client.greenString(client.getUsername()) + " | " + client.greenString("your turn") + "]";
+                output = "[" + client.greenString("playing") + " | "
+                          + client.greenString(client.getUsername())
+                          + " | " + client.greenString("your turn") + "]";
             } else {
                 output = "[" + client.greenString("logged in") + " | " + client.greenString(client.getUsername()) + "]";
             }

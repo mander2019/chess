@@ -70,12 +70,7 @@ public class ChessGame {
 
         for (ChessMove move : moves) { // Only allows legitimate moves
             dreamBoard = new ChessBoard(chessBoard);
-//            System.out.println("Before: \n" + dreamBoard);
             dreamBoard.movePiece(move);
-//            System.out.println("After: \n" + dreamBoard);
-//            System.out.println(("Is in check: " + isInCheckHelper(piece.getTeamColor(), dreamBoard)));
-//            System.out.println(dreamBoard.getPiece(new ChessPosition(4, 6)).pieceMoves(dreamBoard, new ChessPosition(4, 6)));
-//            System.out.println(dreamBoard.getPiece(new ChessPosition(3, 7)));
             if (!isInCheckHelper(piece.getTeamColor(), dreamBoard)) {
                 approvedMoves.add(move);
             }
@@ -284,9 +279,7 @@ public class ChessGame {
 
             testBoard.movePiece(move);
 
-            if (!isInCheckHelper(teamColor, testBoard)) {
-                return true;
-            }
+            return !isInCheckHelper(teamColor, testBoard);
         }
         return false;
     }

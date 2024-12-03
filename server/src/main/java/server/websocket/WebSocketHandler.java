@@ -90,8 +90,6 @@ public class WebSocketHandler {
         loadGame = new ServerMessage(gameData.game());
         connections.send(session, new Gson().toJson(loadGame));
 
-//        connections.send(session, new Gson().toJson(new ServerMessage(ServerMessage.ServerMessageType.LOAD_GAME, "You have joined the game", new Gson().toJson(gameData.game()))));
-
         String message = "\n";
         String gameID = String.valueOf(gameData.gameID());
 
