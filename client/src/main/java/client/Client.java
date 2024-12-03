@@ -524,7 +524,15 @@ public class Client {
             for (int i = 7; i >= 0; i--) {
                 output += (i + 1) + " ";
                 for (int j = 0; j < 8; j++) {
-                    if ((i + j) % 2 == 0) {
+                    end = new ChessPosition(i + 1, j + 1);
+                    move = getMoveFromList(end, moves);
+
+                    if (move != null) {
+                        output += EscapeSequences.SET_BG_COLOR_GREEN + " " + chessPieceToString(pieces[i][i]);
+                    } else if (new ChessPosition(i + 1, j + 1).equals(start)) {
+                        output += EscapeSequences.SET_BG_COLOR_YELLOW + " " + chessPieceToString(pieces[i][j]);
+                    }
+                    else if ((i + j) % 2 == 0) {
                         output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
                     } else {
                         output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
