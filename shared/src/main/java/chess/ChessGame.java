@@ -13,11 +13,15 @@ import java.util.Objects;
 public class ChessGame {
     private TeamColor teamTurn;
     private ChessBoard chessBoard;
+    private TeamColor winner;
+    private boolean isDraw;
 
     public ChessGame() {
         this.chessBoard = new ChessBoard();
         chessBoard.resetBoard();
         this.teamTurn = TeamColor.WHITE;
+        this.winner = null;
+        this.isDraw = false;
     }
 
     /**
@@ -132,6 +136,14 @@ public class ChessGame {
             setTeamTurn(TeamColor.WHITE);
         } else {
             setTeamTurn(TeamColor.BLACK);
+        }
+
+        if (isInCheckmate(TeamColor.WHITE)) {
+            winner = TeamColor.BLACK;
+        } else if (isInCheckmate(TeamColor.BLACK)) {
+            winner = TeamColor.WHITE;
+        } else if (isInStalemate(TeamColor.WHITE) || isInStalemate(TeamColor.BLACK)) {
+            isDraw = true;
         }
     }
 
@@ -294,6 +306,18 @@ public class ChessGame {
      */
     public ChessBoard getBoard() {
         return chessBoard;
+    }
+
+    public TeamColor getWinner() {
+        return winner;
+    }
+
+    public boolean isDraw() {
+        return isDraw;
+    }
+
+    public void setWinner(TeamColor winner) {
+        this.winner = winner;
     }
 
     @Override

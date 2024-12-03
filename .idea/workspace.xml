@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Completed join game websocket functionality--refined notification system">
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Completed move and leave functionality and improved UI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Repl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/DAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryUserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryUserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySQLDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/websocket/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/Connection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/websocket/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/ConnectionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/server/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/WebSocketHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
     </list>
@@ -178,14 +173,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728951889235</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Corrected exception handling for setting up services in DAO">
-      <option name="closed" value="true" />
-      <created>1730254214215</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1730254214215</updated>
     </task>
     <task id="LOCAL-00016" summary="Added functionality for adding users">
       <option name="closed" value="true" />
@@ -571,7 +558,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732953642438</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Completed move and leave functionality and improved UI">
+      <option name="closed" value="true" />
+      <created>1733058738735</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1733058738736</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -586,7 +581,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Began ServerFacade class" />
     <MESSAGE value="Built out client and repl classes--partial functionality added" />
     <MESSAGE value="Finished client register and login functionality" />
     <MESSAGE value="Finished logout functionality" />
@@ -611,7 +605,8 @@
     <MESSAGE value="Added UI for playing games" />
     <MESSAGE value="Began implementing websocket functionality" />
     <MESSAGE value="Completed join game websocket functionality--refined notification system" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed join game websocket functionality--refined notification system" />
+    <MESSAGE value="Completed move and leave functionality and improved UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed move and leave functionality and improved UI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

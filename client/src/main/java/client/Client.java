@@ -66,15 +66,15 @@ public class Client {
             } else if (state == LoginState.SIGNEDIN && gameState == GameState.PLAYING) {
                 return switch (function) {
                     case "move" -> makeMove(params);
-//                case "moves" -> moves();
+                    case "moves" -> moves(params);
                     case "redraw" -> redraw();
-//                case "resign" -> resign();
+                    case "resign" -> resign();
                     case "leave" -> leave();
                     default -> help();
                 };
             } else if (state == LoginState.SIGNEDIN && gameState == GameState.OBSERVING) {
                 return switch (function) {
-//                case "moves" -> moves();
+                    case "moves" -> moves(params);
                     case "redraw" -> redraw();
                     case "leave" -> leave();
                     default -> help();
@@ -297,8 +297,8 @@ public class Client {
                     return "Game not found\n";
                 }
 
-                output = printGame(game, teamColor);
-//                output = "";
+//                output = printGame(game, teamColor);
+                output = "";
 
 
 //                output = printGame(game, ChessGame.TeamColor.WHITE);
@@ -308,7 +308,7 @@ public class Client {
                 return "Game doesn't exist\n";
             }
 
-            return output + "\nYou have successfully joined game " + gameID + " as " + color + "\n";
+            return output + "you have successfully joined game " + gameID + " as " + color;
         } else {
             return "Bad input—incorrect number of arguments\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
         }
@@ -321,12 +321,18 @@ public class Client {
 
         if (params.length == 1) {
             int gameID;
-            try {
-                gameID = Integer.parseInt(params[0]);
-            } catch (NumberFormatException e) {
-                throw new ResponseException(400, "Bad input\nExpected: <" + magentaString("ID") + ">\n");
-            }
+            int directoryIndex;
+            try { // Convert input to gameID
+                directoryIndex = Integer.parseInt(params[0]);
 
+                if (directoryIndex > games.size() || directoryIndex <= 0) {
+                    return "Game not found\n";
+                }
+
+                gameID = gameDirectory.get(directoryIndex).gameID();
+            } catch (NumberFormatException e) {
+                return "Bad <" + magentaString("ID")+ "> input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
+            }
 
             gameState = GameState.OBSERVING;
             currentGame = getGame(gameID);
@@ -334,9 +340,17 @@ public class Client {
                 throw new ResponseException(400, "Game not found\n");
             }
 
-            output = printGame(currentGame, ChessGame.TeamColor.WHITE);
-            output += "\n\n";
-            output += printGame(currentGame, ChessGame.TeamColor.BLACK);
+            try {
+                serverFacade.enterGame(getAuthToken(), gameID);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+//            output = printGame(currentGame, ChessGame.TeamColor.WHITE);
+//            output += "\n\n";
+//            output += printGame(currentGame, ChessGame.TeamColor.BLACK);
+
+            output = "you have successfully joined game " + gameID + " as an observer";
 
             return output;
         } else {
@@ -391,6 +405,20 @@ public class Client {
         }
     }
 
+    public String resign() throws ResponseException {
+        assertSignedIn();
+        if (isPlaying()) {
+            try {
+                serverFacade.resignGame(getAuthToken(), currentGameID);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return "You have successfully resigned\n";
+        } else {
+            return "You are not currently in a game\n";
+        }
+    }
+
     public String redraw() throws ResponseException {
         assertSignedIn();
 
@@ -404,8 +432,16 @@ public class Client {
 
         if (isObserving()) {
             return printGame(game, ChessGame.TeamColor.WHITE);
-        } else if (isPlaying()) {
+        } else if (isPlaying() && !isGameOver(game)) {
             return printGame(game, playerColor);
+        } else if (isPlaying() && isGameOver(game)) {
+//            if (game.getWinner() != null) {
+//                return "\n\nGame over: " + game.getWinner().toString() + " wins\n";
+//            } else {
+//                return "\n\nGame over: draw\n";
+//            }
+
+            return "";
         } else {
             return "You are not currently in a game\n";
         }
@@ -429,7 +465,36 @@ public class Client {
         }
     }
 
-    private String printGame(ChessGame game, ChessGame.TeamColor color) {
+    public String moves(String... params) {
+        if (!isPlaying() && !isObserving()) {
+            return "You are not currently in a game\n";
+        } else if (params.length != 1) {
+            return "Bad input\nExpected: <" + magentaString("PIECE") + ">\n";
+        }
+
+        ChessPosition position = getChessPosition(params[0]);
+        if (position == null) {
+            return "Bad input\nExpected: <" + magentaString("PIECE") + ">\n";
+        }
+
+        ChessGame game = getCurrentGame();
+        ChessBoard board = game.getBoard();
+        ChessPiece piece = board.getPiece(position);
+        ChessPiece.PieceType type = piece.getPieceType();
+        ChessGame.TeamColor color = piece.getTeamColor();
+
+        Collection<ChessMove> moves = game.validMoves(position);
+
+        String output = "";
+
+        for (ChessMove move : moves) {
+            output += move.toString() + "\n";
+        }
+
+        return output;
+    }
+
+    public String printGame(ChessGame game, ChessGame.TeamColor color) {
         ChessBoard board = game.getBoard();
         ChessPiece[][] pieces = board.getSquares();
         String output = "\n";
@@ -465,7 +530,13 @@ public class Client {
             output += "   h  g  f  e  d  c  b  a\n";
         }
 
-        output += "\n——" + game.getTeamTurn().toString() + "'s turn——";
+        if (game.getWinner() != null) {
+            output += "\nGame over: " + game.getWinner() + " wins\n";
+        } else if (game.isDraw()) {
+            output += "\nGame over: draw\n";
+        } else {
+            output += "\n——" + game.getTeamTurn() + "'s turn——\n";
+        }
 
         return output;
     }
@@ -554,6 +625,7 @@ public class Client {
                    "<" + magentaString("END") + "> " +
                    "<" + magentaString("PROMOTION TYPE") + ">\n" +
                    blueString("moves") + "\n" +
+                   "<" + magentaString("PIECE") + ">\n" +
                    blueString("redraw") + "\n" +
                    blueString("resign") + "\n" +
                    blueString("leave") + "\n" +
@@ -609,8 +681,12 @@ public class Client {
         currentGame = game;
     }
 
-    private ChessGame getCurrentGame() {
+    public ChessGame getCurrentGame() {
         return currentGame;
+    }
+
+    private boolean isGameOver(ChessGame game) {
+        return game.getWinner() != null || game.isDraw();
     }
 
     private ChessPosition getChessPosition(String position) {
@@ -663,6 +739,14 @@ public class Client {
 
     public String greenString(String str) {
         return EscapeSequences.SET_TEXT_COLOR_GREEN + str + EscapeSequences.RESET_TEXT_COLOR;
+    }
+
+    public String greenHighlightString(String str) {
+        return EscapeSequences.SET_BG_COLOR_GREEN + str + EscapeSequences.RESET_BG_COLOR;
+    }
+
+    public String yellowHighlightString(String str) {
+        return EscapeSequences.SET_BG_COLOR_YELLOW + str + EscapeSequences.RESET_BG_COLOR;
     }
 
     public enum GameState {

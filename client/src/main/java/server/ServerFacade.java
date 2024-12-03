@@ -25,7 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class ServerFacade extends Endpoint {
-    private String serverUrl;
+    private final String serverUrl;
     NotificationHandler notificationHandler;
     Session session;
     Client client;
@@ -57,7 +57,8 @@ public class ServerFacade extends Endpoint {
         }
     }
 
-    public void enterGame(String authToken, int gameID) throws IOException {
+    public void enterGame(String authToken, int gameID) throws IOException, ResponseException {
+        webSocketConnection();
         sendCommand(new UserGameCommand(UserGameCommand.CommandType.CONNECT, authToken, gameID));
     }
 
@@ -145,7 +146,7 @@ public class ServerFacade extends Endpoint {
         var body = new Gson().toJson(Map.of("playerColor", color, "gameID", gameID));
         this.makeRequest("PUT", "/game", authToken, body, JoinGameResponse.class);
 
-        webSocketConnection();
+//        webSocketConnection();
     }
 
     public void clearData() throws ResponseException {

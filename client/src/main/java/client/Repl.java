@@ -21,6 +21,12 @@ public class Repl implements NotificationHandler {
         Scanner scanner = new Scanner(System.in);
         var result = "";
         while (!"quit".equals(result)) {
+            try {
+                Thread.sleep(40);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
             printPrompt();
             String line = scanner.nextLine();
 
@@ -46,20 +52,18 @@ public class Repl implements NotificationHandler {
         String msg = notification.getMessage();
         ChessGame game = notification.getChessGame();
 
-        if (type == ServerMessage.ServerMessageType.LOAD_GAME) {
+        if (type == ServerMessage.ServerMessageType.LOAD_GAME && game != client.getCurrentGame()) {
             try {
-                System.out.println("Updating game...");
                 client.updateCurrentGame(game);
-                Thread.sleep(1000);
-                client.redraw();
+                System.out.println("\n" + client.redraw());
             } catch (Exception e) {
-                System.out.print("\nError: " + e.getMessage());
+                System.out.print("\n\nError: " + e.getMessage());
             }
         } else if (type == ServerMessage.ServerMessageType.ERROR || type == ServerMessage.ServerMessageType.NOTIFICATION) {
             System.out.print("\n\n" + msg + "\n\n");
             printPrompt();
         } else {
-            System.out.print("\nError: Invalid server message");
+            System.out.print("\n\nError: Invalid server message");
         }
     }
 

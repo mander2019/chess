@@ -76,7 +76,7 @@ public class WebSocketHandler {
             case CONNECT -> connect(session, username, gameData);
             case MAKE_MOVE -> makeMove(session, username, gameData, move);
             case LEAVE -> leave(session, username, gameData);
-//            case RESIGN -> resign(session, username, gameData);
+            case RESIGN -> resign(session, username, gameData);
         }
     }
 
@@ -88,16 +88,19 @@ public class WebSocketHandler {
 
         String message;
 
-        if (gameData.whiteUsername().equals(username)) {
+        if (gameData.whiteUsername() != null && gameData.whiteUsername().equals(username)) {
             message = username + " has joined the game as white";
-        } else if (gameData.blackUsername().equals(username)) {
+        } else if (gameData.blackUsername() != null && gameData.blackUsername().equals(username)) {
             message = username + " has joined the game as black";
         } else {
             message = username + " is now observing the game";
         }
 
-        notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+        if (isGameOver(session, gameData)) {
+            message += "\nnote: the game is already over!";
+        }
 
+        notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(session, new Gson().toJson(notification));
     }
 
@@ -105,9 +108,37 @@ public class WebSocketHandler {
 
         ChessGame game = gameData.game();
         ChessMove chessMove = new Gson().fromJson(move, ChessMove.class);
-        ChessGame.TeamColor currentTurn = game.getTeamTurn();
 
-        ChessGame.TeamColor playerColor;
+        // Don't allow moves if game is over
+        if (isGameOver(session, gameData)) {
+            return;
+        }
+
+//        ChessGame.TeamColor playerColor;
+
+//        ChessGame.TeamColor winnerColor;
+//
+//        if (game.getWinner() != null) { // Check for winner
+//            if (game.getWinner() == ChessGame.TeamColor.WHITE) {
+//                winnerColor = ChessGame.TeamColor.WHITE;
+//            } else {
+//                winnerColor = ChessGame.TeamColor.BLACK;
+//            }
+//
+//            String message = winnerColor.toString() + " has won the game!";
+//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+//            connections.broadcast(session, new Gson().toJson(notification));
+//            connections.send(session, new Gson().toJson(notification));
+//            return;
+//        }
+//
+//        if (game.isDraw()) { // Check for stalemate
+//            String message = "The game is a draw!";
+//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+//            connections.broadcast(session, new Gson().toJson(notification));
+//            connections.send(session, new Gson().toJson(notification));
+//            return;
+//        }
 
         // Ensure observer is not making moves
         if (!gameData.whiteUsername().equals(username) && !gameData.blackUsername().equals(username)) {
@@ -138,30 +169,35 @@ public class WebSocketHandler {
         connections.send(session, new Gson().toJson(loadGame));
         connections.broadcast(session, new Gson().toJson(loadGame));
 
-
+        // Message to opponent and observers
         String message = username + " has made a move: " + moveToString(chessMove);
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-
-        connections.send(session, new Gson().toJson(notification));
         connections.broadcast(session, new Gson().toJson(notification));
 
-        ChessGame.TeamColor otherPlayer = game.getTeamTurn();
+        // Message to player who made the move
+        message = "you have made a move: " + moveToString(chessMove);
 
-        if (game.isInCheckmate(otherPlayer)) {
-            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Checkmate!\n" + currentTurn.toString() + " wins!");
-            connections.broadcast(session, new Gson().toJson(notification));
-        }
+        notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+        connections.send(session, new Gson().toJson(notification));
 
-        if (game.isInStalemate(otherPlayer)) {
-            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Stalemate!\nIt's a draw!");
-            connections.broadcast(session, new Gson().toJson(notification));
-        }
+        checkGameStatus(session, updatedGameData);
 
-        if (game.isInCheck(otherPlayer)) {
-            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, otherPlayer.toString() + " is in check!");
-            connections.broadcast(session, new Gson().toJson(notification));
-        }
+
+//        if (game.isInCheckmate(otherPlayer)) {
+//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Checkmate!\n" + currentTurn.toString() + " wins!");
+//            connections.broadcast(session, new Gson().toJson(notification));
+//        }
+//
+//        if (game.isInStalemate(otherPlayer)) {
+//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Stalemate!\nIt's a draw!");
+//            connections.broadcast(session, new Gson().toJson(notification));
+//        }
+//
+//        if (game.isInCheck(otherPlayer)) {
+//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, otherPlayer.toString() + " is in check!");
+//            connections.broadcast(session, new Gson().toJson(notification));
+//        }
     }
 
     void leave(Session session, String username, GameData gameData) throws IOException {
@@ -186,6 +222,103 @@ public class WebSocketHandler {
         connections.send(session, new Gson().toJson(notification));
         connections.broadcast(session, new Gson().toJson(notification));
         connections.remove(username);
+    }
+
+    void resign(Session session, String username, GameData gameData) throws IOException {
+        ChessGame game = gameData.game();
+
+        if (game.getWinner() != null || game.isDraw()) {
+            String message = "the game is already over!";
+            error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, message);
+            connections.send(session, new Gson().toJson(error));
+            return;
+        }
+
+
+        ChessGame.TeamColor winningPlayer;
+//        String winningUsername;
+        if (gameData.whiteUsername().equals(username)) {
+            winningPlayer = ChessGame.TeamColor.BLACK;
+//            winningUsername = gameData.blackUsername();
+        } else {
+            winningPlayer = ChessGame.TeamColor.WHITE;
+//            winningUsername = gameData.whiteUsername();
+        }
+
+        ChessGame.TeamColor losingPlayer = switch (winningPlayer) {
+            case BLACK -> ChessGame.TeamColor.WHITE;
+            case WHITE -> ChessGame.TeamColor.BLACK;
+        };
+
+        String message = losingPlayer + " has resigned the game";
+        message += "\n" + winningPlayer + " wins!";
+
+        game.setWinner(winningPlayer);
+
+        try {
+            updateGameData(new GameData(gameData.gameID(), gameData.whiteUsername(), gameData.blackUsername(), gameData.gameName(), game));
+        } catch (DataAccessException e) {
+            ServerMessage error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, e.getMessage());
+            connections.send(session, new Gson().toJson(error));
+            return;
+        }
+
+        ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+
+        connections.send(session, new Gson().toJson(notification));
+        connections.broadcast(session, new Gson().toJson(notification));
+    }
+
+    private void checkGameStatus(Session session, GameData gameData) throws IOException {
+        checkGameStatusHelper(session, gameData, ChessGame.TeamColor.WHITE);
+        checkGameStatusHelper(session, gameData, ChessGame.TeamColor.BLACK);
+    }
+
+    private void checkGameStatusHelper (Session session, GameData gameData, ChessGame.TeamColor color) throws IOException {
+        ChessGame game = gameData.game();
+        ChessGame.TeamColor otherColor = switch (color) {
+            case BLACK -> ChessGame.TeamColor.WHITE;
+            case WHITE -> ChessGame.TeamColor.BLACK;
+        };
+
+        if (game.isInCheckmate(color)) {
+            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Checkmate!\n" + otherColor + " wins!");
+            connections.broadcast(session, new Gson().toJson(notification));
+        }
+
+        if (game.isInStalemate(color)) {
+            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Stalemate!\nIt's a draw!");
+            connections.broadcast(session, new Gson().toJson(notification));
+        }
+
+        if (game.isInCheck(color)) {
+            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, color.toString() + " is in check!");
+            connections.broadcast(session, new Gson().toJson(notification));
+        }
+    }
+
+    private boolean isGameOver(Session session, GameData gameData) throws IOException {
+        ChessGame game = gameData.game();
+
+        ChessGame.TeamColor winnerColor = game.getWinner();;
+
+        if (game.getWinner() != null) { // Check for winner
+            String message = winnerColor + " has won the game!";
+            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+            connections.broadcast(session, new Gson().toJson(notification));
+            connections.send(session, new Gson().toJson(notification));
+            return true;
+        }
+
+        if (game.isDraw()) { // Check for stalemate
+            String message = "The game is a draw!";
+            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+            connections.broadcast(session, new Gson().toJson(notification));
+            connections.send(session, new Gson().toJson(notification));
+            return true;
+        }
+
+        return false;
     }
 
     private AuthData getAuthData(String authToken) throws DataAccessException {
