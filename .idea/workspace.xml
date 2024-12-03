@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Corrected dependency issue pt 2">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
-    </list>
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Corrected dependency issue pt 3" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -175,14 +172,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728951889235</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Began test cases for new DAO">
-      <option name="closed" value="true" />
-      <created>1730435770101</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1730435770101</updated>
     </task>
     <task id="LOCAL-00023" summary="Completed adduser tests">
       <option name="closed" value="true" />
@@ -568,7 +557,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733257841791</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="Corrected dependency issue pt 3">
+      <option name="closed" value="true" />
+      <created>1733258276263</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1733258276264</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -583,7 +580,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Completed observe and printing functionality" />
     <MESSAGE value="Completed test cases for ServerFacade" />
     <MESSAGE value="Modified improper dependencies" />
     <MESSAGE value="Modified improper dependencies - pt 2" />
@@ -608,7 +604,8 @@
     <MESSAGE value="Adjusted code to work with test cases. All are passing" />
     <MESSAGE value="Corrected dependency issue" />
     <MESSAGE value="Corrected dependency issue pt 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Corrected dependency issue pt 2" />
+    <MESSAGE value="Corrected dependency issue pt 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrected dependency issue pt 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

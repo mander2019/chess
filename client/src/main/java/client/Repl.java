@@ -3,7 +3,7 @@ package client;
 import chess.ChessGame;
 import client.websocket.NotificationHandler;
 import client.*;
-import server.Server;
+//import server.Server;
 import websocket.messages.ServerMessage;
 
 import java.util.*;
