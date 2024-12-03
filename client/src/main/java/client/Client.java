@@ -17,17 +17,18 @@ import java.util.Map;
 
 public class Client {
     private String username;
-    private final ServerFacade serverFacade;
+    protected final ServerFacade serverFacade;
 //    private String serverUrl;
 //    private NotificationHandler notificationHandler;
-    private LoginState state = LoginState.SIGNEDOUT;
-    private GameState gameState = GameState.NONE;
+protected LoginState state = LoginState.SIGNEDOUT;
+    protected GameState gameState = GameState.NONE;
     private ChessGame currentGame;
-    private Integer currentGameID = -1;
-    private ChessGame.TeamColor playerColor;
+    protected Integer currentGameID = -1;
+    protected ChessGame.TeamColor playerColor;
     private Collection<AuthData> auths = new ArrayList<>();
-    private Collection<GameData> games = new ArrayList<>();
-    private Map<Integer, GameData> gameDirectory = new HashMap<>();
+    protected Collection<GameData> games = new ArrayList<>();
+    protected Map<Integer, GameData> gameDirectory = new HashMap<>();
+    private ClientHelper helper = new ClientHelper();
     
     public Client(String serverUrl, NotificationHandler notificationHandler) {
         serverFacade = new ServerFacade(serverUrl, notificationHandler);
@@ -35,56 +36,12 @@ public class Client {
 //        this.notificationHandler = notificationHandler;
     }
 
-    public String eval(String input) {
-        try {
-            var tokens = input.toLowerCase().split(" ");
-            String function;
-            if (tokens.length > 0) {
-                function = tokens[0];
-            } else {
-                function = "help";
-            }
-            var params = Arrays.copyOfRange(tokens, 1, tokens.length);
+    protected Client() {
+        serverFacade = null;
+    }
 
-            if (state == LoginState.SIGNEDOUT) {
-                return switch (function) {
-                    case "register" -> register(params);
-                    case "login" -> login(params);
-                    case "quit" -> "quit";
-                    default -> help();
-                };
-            } else if (state == LoginState.SIGNEDIN && gameState == GameState.NONE) {
-                return switch (function) {
-                    case "create" -> createGame(params);
-                    case "list" -> list();
-                    case "join" -> joinGame(params);
-                    case "observe" -> observe(params);
-                    case "logout" -> logout();
-                    case "quit" -> "quit";
-                    default -> help();
-                };
-            } else if (state == LoginState.SIGNEDIN && gameState == GameState.PLAYING) {
-                return switch (function) {
-                    case "move" -> makeMove(params);
-                    case "moves" -> moves(params);
-                    case "redraw" -> redraw();
-                    case "resign" -> resign();
-                    case "leave" -> leave();
-                    default -> help();
-                };
-            } else if (state == LoginState.SIGNEDIN && gameState == GameState.OBSERVING) {
-                return switch (function) {
-                    case "moves" -> moves(params);
-                    case "redraw" -> redraw();
-                    case "leave" -> leave();
-                    default -> help();
-                };
-            } else {
-                return help();
-            }
-        } catch (Throwable e) {
-            return e.getMessage();
-        }
+    public String eval(String input) {
+        return helper.eval(input);
     }
 
     public String register(String... params) throws ResponseException {
@@ -225,7 +182,7 @@ public class Client {
         return output;
     }
 
-    private void updateGameDirectory() throws ResponseException {
+    protected void updateGameDirectory() throws ResponseException {
         gameDirectory = new HashMap<>();
         games = serverFacade.listGames(getAuthToken());
         int gameNumber = 1;
@@ -236,89 +193,12 @@ public class Client {
     }
 
     public String joinGame(String... params) throws ResponseException {
-        assertSignedIn();
-        updateGameDirectory();
-
-        if (params.length == 2) {
-            int directoryIndex;
-            int gameID;
-            try { // Convert input to gameID
-                directoryIndex = Integer.parseInt(params[0]);
-
-                if (directoryIndex > games.size() || directoryIndex <= 0) {
-                    return "Game not found\n";
-                }
-
-                gameID = gameDirectory.get(directoryIndex).gameID();
-            } catch (NumberFormatException e) {
-                return "Bad <" + magentaString("ID")+ "> input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
-            }
-
-            // Get color
-            String color = params[1].toLowerCase();
-            ChessGame.TeamColor teamColor;
-            if (color.equals("white")) {
-                teamColor = ChessGame.TeamColor.WHITE;
-            } else if (color.equals("black")) {
-                teamColor = ChessGame.TeamColor.BLACK;
-            } else {
-                return "Bad <" + magentaString("COLOR")+ "> input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
-            }
-
-            try {
-                serverFacade.joinGame(getAuthToken(), teamColor, Integer.toString(gameID));
-                gameState = GameState.PLAYING;
-                playerColor = teamColor;
-                updateCurrentGame(getGame(gameID));
-                currentGameID = gameID;
-
-                serverFacade.enterGame(getAuthToken(), gameID);
-            } catch (ResponseException e) {
-                if (e.getStatusCode() == 400) {
-                    return "Bad input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
-                } else if (e.getStatusCode() == 401) {
-                    return "Unauthorized\n";
-                } else if (e.getStatusCode() == 403) {
-                    return "Game already taken\n";
-                } else {
-                    return e.getMessage();
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            String output;
-            ChessGame game;
-
-            try {
-                game = getGame(gameID);
-
-                if (game == null) {
-                    return "Game not found\n";
-                }
-
-//                output = printGame(game, teamColor);
-                output = "";
-
-
-//                output = printGame(game, ChessGame.TeamColor.WHITE);
-//                output += "\n";
-//                output += printGame(game, ChessGame.TeamColor.BLACK);
-            } catch (Exception e) {
-                return "Game doesn't exist\n";
-            }
-
-            return output + "you have successfully joined game " + gameID + " as " + color + "\n";
-        } else {
-            return "Bad input—incorrect number of arguments\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
-        }
+        return helper.joinGame(params);
     }
 
     public String observe(String... params) throws ResponseException {
         assertSignedIn();
         updateGameDirectory();
-        String output;
-
         if (params.length == 1) {
             int gameID;
             int directoryIndex;
@@ -346,13 +226,7 @@ public class Client {
                 throw new RuntimeException(e);
             }
 
-//            output = printGame(currentGame, ChessGame.TeamColor.WHITE);
-//            output += "\n\n";
-//            output += printGame(currentGame, ChessGame.TeamColor.BLACK);
-
-            output = "you have successfully joined game " + gameID + " as an observer\n";
-
-            return output;
+            return "you have successfully joined game " + gameID + " as an observer\n";
         } else {
             throw new ResponseException(400, "Bad input\nExpected: <" + magentaString("ID") + ">\n");
         }
@@ -399,7 +273,6 @@ public class Client {
             }
 
             return printGame(getCurrentGame(), playerColor);
-//            return printGame(getCurrentGame(), playerColor) + "\nMove successful: " + move + "\n";
         } else {
             return "Bad input\nExpected: <" + magentaString("START") + "> <" + magentaString("END") + ">\n";
         }
@@ -421,13 +294,6 @@ public class Client {
 
     public String redraw() throws ResponseException {
         assertSignedIn();
-
-//        try {
-//            Thread.sleep(200);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-
         ChessGame game = getCurrentGame();
 
         if (isObserving()) {
@@ -435,12 +301,6 @@ public class Client {
         } else if (isPlaying() && !isGameOver(game)) {
             return printGame(game, playerColor);
         } else if (isPlaying() && isGameOver(game)) {
-//            if (game.getWinner() != null) {
-//                return "\n\nGame over: " + game.getWinner().toString() + " wins\n";
-//            } else {
-//                return "\n\nGame over: draw\n";
-//            }
-
             return "";
         } else {
             return "You are not currently in a game\n";
@@ -466,88 +326,10 @@ public class Client {
     }
 
     public String moves(String... params) {
-        if (!isPlaying() && !isObserving()) {
-            return "You are not currently in a game\n";
-        } else if (params.length != 1) {
-            return "Bad input\nExpected: <" + magentaString("PIECE") + ">\n";
-        }
-
-        ChessPosition position = getChessPosition(params[0]);
-        if (position == null) {
-            return "Bad input\nExpected: <" + magentaString("PIECE") + ">\n";
-        }
-
-        ChessGame.TeamColor observeColor = playerColor;
-        if (isObserving()) {
-            observeColor = ChessGame.TeamColor.WHITE;
-        }
-
-        ChessGame game = getCurrentGame();
-        ChessBoard board = game.getBoard();
-        ChessPiece[][] pieces = board.getSquares();
-        ChessPiece piece = board.getPiece(position);
-        ChessPiece.PieceType type = piece.getPieceType();
-        ChessGame.TeamColor color = piece.getTeamColor();
-
-        Collection<ChessMove> moves = game.validMoves(position);
-
-        String output = "";
-        ChessMove move;
-        ChessPosition start = position;
-        ChessPosition end;
-
-        if (observeColor == ChessGame.TeamColor.BLACK) {
-            output += "   h  g  f  e  d  c  b  a\n";
-            for (int i = 0; i < 8; i++) {
-                output += (i + 1) + " ";
-                for (int j = 7; j >= 0; j--) {
-                    end = new ChessPosition(i + 1, j + 1);
-                    move = getMoveFromList(end, moves);
-                    if (move != null) {
-                        output += EscapeSequences.SET_BG_COLOR_GREEN + " " + chessPieceToString(pieces[i][i]);
-                    } else if (new ChessPosition(i + 1, j + 1).equals(start)) {
-                        output += EscapeSequences.SET_BG_COLOR_YELLOW + " " + chessPieceToString(pieces[i][j]);
-                    }
-
-                    else if ((i + j) % 2 == 0) {
-                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
-                    } else {
-                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
-                    }
-                    output += " " + EscapeSequences.RESET_BG_COLOR;
-                }
-                output += " " + (i + 1) + "\n";
-            }
-            output += "   h  g  f  e  d  c  b  a\n";
-        } else {
-            output += "   a  b  c  d  e  f  g  h\n";
-            for (int i = 7; i >= 0; i--) {
-                output += (i + 1) + " ";
-                for (int j = 0; j < 8; j++) {
-                    end = new ChessPosition(i + 1, j + 1);
-                    move = getMoveFromList(end, moves);
-
-                    if (move != null) {
-                        output += EscapeSequences.SET_BG_COLOR_GREEN + " " + chessPieceToString(pieces[i][i]);
-                    } else if (new ChessPosition(i + 1, j + 1).equals(start)) {
-                        output += EscapeSequences.SET_BG_COLOR_YELLOW + " " + chessPieceToString(pieces[i][j]);
-                    }
-                    else if ((i + j) % 2 == 0) {
-                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
-                    } else {
-                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
-                    }
-                    output += " " + EscapeSequences.RESET_BG_COLOR;
-                }
-                output += " " + (i + 1) + "\n";
-            }
-            output += "   a  b  c  d  e  f  g  h\n";
-        }
-
-        return output;
+        return helper.moves(params);
     }
 
-    private ChessMove getMoveFromList(ChessPosition end, Collection<ChessMove> moves) {
+    protected ChessMove getMoveFromList(ChessPosition end, Collection<ChessMove> moves) {
         for (ChessMove move : moves) {
             if (move.getEndPosition().equals(end)) {
                 return move;
@@ -557,148 +339,15 @@ public class Client {
     }
 
     public String printGame(ChessGame game, ChessGame.TeamColor color) {
-        ChessBoard board = game.getBoard();
-        ChessPiece[][] pieces = board.getSquares();
-//        String output = "\n";
-        String output = "";
-        if (color == ChessGame.TeamColor.WHITE) {
-            output += "   a  b  c  d  e  f  g  h\n";
-            for (int i = 7; i >= 0; i--) {
-                output += (i + 1) + " ";
-                for (int j = 0; j < 8; j++) {
-                    if ((i + j) % 2 == 0) {
-                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
-                    } else {
-                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
-                    }
-                    output += " " + EscapeSequences.RESET_BG_COLOR;
-                }
-                output += " " + (i + 1) + "\n";
-            }
-            output += "   a  b  c  d  e  f  g  h\n";
-        } else {
-            output += "   h  g  f  e  d  c  b  a\n";
-            for (int i = 0; i < 8; i++) {
-                output += (i + 1) + " ";
-                for (int j = 7; j >= 0; j--) {
-                    if ((i + j) % 2 == 0) {
-                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
-                    } else {
-                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
-                    }
-                    output += " " + EscapeSequences.RESET_BG_COLOR;
-                }
-                output += " " + (i + 1) + "\n";
-            }
-            output += "   h  g  f  e  d  c  b  a\n";
-        }
-
-        if (game.getWinner() != null) {
-            output += "\ngame over: " + game.getWinner().toString().toLowerCase() + " wins\n";
-        } else if (game.isDraw()) {
-            output += "\ngame over: draw\n\n";
-        } else {
-            output += "\n——" + game.getTeamTurn().toString().toLowerCase() + "'s turn——\n";
-        }
-
-        return output;
+        return helper.printGame(game, color);
     }
 
-    private String chessPieceToString(ChessPiece piece) {
-
-        if  (piece == null) {
-            return " ";
-        }
-
-        ChessGame.TeamColor color = piece.getTeamColor();
-        ChessPiece.PieceType type = piece.getPieceType();
-        String string = "";
-
-        if (color == ChessGame.TeamColor.WHITE) {
-            string += EscapeSequences.SET_TEXT_COLOR_RED;
-
-            if (type == ChessPiece.PieceType.ROOK) {
-                string += "R";
-            } else if (type == ChessPiece.PieceType.KNIGHT) {
-                string += "N";
-            } else if (type == ChessPiece.PieceType.BISHOP) {
-                string += "B";
-            } else if (type == ChessPiece.PieceType.QUEEN) {
-                string += "Q";
-            } else if (type == ChessPiece.PieceType.KING) {
-                string += "K";
-            } else if (type == ChessPiece.PieceType.PAWN) {
-                string += "P";
-            } else {
-                return "Error: piece type not found";
-            }
-        } else if (color == ChessGame.TeamColor.BLACK) {
-            string += EscapeSequences.SET_TEXT_COLOR_BLUE;
-
-            if (type == ChessPiece.PieceType.ROOK) {
-                string += "R";
-            } else if (type == ChessPiece.PieceType.KNIGHT) {
-                string += "N";
-            } else if (type == ChessPiece.PieceType.BISHOP) {
-                string += "B";
-            } else if (type == ChessPiece.PieceType.QUEEN) {
-                string += "Q";
-            } else if (type == ChessPiece.PieceType.KING) {
-                string += "K";
-            } else if (type == ChessPiece.PieceType.PAWN) {
-                string += "P";
-            } else {
-                return "Error: piece type not found";
-            }
-        } else {
-            return "Error: piece color not found";
-        }
-
-        string += EscapeSequences.RESET_TEXT_COLOR;
-
-        return string;
-    }
+//    private String chessPieceToString(ChessPiece piece) {
+//        return helper.chessPieceToString(piece);
+//    }
 
     public String help() {
-        if (!isSignedIn()) { // Register or login menu
-            return blueString("register") + " " +
-                   "<" + magentaString("USERNAME") + "> " +
-                   "<" + magentaString("PASSWORD") + "> " +
-                   "<" + magentaString("EMAIL") + ">\n" +
-                   blueString("login") + " " +
-                   "<" + magentaString("USERNAME") + "> " +
-                   "<" + magentaString("PASSWORD") + ">\n" +
-                   blueString("quit") + "\n" +
-                   blueString("help") + "\n";
-        } else if (!isPlaying() && !isObserving()) { // Logged in menu
-            return blueString("create") + " " +
-                   "<" + magentaString("NAME") + ">\n" +
-                   blueString("list") + "\n" +
-                   blueString("join") + " " +
-                   "<" + magentaString("ID") + "> " +
-                   "<" + magentaString("COLOR") + ">\n" +
-                   blueString("observe") + " " +
-                   "<" + magentaString("ID") + ">\n" +
-                   blueString("logout") + "\n" +
-                   blueString("quit") + "\n" +
-                   blueString("help") + "\n";
-        } else if (isPlaying()) { // Playing game menu
-            return blueString("move") + " " +
-                   "<" + magentaString("START") + "> " +
-                   "<" + magentaString("END") + "> " +
-                   "<" + magentaString("PROMOTION TYPE") + ">\n" +
-                   blueString("moves") + " " +
-                   "<" + magentaString("PIECE") + ">\n" +
-                   blueString("redraw") + "\n" +
-                   blueString("resign") + "\n" +
-                   blueString("leave") + "\n" +
-                   blueString("help") + "\n";
-        } else { // Observing game menu
-            return blueString("moves") + "\n" +
-                   blueString("redraw") + "\n" +
-                   blueString("leave") + "\n" +
-                   blueString("help") + "\n";
-        }
+        return helper.help();
     }
 
     public LoginState getState() {
@@ -722,7 +371,7 @@ public class Client {
         }
     }
 
-    private String getAuthToken() {
+    protected String getAuthToken() {
         for (AuthData auth : auths) {
             if (auth.username().equals(username)) {
                 return auth.authToken();
@@ -731,7 +380,7 @@ public class Client {
         return null;
     }
 
-    private ChessGame getGame(int id) {
+    protected ChessGame getGame(int id) {
         for (GameData game : games) {
             if (game.gameID() == id) {
                 return game.game();
@@ -752,7 +401,7 @@ public class Client {
         return game.getWinner() != null || game.isDraw();
     }
 
-    private ChessPosition getChessPosition(String position) {
+    protected ChessPosition getChessPosition(String position) {
         if (position.length() != 2) {
             return null;
         }
@@ -782,7 +431,7 @@ public class Client {
         return new ChessPosition(rowInt + 1, colInt + 1);
     }
 
-    private void assertSignedIn() throws ResponseException {
+    protected void assertSignedIn() throws ResponseException {
         if (state == LoginState.SIGNEDOUT) {
             throw new ResponseException(400, "You must be signed in to perform this action\n");
         }
@@ -804,14 +453,6 @@ public class Client {
         return EscapeSequences.SET_TEXT_COLOR_GREEN + str + EscapeSequences.RESET_TEXT_COLOR;
     }
 
-    public String greenHighlightString(String str) {
-        return EscapeSequences.SET_BG_COLOR_GREEN + str + EscapeSequences.RESET_BG_COLOR;
-    }
-
-    public String yellowHighlightString(String str) {
-        return EscapeSequences.SET_BG_COLOR_YELLOW + str + EscapeSequences.RESET_BG_COLOR;
-    }
-
     public enum GameState {
         PLAYING, OBSERVING, NONE
     }
@@ -824,15 +465,15 @@ public class Client {
         return playerColor;
     }
 
-    private boolean isPlaying() {
+    protected boolean isPlaying() {
         return gameState == GameState.PLAYING;
     }
 
-    private boolean isObserving() {
+    protected boolean isObserving() {
         return gameState == GameState.OBSERVING;
     }
 
-    private boolean isSignedIn() {
+    protected boolean isSignedIn() {
         return state == LoginState.SIGNEDIN;
     }
 

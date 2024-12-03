@@ -280,11 +280,11 @@ public class ChessGame {
 
     private boolean isInStalemateHelper(TeamColor teamColor, Collection<ChessMove> pieceMoves) {
         for (ChessMove move : pieceMoves) {
-            ChessBoard dreamBoard = new ChessBoard(chessBoard);
+            ChessBoard testBoard = new ChessBoard(chessBoard);
 
-            dreamBoard.movePiece(move);
+            testBoard.movePiece(move);
 
-            if (!isInCheckHelper(teamColor, dreamBoard)) {
+            if (!isInCheckHelper(teamColor, testBoard)) {
                 return true;
             }
         }

@@ -38,8 +38,8 @@ public class ServerFacade extends Endpoint {
 
     private void webSocketConnection() throws ResponseException {
         try {
-            String WS_serverUrl = serverUrl.replace("http", "ws");
-            URI socketURI = new URI(WS_serverUrl + "/ws");
+            String serverUrlWS = serverUrl.replace("http", "ws");
+            URI socketURI = new URI(serverUrlWS + "/ws");
 
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             this.session = container.connectToServer(this, socketURI);
