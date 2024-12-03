@@ -44,7 +44,7 @@ public class Repl implements NotificationHandler {
                 System.out.print(msg);
             }
         }
-        System.out.println();
+//        System.out.println();
     }
 
     public void notify(ServerMessage notification) {
@@ -55,26 +55,37 @@ public class Repl implements NotificationHandler {
         if (type == ServerMessage.ServerMessageType.LOAD_GAME && game != client.getCurrentGame()) {
             try {
                 client.updateCurrentGame(game);
-                System.out.println("\n" + client.redraw());
+                System.out.print("\n" + client.redraw() + "\n");
             } catch (Exception e) {
-                System.out.print("\n\nError: " + e.getMessage());
+                System.out.print("\nError: " + e.getMessage());
             }
         } else if (type == ServerMessage.ServerMessageType.ERROR || type == ServerMessage.ServerMessageType.NOTIFICATION) {
-            System.out.print("\n\n" + msg + "\n\n");
+            System.out.print("\n" + msg + "\n");
             printPrompt();
         } else {
-            System.out.print("\n\nError: Invalid server message");
+            System.out.print("\nError: Invalid server message");
         }
     }
 
     private void printPrompt() {
-        if (client.getState() == LoginState.SIGNEDIN) {
-            System.out.print("[" + client.greenString("logged in") + " | " + client.greenString(client.getUsername()) + "]");
+        String output;
+        if (client.getState() == LoginState.SIGNEDIN && client.getGameState() == Client.GameState.PLAYING) {
+            ChessGame game = client.getCurrentGame();
+            ChessGame.TeamColor turn = game.getTeamTurn();
+            ChessGame.TeamColor playerColor = client.getPlayerColor();
+
+            if (turn == playerColor && game.getWinner() == null && !game.isDraw()) {
+                output = "[" + client.greenString("playing") + " | " + client.greenString(client.getUsername()) + " | " + client.greenString("your turn") + "]";
+            } else {
+                output = "[" + client.greenString("logged in") + " | " + client.greenString(client.getUsername()) + "]";
+            }
+        } else if (client.getState() == LoginState.SIGNEDIN) {
+            output = "[" + client.greenString("logged in") + " | " + client.greenString(client.getUsername()) + "]";
         } else {
-            System.out.print("[" + client.redString("logged out") + "]");
+            output = ("[" + client.redString("logged out") + "]");
         }
 
-        System.out.print(" >>> ");
+        System.out.print(output + " >>> ");
     }
 
     public Client getClient() {

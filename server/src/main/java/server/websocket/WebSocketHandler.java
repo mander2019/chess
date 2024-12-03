@@ -86,18 +86,21 @@ public class WebSocketHandler {
         loadGame = new ServerMessage(gameData.game());
         connections.send(session, new Gson().toJson(loadGame));
 
-        String message;
+        String message = "\n";
+        String gameID = String.valueOf(gameData.gameID());
 
         if (gameData.whiteUsername() != null && gameData.whiteUsername().equals(username)) {
-            message = username + " has joined the game as white";
+            message = username + " has joined the game (" + gameID + ") as white";
         } else if (gameData.blackUsername() != null && gameData.blackUsername().equals(username)) {
-            message = username + " has joined the game as black";
+            message = username + " has joined the game (" + gameID + ") as black";
         } else {
-            message = username + " is now observing the game";
+            message = username + " is now observing the game (" + gameID + ")";
         }
 
+        message += "\n";
+
         if (isGameOver(session, gameData)) {
-            message += "\nnote: the game is already over!";
+            message += "note: the game is already over!";
         }
 
         notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
@@ -281,19 +284,26 @@ public class WebSocketHandler {
             case WHITE -> ChessGame.TeamColor.BLACK;
         };
 
+        if (isGameOver(session, gameData)) {
+            return;
+        }
+
         if (game.isInCheckmate(color)) {
             notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Checkmate!\n" + otherColor + " wins!");
             connections.broadcast(session, new Gson().toJson(notification));
+            connections.send(session, new Gson().toJson(notification));
         }
 
         if (game.isInStalemate(color)) {
             notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Stalemate!\nIt's a draw!");
             connections.broadcast(session, new Gson().toJson(notification));
+            connections.send(session, new Gson().toJson(notification));
         }
 
         if (game.isInCheck(color)) {
             notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, color.toString() + " is in check!");
             connections.broadcast(session, new Gson().toJson(notification));
+            connections.send(session, new Gson().toJson(notification));
         }
     }
 
@@ -303,18 +313,18 @@ public class WebSocketHandler {
         ChessGame.TeamColor winnerColor = game.getWinner();;
 
         if (game.getWinner() != null) { // Check for winner
-            String message = winnerColor + " has won the game!";
-            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-            connections.broadcast(session, new Gson().toJson(notification));
-            connections.send(session, new Gson().toJson(notification));
+//            String message = winnerColor.toString().toLowerCase() + " has won the game!";
+//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+//            connections.broadcast(session, new Gson().toJson(notification));
+//            connections.send(session, new Gson().toJson(notification));
             return true;
         }
 
         if (game.isDraw()) { // Check for stalemate
-            String message = "The game is a draw!";
-            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-            connections.broadcast(session, new Gson().toJson(notification));
-            connections.send(session, new Gson().toJson(notification));
+//            String message = "the game is a draw!";
+//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+//            connections.broadcast(session, new Gson().toJson(notification));
+//            connections.send(session, new Gson().toJson(notification));
             return true;
         }
 

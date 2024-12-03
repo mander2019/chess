@@ -308,7 +308,7 @@ public class Client {
                 return "Game doesn't exist\n";
             }
 
-            return output + "you have successfully joined game " + gameID + " as " + color;
+            return output + "you have successfully joined game " + gameID + " as " + color + "\n";
         } else {
             return "Bad input—incorrect number of arguments\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
         }
@@ -350,7 +350,7 @@ public class Client {
 //            output += "\n\n";
 //            output += printGame(currentGame, ChessGame.TeamColor.BLACK);
 
-            output = "you have successfully joined game " + gameID + " as an observer";
+            output = "you have successfully joined game " + gameID + " as an observer\n";
 
             return output;
         } else {
@@ -497,7 +497,8 @@ public class Client {
     public String printGame(ChessGame game, ChessGame.TeamColor color) {
         ChessBoard board = game.getBoard();
         ChessPiece[][] pieces = board.getSquares();
-        String output = "\n";
+//        String output = "\n";
+        String output = "";
         if (color == ChessGame.TeamColor.WHITE) {
             output += "   a  b  c  d  e  f  g  h\n";
             for (int i = 7; i >= 0; i--) {
@@ -531,11 +532,11 @@ public class Client {
         }
 
         if (game.getWinner() != null) {
-            output += "\nGame over: " + game.getWinner() + " wins\n";
+            output += "\ngame over: " + game.getWinner().toString().toLowerCase() + " wins\n";
         } else if (game.isDraw()) {
-            output += "\nGame over: draw\n";
+            output += "\ngame over: draw\n\n";
         } else {
-            output += "\n——" + game.getTeamTurn() + "'s turn——\n";
+            output += "\n——" + game.getTeamTurn().toString().toLowerCase() + "'s turn——\n";
         }
 
         return output;
@@ -624,7 +625,7 @@ public class Client {
                    "<" + magentaString("START") + "> " +
                    "<" + magentaString("END") + "> " +
                    "<" + magentaString("PROMOTION TYPE") + ">\n" +
-                   blueString("moves") + "\n" +
+                   blueString("moves") + " " +
                    "<" + magentaString("PIECE") + ">\n" +
                    blueString("redraw") + "\n" +
                    blueString("resign") + "\n" +
@@ -751,6 +752,14 @@ public class Client {
 
     public enum GameState {
         PLAYING, OBSERVING, NONE
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public ChessGame.TeamColor getPlayerColor() {
+        return playerColor;
     }
 
     private boolean isPlaying() {

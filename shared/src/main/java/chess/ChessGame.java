@@ -104,14 +104,14 @@ public class ChessGame {
         ChessBoard dreamBoard = new ChessBoard(chessBoard);
 
         if (!piece.pieceMoves(dreamBoard, start).contains(move)) {
-            throw new InvalidMoveException("ERROR: Invalid move");
+            throw new InvalidMoveException("Error: Invalid move");
         } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN & Math.abs(end.getRow() - start.getRow()) == 2 & piece.hasMoved) {
-            throw new InvalidMoveException("ERROR: Pawn double move");
+            throw new InvalidMoveException("Error: Pawn double move");
         } else if (teamTurn != piece.getTeamColor()) {
-            throw new InvalidMoveException("ERROR: Wrong player's turn");
+            throw new InvalidMoveException("Error: Wrong player's turn");
         } else if (chessBoard.getPiece(end) != null) {
             if (chessBoard.getPiece(end).getTeamColor() == teamTurn) {
-                throw new InvalidMoveException("ERROR: Capture of own piece");
+                throw new InvalidMoveException("Error: Capture of own piece");
             }
         }
 
@@ -119,8 +119,8 @@ public class ChessGame {
 
         if (chessBoard.kingExists()) {
             if (isInCheckHelper(piece.getTeamColor(), dreamBoard)) {
-                System.out.println("Is in check: \n" + dreamBoard);
-                throw new InvalidMoveException("ERROR: Cannot put own king in check");
+//                System.out.println("Is in check: \n" + dreamBoard);
+                throw new InvalidMoveException("Error: Cannot put own king in check");
             }
         }
 
