@@ -18,9 +18,7 @@ import java.util.Map;
 public class Client {
     private String username;
     protected final ServerFacade serverFacade;
-//    private String serverUrl;
-//    private NotificationHandler notificationHandler;
-protected LoginState state = LoginState.SIGNEDOUT;
+    protected LoginState state = LoginState.SIGNEDOUT;
     protected GameState gameState = GameState.NONE;
     private ChessGame currentGame;
     protected Integer currentGameID = -1;
@@ -28,12 +26,11 @@ protected LoginState state = LoginState.SIGNEDOUT;
     private Collection<AuthData> auths = new ArrayList<>();
     protected Collection<GameData> games = new ArrayList<>();
     protected Map<Integer, GameData> gameDirectory = new HashMap<>();
-    private ClientHelper helper = new ClientHelper();
+    private ClientHelper helper;
     
     public Client(String serverUrl, NotificationHandler notificationHandler) {
         serverFacade = new ServerFacade(serverUrl, notificationHandler);
-//        this.serverUrl = serverUrl;
-//        this.notificationHandler = notificationHandler;
+        helper = new ClientHelper();
     }
 
     protected Client() {
@@ -341,10 +338,6 @@ protected LoginState state = LoginState.SIGNEDOUT;
     public String printGame(ChessGame game, ChessGame.TeamColor color) {
         return helper.printGame(game, color);
     }
-
-//    private String chessPieceToString(ChessPiece piece) {
-//        return helper.chessPieceToString(piece);
-//    }
 
     public String help() {
         return helper.help();

@@ -22,17 +22,6 @@ public class Server {
         webSocketHandler = new WebSocketHandler(dao);
     }
 
-//    { // Set DAO here
-//        try {
-//            dao = new MySQLDAO();
-//
-//            service = new Services(dao);
-//            webSocketHandler = new WebSocketHandler(dao);
-//        } catch (DataAccessException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     public int run(int port) {
         Spark.port(port);
 

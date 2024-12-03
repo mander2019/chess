@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Corrected dependency issue pt 4">
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/client/ClientHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Code quality updates">
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Repl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/websocket/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/ConnectionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/WebSocketHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,55 +56,55 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.ClientMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ServerMain.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.All in client.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.All in server.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.All in shared.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.DatabaseTests.persistenceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyPhase4Tests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyPhase4Tests.testAddNullAuthData.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyPhase4Tests.testAddUserWithTakenUsername.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyTests.testJoinGameThatDoesNotExist.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.MyTests.testLoginUserWithInvalidPassword.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyTests.testRegisterUserWithTakenUsername.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.ServerFacadeTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.badGameIDJoin.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.failRegister.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.gamesList.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.goodCreate.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.goodJoin.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.successLogout.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.successRegister.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.uniqueAuthorizationTokens.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.WebSocketTests.connectBadAuthToken.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.WebSocketTests.connectGood.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.WebSocketTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.passoff.server in server.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.server in server.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.service in server.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/matthewanderson/CS 240/chess&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.ClientMain.executor": "Debug",
+    "Application.Main (1).executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.ServerMain.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.All in client.executor": "Run",
+    "JUnit.All in server.executor": "Run",
+    "JUnit.All in shared.executor": "Run",
+    "JUnit.DatabaseTests.persistenceTest.executor": "Run",
+    "JUnit.MyPhase4Tests.executor": "Run",
+    "JUnit.MyPhase4Tests.testAddNullAuthData.executor": "Run",
+    "JUnit.MyPhase4Tests.testAddUserWithTakenUsername.executor": "Run",
+    "JUnit.MyTests.executor": "Run",
+    "JUnit.MyTests.testJoinGameThatDoesNotExist.executor": "Debug",
+    "JUnit.MyTests.testLoginUserWithInvalidPassword.executor": "Run",
+    "JUnit.MyTests.testRegisterUserWithTakenUsername.executor": "Debug",
+    "JUnit.ServerFacadeTests.executor": "Run",
+    "JUnit.StandardAPITests.badGameIDJoin.executor": "Run",
+    "JUnit.StandardAPITests.executor": "Run",
+    "JUnit.StandardAPITests.failRegister.executor": "Run",
+    "JUnit.StandardAPITests.gamesList.executor": "Run",
+    "JUnit.StandardAPITests.goodCreate.executor": "Run",
+    "JUnit.StandardAPITests.goodJoin.executor": "Run",
+    "JUnit.StandardAPITests.successLogout.executor": "Run",
+    "JUnit.StandardAPITests.successRegister.executor": "Run",
+    "JUnit.StandardAPITests.uniqueAuthorizationTokens.executor": "Run",
+    "JUnit.WebSocketTests.connectBadAuthToken.executor": "Run",
+    "JUnit.WebSocketTests.connectGood.executor": "Debug",
+    "JUnit.WebSocketTests.executor": "Run",
+    "JUnit.passoff.server in server.executor": "Run",
+    "JUnit.server in server.executor": "Run",
+    "JUnit.service in server.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/matthewanderson/CS 240/chess",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/client/src/main/java" />
@@ -178,14 +179,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728951889235</updated>
-    </task>
-    <task id="LOCAL-00024" summary="Added auth data and game data tests">
-      <option name="closed" value="true" />
-      <created>1730438403410</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1730438403410</updated>
     </task>
     <task id="LOCAL-00025" summary="Cleaned up test cases">
       <option name="closed" value="true" />
@@ -571,7 +564,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733258468667</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="Code quality updates">
+      <option name="closed" value="true" />
+      <created>1733259620693</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1733259620694</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -586,7 +587,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Modified improper dependencies" />
     <MESSAGE value="Modified improper dependencies - pt 2" />
     <MESSAGE value="Corrected file organization" />
     <MESSAGE value="Dependencies adjusted" />
@@ -611,7 +611,8 @@
     <MESSAGE value="Corrected dependency issue pt 2" />
     <MESSAGE value="Corrected dependency issue pt 3" />
     <MESSAGE value="Corrected dependency issue pt 4" />
-    <option name="LAST_COMMIT_MESSAGE" value="Corrected dependency issue pt 4" />
+    <MESSAGE value="Code quality updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="Code quality updates" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -636,6 +637,11 @@
           <url>file://$PROJECT_DIR$/server/src/test/java/passoff/server/WebSocketTests.java</url>
           <line>81</line>
           <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/main/java/client/Repl.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

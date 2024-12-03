@@ -72,28 +72,6 @@ public class Repl implements NotificationHandler {
         }
     }
 
-//    public void notify(String message) {
-//        ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-//
-//        ServerMessage.ServerMessageType type = notification.getServerMessageType();
-//        String msg = notification.getMessage();
-//        ChessGame game = notification.getChessGame();
-//
-//        if (type == ServerMessage.ServerMessageType.LOAD_GAME && game != client.getCurrentGame()) {
-//            try {
-//                client.updateCurrentGame(game);
-//                System.out.print("\n" + client.redraw() + "\n");
-//            } catch (Exception e) {
-//                System.out.print("\nError: " + e.getMessage());
-//            }
-//        } else if (type == ServerMessage.ServerMessageType.ERROR || type == ServerMessage.ServerMessageType.NOTIFICATION) {
-//            System.out.print("\n" + msg + "\n");
-//            printPrompt();
-//        } else {
-//            System.out.print("\nError: Invalid server message");
-//        }
-//    }
-
     private void printPrompt() {
         String output;
         if (client.getState() == LoginState.SIGNEDIN && client.getGameState() == Client.GameState.PLAYING) {

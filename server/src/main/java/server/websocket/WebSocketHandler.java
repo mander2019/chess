@@ -126,32 +126,6 @@ public class WebSocketHandler {
             return;
         }
 
-//        ChessGame.TeamColor playerColor;
-
-//        ChessGame.TeamColor winnerColor;
-//
-//        if (game.getWinner() != null) { // Check for winner
-//            if (game.getWinner() == ChessGame.TeamColor.WHITE) {
-//                winnerColor = ChessGame.TeamColor.WHITE;
-//            } else {
-//                winnerColor = ChessGame.TeamColor.BLACK;
-//            }
-//
-//            String message = winnerColor.toString() + " has won the game!";
-//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-//            connections.broadcast(session, new Gson().toJson(notification));
-//            connections.send(session, new Gson().toJson(notification));
-//            return;
-//        }
-//
-//        if (game.isDraw()) { // Check for stalemate
-//            String message = "The game is a draw!";
-//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-//            connections.broadcast(session, new Gson().toJson(notification));
-//            connections.send(session, new Gson().toJson(notification));
-//            return;
-//        }
-
         // Ensure observer is not making moves
         if (!gameData.whiteUsername().equals(username) && !gameData.blackUsername().equals(username)) {
             error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, "Error: You are not a player in this game");
@@ -200,29 +174,7 @@ public class WebSocketHandler {
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
 
-        // Message to player who made the move
-//        message = "you have made a move: " + moveToString(chessMove);
-//
-//        notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-//        connections.send(session, new Gson().toJson(notification));
-
         checkGameStatus(session, updatedGameData);
-
-
-//        if (game.isInCheckmate(otherPlayer)) {
-//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Checkmate!\n" + currentTurn.toString() + " wins!");
-//            connections.broadcast(session, new Gson().toJson(notification));
-//        }
-//
-//        if (game.isInStalemate(otherPlayer)) {
-//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Stalemate!\nIt's a draw!");
-//            connections.broadcast(session, new Gson().toJson(notification));
-//        }
-//
-//        if (game.isInCheck(otherPlayer)) {
-//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, otherPlayer.toString() + " is in check!");
-//            connections.broadcast(session, new Gson().toJson(notification));
-//        }
     }
 
     void leave(Session session, String username, GameData gameData) throws IOException {
@@ -340,18 +292,10 @@ public class WebSocketHandler {
         ChessGame.TeamColor winnerColor = game.getWinner();;
 
         if (game.getWinner() != null) { // Check for winner
-//            String message = winnerColor.toString().toLowerCase() + " has won the game!";
-//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-//            connections.broadcast(session, new Gson().toJson(notification));
-//            connections.send(session, new Gson().toJson(notification));
             return true;
         }
 
         if (game.isDraw()) { // Check for stalemate
-//            String message = "the game is a draw!";
-//            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-//            connections.broadcast(session, new Gson().toJson(notification));
-//            connections.send(session, new Gson().toJson(notification));
             return true;
         }
 
