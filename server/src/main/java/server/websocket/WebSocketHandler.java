@@ -24,7 +24,7 @@ import java.util.Timer;
 
 @WebSocket
 public class WebSocketHandler {
-    private static final Logger log = LoggerFactory.getLogger(WebSocketHandler.class);
+//    private static final Logger log = LoggerFactory.getLogger(WebSocketHandler.class);
     private final ConnectionManager connections = new ConnectionManager();
     private final DAO dao;
     private ServerMessage notification;
@@ -81,20 +81,24 @@ public class WebSocketHandler {
     }
 
     void connect(Session session, String username, GameData gameData) throws IOException {
-        connections.add(username, session);
+//        connections.add(username, session);
+        connections.add(username, session, String.valueOf(gameData.gameID()));
+
 
         loadGame = new ServerMessage(gameData.game());
         connections.send(session, new Gson().toJson(loadGame));
+
+//        connections.send(session, new Gson().toJson(new ServerMessage(ServerMessage.ServerMessageType.LOAD_GAME, "You have joined the game", new Gson().toJson(gameData.game()))));
 
         String message = "\n";
         String gameID = String.valueOf(gameData.gameID());
 
         if (gameData.whiteUsername() != null && gameData.whiteUsername().equals(username)) {
-            message = username + " has joined the game (" + gameID + ") as white";
+            message += username + " has joined the game (" + gameID + ") as white";
         } else if (gameData.blackUsername() != null && gameData.blackUsername().equals(username)) {
-            message = username + " has joined the game (" + gameID + ") as black";
+            message += username + " has joined the game (" + gameID + ") as black";
         } else {
-            message = username + " is now observing the game (" + gameID + ")";
+            message += username + " is now observing the game (" + gameID + ")";
         }
 
         message += "\n";
@@ -104,7 +108,7 @@ public class WebSocketHandler {
         }
 
         notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-        connections.broadcast(session, new Gson().toJson(notification));
+        connections.broadcast(session, new Gson().toJson(notification), gameID);
     }
 
     void makeMove(Session session, String username, GameData gameData, String move) throws IOException {
@@ -170,13 +174,13 @@ public class WebSocketHandler {
 
         loadGame = new ServerMessage(updatedGameData.game());
         connections.send(session, new Gson().toJson(loadGame));
-        connections.broadcast(session, new Gson().toJson(loadGame));
+        connections.broadcast(session, new Gson().toJson(loadGame), String.valueOf(gameData.gameID()));
 
         // Message to opponent and observers
         String message = username + " has made a move: " + moveToString(chessMove);
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-        connections.broadcast(session, new Gson().toJson(notification));
+        connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
 
         // Message to player who made the move
         message = "you have made a move: " + moveToString(chessMove);
@@ -223,7 +227,7 @@ public class WebSocketHandler {
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
 
         connections.send(session, new Gson().toJson(notification));
-        connections.broadcast(session, new Gson().toJson(notification));
+        connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
         connections.remove(username);
     }
 
@@ -269,7 +273,7 @@ public class WebSocketHandler {
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
 
         connections.send(session, new Gson().toJson(notification));
-        connections.broadcast(session, new Gson().toJson(notification));
+        connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
     }
 
     private void checkGameStatus(Session session, GameData gameData) throws IOException {
@@ -290,19 +294,19 @@ public class WebSocketHandler {
 
         if (game.isInCheckmate(color)) {
             notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Checkmate!\n" + otherColor + " wins!");
-            connections.broadcast(session, new Gson().toJson(notification));
+            connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
             connections.send(session, new Gson().toJson(notification));
         }
 
         if (game.isInStalemate(color)) {
             notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Stalemate!\nIt's a draw!");
-            connections.broadcast(session, new Gson().toJson(notification));
+            connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
             connections.send(session, new Gson().toJson(notification));
         }
 
         if (game.isInCheck(color)) {
             notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, color.toString() + " is in check!");
-            connections.broadcast(session, new Gson().toJson(notification));
+            connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
             connections.send(session, new Gson().toJson(notification));
         }
     }
