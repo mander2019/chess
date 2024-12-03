@@ -104,11 +104,12 @@ public class WebSocketHandler {
         message += "\n";
 
         if (isGameOver(session, gameData)) {
-            message += "note: the game is already over!";
+            message += "note: the game is already over!\n";
         }
 
         notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(session, new Gson().toJson(notification), gameID);
+//        connections.send(session, new Gson().toJson(notification));
     }
 
     void makeMove(Session session, String username, GameData gameData, String move) throws IOException {
@@ -118,6 +119,8 @@ public class WebSocketHandler {
 
         // Don't allow moves if game is over
         if (isGameOver(session, gameData)) {
+            error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, "Error: The game is already over");
+            connections.send(session, new Gson().toJson(error));
             return;
         }
 
@@ -154,6 +157,19 @@ public class WebSocketHandler {
             return;
         }
 
+        ChessGame.TeamColor playerColor;
+        if (gameData.whiteUsername().equals(username)) {
+            playerColor = ChessGame.TeamColor.WHITE;
+        } else {
+            playerColor = ChessGame.TeamColor.BLACK;
+        }
+
+        if (game.getTeamTurn() != playerColor) {
+            error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, "Error: It is not your turn");
+            connections.send(session, new Gson().toJson(error));
+            return;
+        }
+
         try {
             game.makeMove(chessMove);
         } catch (Exception e) {
@@ -183,10 +199,10 @@ public class WebSocketHandler {
         connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
 
         // Message to player who made the move
-        message = "you have made a move: " + moveToString(chessMove);
-
-        notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-        connections.send(session, new Gson().toJson(notification));
+//        message = "you have made a move: " + moveToString(chessMove);
+//
+//        notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+//        connections.send(session, new Gson().toJson(notification));
 
         checkGameStatus(session, updatedGameData);
 
@@ -226,9 +242,9 @@ public class WebSocketHandler {
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
 
-        connections.send(session, new Gson().toJson(notification));
+//        connections.send(session, new Gson().toJson(notification));
         connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
-        connections.remove(username);
+        connections.remove(session, String.valueOf(gameData.gameID()));
     }
 
     void resign(Session session, String username, GameData gameData) throws IOException {
@@ -241,6 +257,11 @@ public class WebSocketHandler {
             return;
         }
 
+        if (!gameData.whiteUsername().equals(username) && !gameData.blackUsername().equals(username)) {
+            error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, "Error: You are not a player in this game");
+            connections.send(session, new Gson().toJson(error));
+            return;
+        }
 
         ChessGame.TeamColor winningPlayer;
 //        String winningUsername;

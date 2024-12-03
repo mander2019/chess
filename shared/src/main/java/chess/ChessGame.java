@@ -206,7 +206,8 @@ public class ChessGame {
             }
         }
 
-        throw new RuntimeException("ERROR: King not found");
+        return null;
+//        throw new RuntimeException("ERROR: King not found");
     }
 
     /**
