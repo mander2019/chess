@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Adjusted code to work with test cases. All are passing" />
+    <list default="true" id="11fc3a55-7513-4e9a-be25-b0fadb94f450" name="Changes" comment="Corrected dependency issue">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/websocket/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/websocket/ConnectionManager.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -108,7 +112,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.WebSocketTests">
+  <component name="RunManager" selected="Application.ClientMain">
     <configuration name="ClientMain" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ClientMain" />
       <module name="client" />
@@ -156,9 +160,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.WebSocketTests" />
         <item itemvalue="Application.ClientMain" />
         <item itemvalue="Application.ServerMain" />
+        <item itemvalue="JUnit.WebSocketTests" />
         <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.All in client" />
       </list>
@@ -172,14 +176,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728951889235</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Cleaned up several functions">
-      <option name="closed" value="true" />
-      <created>1730430627128</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1730430627128</updated>
     </task>
     <task id="LOCAL-00021" summary="Completed list games function">
       <option name="closed" value="true" />
@@ -565,7 +561,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733254014980</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Corrected dependency issue">
+      <option name="closed" value="true" />
+      <created>1733256471323</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1733256471323</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -580,7 +584,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added create, list and join functionality" />
     <MESSAGE value="Began observe and printing functionality" />
     <MESSAGE value="Completed observe and printing functionality" />
     <MESSAGE value="Completed test cases for ServerFacade" />
@@ -605,7 +608,8 @@
     <MESSAGE value="Standardized UI formatting" />
     <MESSAGE value="Tried to address stubborn test cases" />
     <MESSAGE value="Adjusted code to work with test cases. All are passing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adjusted code to work with test cases. All are passing" />
+    <MESSAGE value="Corrected dependency issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrected dependency issue" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

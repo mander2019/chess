@@ -477,8 +477,14 @@ public class Client {
             return "Bad input\nExpected: <" + magentaString("PIECE") + ">\n";
         }
 
+        ChessGame.TeamColor observeColor = playerColor;
+        if (isObserving()) {
+            observeColor = ChessGame.TeamColor.WHITE;
+        }
+
         ChessGame game = getCurrentGame();
         ChessBoard board = game.getBoard();
+        ChessPiece[][] pieces = board.getSquares();
         ChessPiece piece = board.getPiece(position);
         ChessPiece.PieceType type = piece.getPieceType();
         ChessGame.TeamColor color = piece.getTeamColor();
@@ -486,12 +492,60 @@ public class Client {
         Collection<ChessMove> moves = game.validMoves(position);
 
         String output = "";
+        ChessMove move;
+        ChessPosition start = position;
+        ChessPosition end;
 
-        for (ChessMove move : moves) {
-            output += move.toString() + "\n";
+        if (observeColor == ChessGame.TeamColor.BLACK) {
+            output += "   h  g  f  e  d  c  b  a\n";
+            for (int i = 0; i < 8; i++) {
+                output += (i + 1) + " ";
+                for (int j = 7; j >= 0; j--) {
+                    end = new ChessPosition(i + 1, j + 1);
+                    move = getMoveFromList(end, moves);
+                    if (move != null) {
+                        output += EscapeSequences.SET_BG_COLOR_GREEN + " " + chessPieceToString(pieces[i][i]);
+                    } else if (new ChessPosition(i + 1, j + 1).equals(start)) {
+                        output += EscapeSequences.SET_BG_COLOR_YELLOW + " " + chessPieceToString(pieces[i][j]);
+                    }
+
+                    else if ((i + j) % 2 == 0) {
+                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
+                    } else {
+                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
+                    }
+                    output += " " + EscapeSequences.RESET_BG_COLOR;
+                }
+                output += " " + (i + 1) + "\n";
+            }
+            output += "   h  g  f  e  d  c  b  a\n";
+        } else {
+            output += "   a  b  c  d  e  f  g  h\n";
+            for (int i = 7; i >= 0; i--) {
+                output += (i + 1) + " ";
+                for (int j = 0; j < 8; j++) {
+                    if ((i + j) % 2 == 0) {
+                        output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
+                    } else {
+                        output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
+                    }
+                    output += " " + EscapeSequences.RESET_BG_COLOR;
+                }
+                output += " " + (i + 1) + "\n";
+            }
+            output += "   a  b  c  d  e  f  g  h\n";
         }
 
         return output;
+    }
+
+    private ChessMove getMoveFromList(ChessPosition end, Collection<ChessMove> moves) {
+        for (ChessMove move : moves) {
+            if (move.getEndPosition().equals(end)) {
+                return move;
+            }
+        }
+        return null;
     }
 
     public String printGame(ChessGame game, ChessGame.TeamColor color) {
