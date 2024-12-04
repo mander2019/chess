@@ -91,7 +91,7 @@ public class ChessGame {
         ChessPiece piece = chessBoard.getPiece(start);
 
         if (piece == null) {
-            throw new InvalidMoveException("ERROR: Piece does not exist");
+            throw new InvalidMoveException("Error: Piece does not exist");
         }
 
         piece.hasPawnMoved(start);

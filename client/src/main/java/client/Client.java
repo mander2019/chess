@@ -9,11 +9,7 @@ import ui.EscapeSequences;
 import server.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Client {
     private String username;
@@ -30,7 +26,7 @@ public class Client {
     
     public Client(String serverUrl, NotificationHandler notificationHandler) {
         serverFacade = new ServerFacade(serverUrl, notificationHandler);
-        helper = new ClientHelper();
+        helper = new ClientHelper(this);
     }
 
     protected Client() {
@@ -213,6 +209,7 @@ public class Client {
 
             gameState = GameState.OBSERVING;
             currentGame = getGame(gameID);
+            currentGameID = gameID;
             if (currentGame == null) {
                 throw new ResponseException(400, "Game not found\n");
             }
@@ -269,7 +266,8 @@ public class Client {
                 throw new RuntimeException(e);
             }
 
-            return printGame(getCurrentGame(), playerColor);
+//            return printGame(getCurrentGame(), playerColor);
+            return "";
         } else {
             return "Bad input\nExpected: <" + magentaString("START") + "> <" + magentaString("END") + ">\n";
         }
@@ -278,12 +276,21 @@ public class Client {
     public String resign() throws ResponseException {
         assertSignedIn();
         if (isPlaying()) {
-            try {
-                serverFacade.resignGame(getAuthToken(), currentGameID);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            System.out.print("\nare you sure? y/n\n\n");
+
+            Scanner scanner = new Scanner(System.in);
+            String line = scanner.nextLine();
+
+            if (Objects.equals(line, "y")) {
+                try {
+                    serverFacade.resignGame(getAuthToken(), currentGameID);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return "You have successfully resigned\n";
+            } else {
+                return "resign cancelled\n";
             }
-            return "You have successfully resigned\n";
         } else {
             return "You are not currently in a game\n";
         }
@@ -295,10 +302,8 @@ public class Client {
 
         if (isObserving()) {
             return printGame(game, ChessGame.TeamColor.WHITE);
-        } else if (isPlaying() && !isGameOver(game)) {
+        } else if (isPlaying()) {
             return printGame(game, playerColor);
-        } else if (isPlaying() && isGameOver(game)) {
-            return "";
         } else {
             return "You are not currently in a game\n";
         }
@@ -316,7 +321,7 @@ public class Client {
             playerColor = null;
             currentGame = null;
             currentGameID = -1;
-            return "You have successfully left the game\n";
+            return "you have successfully left the game\n";
         } else {
             return "You are not currently in a game\n";
         }
@@ -390,7 +395,7 @@ public class Client {
         return currentGame;
     }
 
-    private boolean isGameOver(ChessGame game) {
+    protected boolean isGameOver(ChessGame game) {
         return game.getWinner() != null || game.isDraw();
     }
 

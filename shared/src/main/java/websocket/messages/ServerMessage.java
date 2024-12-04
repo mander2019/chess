@@ -52,6 +52,10 @@ public class ServerMessage {
         return this.message;
     }
 
+    public String getErrorMessage() {
+        return this.errorMessage;
+    }
+
     public ChessGame getChessGame() {
         return this.game;
 //        return new Gson().fromJson(game, ChessGame.class);

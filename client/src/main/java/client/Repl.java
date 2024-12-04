@@ -4,6 +4,7 @@ import chess.ChessGame;
 import client.websocket.NotificationHandler;
 import client.*;
 //import server.Server;
+import ui.EscapeSequences;
 import websocket.messages.ServerMessage;
 
 import java.util.*;
@@ -51,6 +52,7 @@ public class Repl implements NotificationHandler {
     public void notify(ServerMessage notification) {
         ServerMessage.ServerMessageType type = notification.getServerMessageType();
         String msg = notification.getMessage();
+        String error = notification.getErrorMessage();
         ChessGame game = notification.getChessGame();
 
         if (type == ServerMessage.ServerMessageType.LOAD_GAME && game != client.getCurrentGame()) {
@@ -58,14 +60,19 @@ public class Repl implements NotificationHandler {
                 client.updateCurrentGame(game);
                 System.out.print("\n" + client.redraw() + "\n");
             } catch (Exception e) {
-                System.out.print("\nError: " + e.getMessage());
+                System.out.print("\nError: " + e.getMessage() + "\n");
             }
 
             if (msg != null) {
                 System.out.print("\n" + msg + "\n");
             }
         } else if (type == ServerMessage.ServerMessageType.ERROR || type == ServerMessage.ServerMessageType.NOTIFICATION) {
-            System.out.print("\n" + msg + "\n");
+            if (type == ServerMessage.ServerMessageType.ERROR) {
+                System.out.print("\n" + EscapeSequences.SET_TEXT_COLOR_RED + error + EscapeSequences.RESET_TEXT_COLOR + "\n");
+            } else {
+                System.out.print("\n" + EscapeSequences.SET_TEXT_COLOR_BLUE + msg + EscapeSequences.RESET_TEXT_COLOR + "\n");
+            }
+
             printPrompt();
         } else {
             System.out.print("\nError: Invalid server message");

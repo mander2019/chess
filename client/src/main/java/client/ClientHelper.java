@@ -9,9 +9,11 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public class ClientHelper extends Client {
+    private Client client;
 
-    public ClientHelper() {
+    public ClientHelper(Client client) {
         super();
+        this.client = client;
     }
 
     public String chessPieceToString(ChessPiece piece) {
@@ -47,7 +49,7 @@ public class ClientHelper extends Client {
     }
 
     public String help() {
-        if (!isSignedIn()) { // Register or login menu
+        if (!client.isSignedIn()) { // Register or login menu
             return blueString("register") + " " +
                     "<" + magentaString("USERNAME") + "> " +
                     "<" + magentaString("PASSWORD") + "> " +
@@ -57,7 +59,7 @@ public class ClientHelper extends Client {
                     "<" + magentaString("PASSWORD") + ">\n" +
                     blueString("quit") + "\n" +
                     blueString("help") + "\n";
-        } else if (!isPlaying() && !isObserving()) { // Logged in menu
+        } else if (!client.isPlaying() && !client.isObserving()) { // Logged in menu
             return blueString("create") + " " +
                     "<" + magentaString("NAME") + ">\n" +
                     blueString("list") + "\n" +
@@ -69,7 +71,7 @@ public class ClientHelper extends Client {
                     blueString("logout") + "\n" +
                     blueString("quit") + "\n" +
                     blueString("help") + "\n";
-        } else if (isPlaying()) { // Playing game menu
+        } else if (client.isPlaying()) { // Playing game menu
             return blueString("move") + " " +
                     "<" + magentaString("START") + "> " +
                     "<" + magentaString("END") + "> " +
@@ -126,9 +128,9 @@ public class ClientHelper extends Client {
         }
 
         if (game.getWinner() != null) {
-            output += "\ngame over: " + game.getWinner().toString().toLowerCase() + " wins\n";
+//            output += "\ngame over: " + game.getWinner().toString().toLowerCase() + " wins\n";
         } else if (game.isDraw()) {
-            output += "\ngame over: draw\n\n";
+//            output += "\ngame over: draw\n\n";
         } else {
             output += "\n——" + game.getTeamTurn().toString().toLowerCase() + "'s turn——\n";
         }
@@ -137,7 +139,7 @@ public class ClientHelper extends Client {
     }
 
     public String moves(String... params) {
-        if (!isPlaying() && !isObserving()) {
+        if (!client.isPlaying() && !client.isObserving()) {
             return "You are not currently in a game\n";
         } else if (params.length != 1) {
             return "Bad input\nExpected: <" + magentaString("PIECE") + ">\n";
@@ -148,15 +150,20 @@ public class ClientHelper extends Client {
             return "Bad input\nExpected: <" + magentaString("PIECE") + ">\n";
         }
 
-        ChessGame.TeamColor observeColor = playerColor;
-        if (isObserving()) {
+        ChessGame.TeamColor observeColor = client.playerColor;
+        if (client.isObserving()) {
             observeColor = ChessGame.TeamColor.WHITE;
         }
 
-        ChessGame game = getCurrentGame();
+        ChessGame game = client.getCurrentGame();
         ChessBoard board = game.getBoard();
         ChessPiece[][] pieces = board.getSquares();
         ChessPiece piece = board.getPiece(position);
+
+        if (piece == null) {
+            return "No piece at " + position + "\n";
+        }
+
         ChessPiece.PieceType type = piece.getPieceType();
         ChessGame.TeamColor color = piece.getTeamColor();
 
@@ -178,9 +185,7 @@ public class ClientHelper extends Client {
                         output += EscapeSequences.SET_BG_COLOR_GREEN + " " + chessPieceToString(pieces[i][i]);
                     } else if (new ChessPosition(i + 1, j + 1).equals(start)) {
                         output += EscapeSequences.SET_BG_COLOR_YELLOW + " " + chessPieceToString(pieces[i][j]);
-                    }
-
-                    else if ((i + j) % 2 == 0) {
+                    } else if ((i + j) % 2 == 0) {
                         output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
                     } else {
                         output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
@@ -197,15 +202,13 @@ public class ClientHelper extends Client {
                 for (int j = 0; j < 8; j++) {
                     end = new ChessPosition(i + 1, j + 1);
                     move = getMoveFromList(end, moves);
-
-                    if (move != null) {
-                        output += EscapeSequences.SET_BG_COLOR_GREEN + " " + chessPieceToString(pieces[i][i]);
+                    if (new ChessPosition(i + 1, j + 1).equals(start)) {
+                        output += EscapeSequences.SET_BG_COLOR_YELLOW + " " + chessPieceToString(pieces[i][j]);
+                    } else if (move != null) {
+                        output += EscapeSequences.SET_BG_COLOR_GREEN + " " + chessPieceToString(pieces[i][j]);
                     } else if ((i + j) % 2 == 0) {
                         output += EscapeSequences.SET_BG_COLOR_BLACK + " " + chessPieceToString(pieces[i][j]);
-                    } else if (new ChessPosition(i + 1, j + 1).equals(start)) {
-                        output += EscapeSequences.SET_BG_COLOR_YELLOW + " " + chessPieceToString(pieces[i][j]);
-                    }
-                    else {
+                    } else {
                         output += EscapeSequences.SET_BG_COLOR_WHITE + " " + chessPieceToString(pieces[i][j]);
                     }
                     output += " " + EscapeSequences.RESET_BG_COLOR;
@@ -219,8 +222,8 @@ public class ClientHelper extends Client {
     }
 
     public String joinGame(String... params) throws ResponseException {
-        assertSignedIn();
-        updateGameDirectory();
+        client.assertSignedIn();
+        client.updateGameDirectory();
 
         if (params.length == 2) {
             int directoryIndex;
@@ -228,11 +231,11 @@ public class ClientHelper extends Client {
             try { // Convert input to gameID
                 directoryIndex = Integer.parseInt(params[0]);
 
-                if (directoryIndex > games.size() || directoryIndex <= 0) {
-                    return "Game not found\n";
+                if (directoryIndex > client.games.size() || directoryIndex <= 0) {
+                    return "Game not found";
                 }
 
-                gameID = gameDirectory.get(directoryIndex).gameID();
+                gameID = client.gameDirectory.get(directoryIndex).gameID();
             } catch (NumberFormatException e) {
                 return "Bad <" + magentaString("ID")+ "> input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
             }
@@ -249,13 +252,12 @@ public class ClientHelper extends Client {
             }
 
             try {
-                serverFacade.joinGame(getAuthToken(), teamColor, Integer.toString(gameID));
-                gameState = GameState.PLAYING;
-                playerColor = teamColor;
-                updateCurrentGame(getGame(gameID));
-                currentGameID = gameID;
-
-                serverFacade.enterGame(getAuthToken(), gameID);
+                client.serverFacade.joinGame(client.getAuthToken(), teamColor, Integer.toString(gameID));
+                client.gameState = GameState.PLAYING;
+                client.playerColor = teamColor;
+                client.updateCurrentGame(client.getGame(gameID));
+                client.currentGameID = gameID;
+                client.serverFacade.enterGame(client.getAuthToken(), gameID);
             } catch (ResponseException e) {
                 if (e.getStatusCode() == 400) {
                     return "Bad input\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
@@ -270,26 +272,24 @@ public class ClientHelper extends Client {
                 throw new RuntimeException(e);
             }
 
-            String output;
             ChessGame game;
 
             try {
-                game = getGame(gameID);
+                game = client.getGame(gameID);
 
                 if (game == null) {
-                    return "Game not found\n";
+                    return "Game not found";
+                } else if (client.isGameOver(game)) {
+                    client.leave();
+                    return "this game is already over\nplease select another game\n";
                 }
-
-//                output = printGame(game, teamColor);
-                output = "";
-
             } catch (Exception e) {
-                return "Game doesn't exist\n";
+                return "Game doesn't exist";
             }
 
-            return output + "you have successfully joined game " + gameID + " as " + color + "\n";
+            return "you have successfully joined game " + gameID + " as " + color;
         } else {
-            return "Bad input—incorrect number of arguments\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">\n";
+            return "Bad input—incorrect number of arguments\nExpected: <" + magentaString("ID") + "> <" + magentaString("COLOR") + ">";
         }
     }
 
@@ -304,41 +304,41 @@ public class ClientHelper extends Client {
             }
             var params = Arrays.copyOfRange(tokens, 1, tokens.length);
 
-            if (state == LoginState.SIGNEDOUT) {
+            if (client.state == LoginState.SIGNEDOUT) {
                 return switch (function) {
-                    case "register" -> register(params);
-                    case "login" -> login(params);
+                    case "register" -> client.register(params);
+                    case "login" -> client.login(params);
                     case "quit" -> "quit";
-                    default -> help();
+                    default -> client.help();
                 };
-            } else if (state == LoginState.SIGNEDIN && gameState == GameState.NONE) {
+            } else if (client.state == LoginState.SIGNEDIN && client.gameState == GameState.NONE) {
                 return switch (function) {
-                    case "create" -> createGame(params);
-                    case "list" -> list();
-                    case "join" -> joinGame(params);
-                    case "observe" -> observe(params);
-                    case "logout" -> logout();
+                    case "create" -> client.createGame(params);
+                    case "list" -> client.list();
+                    case "join" -> client.joinGame(params);
+                    case "observe" -> client.observe(params);
+                    case "logout" -> client.logout();
                     case "quit" -> "quit";
-                    default -> help();
+                    default -> client.help();
                 };
-            } else if (state == LoginState.SIGNEDIN && gameState == GameState.PLAYING) {
+            } else if (client.state == LoginState.SIGNEDIN && client.gameState == GameState.PLAYING) {
                 return switch (function) {
-                    case "move" -> makeMove(params);
-                    case "moves" -> moves(params);
-                    case "redraw" -> redraw();
-                    case "resign" -> resign();
-                    case "leave" -> leave();
-                    default -> help();
+                    case "move" -> client.makeMove(params);
+                    case "moves" -> client.moves(params);
+                    case "redraw" -> client.redraw();
+                    case "resign" -> client.resign();
+                    case "leave" -> client.leave();
+                    default -> client.help();
                 };
-            } else if (state == LoginState.SIGNEDIN && gameState == GameState.OBSERVING) {
+            } else if (client.state == LoginState.SIGNEDIN && client.gameState == GameState.OBSERVING) {
                 return switch (function) {
-                    case "moves" -> moves(params);
-                    case "redraw" -> redraw();
-                    case "leave" -> leave();
-                    default -> help();
+                    case "moves" -> client.moves(params);
+                    case "redraw" -> client.redraw();
+                    case "leave" -> client.leave();
+                    default -> client.help();
                 };
             } else {
-                return help();
+                return client.help();
             }
         } catch (Throwable e) {
             return e.getMessage();

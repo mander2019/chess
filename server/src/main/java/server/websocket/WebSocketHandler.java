@@ -48,6 +48,7 @@ public class WebSocketHandler {
         AuthData authData;
         GameData gameData;
 
+
         try {
             authData = getAuthData(auth);
             gameData = getGameData(gameID);
@@ -83,12 +84,16 @@ public class WebSocketHandler {
     }
 
     void connect(Session session, String username, GameData gameData) throws IOException {
-//        connections.add(username, session);
         connections.add(username, session, String.valueOf(gameData.gameID()));
-
 
         loadGame = new ServerMessage(gameData.game());
         connections.send(session, new Gson().toJson(loadGame));
+
+        if (isGameOver(session, gameData)) {
+            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "the game is already over!\nplease select another game\n");
+            connections.send(session, new Gson().toJson(notification));
+            return;
+        }
 
         String message = "\n";
         String gameID = String.valueOf(gameData.gameID());
@@ -103,10 +108,6 @@ public class WebSocketHandler {
 
         message += "\n";
 
-        if (isGameOver(session, gameData)) {
-            message += "note: the game is already over!\n";
-        }
-
         notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(session, new Gson().toJson(notification), gameID);
 //        connections.send(session, new Gson().toJson(notification));
@@ -119,14 +120,14 @@ public class WebSocketHandler {
 
         // Don't allow moves if game is over
         if (isGameOver(session, gameData)) {
-            error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, "Error: The game is already over");
+            error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, "Error: The game is already over\n");
             connections.send(session, new Gson().toJson(error));
             return;
         }
 
         // Ensure observer is not making moves
         if (!gameData.whiteUsername().equals(username) && !gameData.blackUsername().equals(username)) {
-            error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, "Error: You are not a player in this game");
+            error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, "Error: You are not a player in this game\n");
             connections.send(session, new Gson().toJson(error));
             return;
         }
@@ -154,20 +155,19 @@ public class WebSocketHandler {
 
         GameData updatedGameData = new GameData(gameData.gameID(), gameData.whiteUsername(), gameData.blackUsername(), gameData.gameName(), game);
 
-        try {
+        try { // Update game and send updated board
             updateGameData(updatedGameData);
+            loadGame = new ServerMessage(updatedGameData.game());
+            connections.send(session, new Gson().toJson(loadGame));
+            connections.broadcast(session, new Gson().toJson(loadGame), String.valueOf(gameData.gameID()));
         } catch (DataAccessException e) {
             error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, e.getMessage());
             connections.send(session, new Gson().toJson(error));
             return;
         }
 
-        loadGame = new ServerMessage(updatedGameData.game());
-        connections.send(session, new Gson().toJson(loadGame));
-        connections.broadcast(session, new Gson().toJson(loadGame), String.valueOf(gameData.gameID()));
-
         // Message to opponent and observers
-        String message = username + " has made a move: " + moveToString(chessMove);
+        String message = username + " has made a move: " + moveToString(chessMove) + "\n";
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
@@ -176,7 +176,10 @@ public class WebSocketHandler {
     }
 
     void leave(Session session, String username, GameData gameData) throws IOException {
-        String message = username + " has left the game";
+        String message = "\n" + username + " has left the game\n";
+        notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
+        connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
+//        connections.send(session, new Gson().toJson(notification));
 
         try {
             if (gameData.whiteUsername() != null && gameData.whiteUsername().equals(username)) {
@@ -184,7 +187,7 @@ public class WebSocketHandler {
             } else if (gameData.blackUsername() != null && gameData.blackUsername().equals(username)) {
                 updateGameData(new GameData(gameData.gameID(), gameData.whiteUsername(), null, gameData.gameName(), gameData.game()));
             } else {
-                message = username + " has stopped observing the game";
+                message = "\n" + username + " has stopped observing the game\n";
             }
         } catch (DataAccessException e) {
             ServerMessage error = new ServerMessage(ServerMessage.ServerMessageType.ERROR, e.getMessage());
@@ -192,10 +195,6 @@ public class WebSocketHandler {
             return;
         }
 
-        ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-
-//        connections.send(session, new Gson().toJson(notification));
-        connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
         connections.remove(session, String.valueOf(gameData.gameID()));
     }
 
@@ -230,8 +229,8 @@ public class WebSocketHandler {
             case WHITE -> ChessGame.TeamColor.BLACK;
         };
 
-        String message = losingPlayer + " has resigned the game";
-        message += "\n" + winningPlayer + " wins!";
+        String message = "\n" + losingPlayer.toString().toLowerCase() + " has resigned the game";
+        message += "\n" + winningPlayer.toString().toLowerCase() + " wins!\n";
 
         game.setWinner(winningPlayer);
 
@@ -261,24 +260,24 @@ public class WebSocketHandler {
             case WHITE -> ChessGame.TeamColor.BLACK;
         };
 
-        if (isGameOver(session, gameData)) {
-            return;
-        }
-
         if (game.isInCheckmate(color)) {
-            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Checkmate!\n" + otherColor + " wins!");
+            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "\nCheckmate!\n" + otherColor + " wins!\n");
             connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
             connections.send(session, new Gson().toJson(notification));
         }
 
         if (game.isInStalemate(color)) {
-            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "Stalemate!\nIt's a draw!");
+            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "\nStalemate!\nIt's a draw!\n");
             connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
             connections.send(session, new Gson().toJson(notification));
         }
 
+        if (isGameOver(session, gameData)) {
+            return;
+        }
+
         if (game.isInCheck(color)) {
-            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, color.toString() + " is in check!");
+            notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION, "\n" + color.toString() + " is in check!\n");
             connections.broadcast(session, new Gson().toJson(notification), String.valueOf(gameData.gameID()));
             connections.send(session, new Gson().toJson(notification));
         }
